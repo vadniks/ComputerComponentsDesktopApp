@@ -7,10 +7,8 @@ set(CMAKE_C_STANDARD 11)
 add_compile_options("-O3")
 add_link_options("-s")
 
-add_executable(ccad src/main.c)
-
 file(GLOB sources CONFIGURE_DEPENDS "src/*.c" "src/*.h")
-add_executable(sdl2048 ${sources})
+add_executable(${PROJECT_NAME} ${sources})
 
 # file hierarchy from root
 # cmake-build-debug
