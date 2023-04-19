@@ -38,7 +38,7 @@ QStandardItem* HomeWidget::makeListItem(const QIcon& icon, const QString& title,
 
 void HomeWidget::fillList() {
     for (unsigned i = 0; i < ITEMS; i++)
-        mItemModel.setItem(static_cast<signed>(i), 0, makeListItem(QIcon(), QString::asprintf("%u", i), QString(), QString()));
+        mItemModel.setItem(static_cast<signed>(i), 0, makeListItem(QIcon(), QString(u8"%0").arg(i), QString(), QString()));
 }
 
 void HomeWidget::iconButtonClicked(IconButton button) {
