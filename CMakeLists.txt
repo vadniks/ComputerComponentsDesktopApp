@@ -10,7 +10,7 @@ set(CMAKE_AUTOUIC ON)
 add_compile_options("-O3")
 add_link_options("-s")
 
-file(GLOB sources CONFIGURE_DEPENDS "src/*.cpp" "src/*.hpp")
+file(GLOB sources CONFIGURE_DEPENDS "src/*.cpp" "src/*.hpp" "src/*/*.cpp" "src/*/*.hpp")
 add_executable(${PROJECT_NAME} ${sources})
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network)
