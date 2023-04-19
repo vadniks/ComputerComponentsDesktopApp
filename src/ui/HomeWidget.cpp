@@ -22,7 +22,7 @@ QPushButton* HomeWidget::makeIconButton(const QString& icon, IconButton button) 
     pushButton->setFlat(true);
     pushButton->setIconSize(QSize(25, 25));
 
-    connect(pushButton, &QPushButton::clicked, this, [this, button](){ iconButtonClicked(button); });
+    connect(pushButton, &QPushButton::clicked, this, [button](){ iconButtonClicked(button); });
     return pushButton;
 }
 

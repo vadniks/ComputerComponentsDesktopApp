@@ -13,9 +13,7 @@ public:
     explicit HomeWidget(QWidget* parent);
     ~HomeWidget() override;
 private:
-    enum IconButton {
-        INFO, LOGIN
-    };
+    enum IconButton { INFO, LOGIN };
 
     QVBoxLayout mBaseLayout;
     AppBar mAppBar;
@@ -24,5 +22,5 @@ private:
     QPushButton* makeIconButton(const QString& icon, IconButton button);
 
 private slots:
-    void iconButtonClicked(IconButton button);
+    static void iconButtonClicked(HomeWidget::IconButton button);
 };
