@@ -10,7 +10,7 @@
 class AppBar final : public QWidget {
     Q_OBJECT
 public:
-    AppBar(QWidget* parent, const QString& title, QList<QPushButton*>&& buttons);
+    [[gnu::used]] AppBar(QWidget* parent, const QString& title, QList<QPushButton*>&& buttons);
     ~AppBar() override;
 private:
     QHBoxLayout mBaseLayout;

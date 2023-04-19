@@ -9,10 +9,14 @@ HomeWidget::HomeWidget(QWidget* parent) :
         makeIconButton(u8":/info.svg", IconButton::INFO),
         makeIconButton(u8":/login.svg", IconButton::LOGIN)
     }),
-    mListView(this)
+    mListView(this),
+    mItemModel(static_cast<signed>(ITEMS), 1)
 {
     mBaseLayout.addWidget(&mAppBar);
     mBaseLayout.addWidget(&mListView);
+
+    mListView.setModel(&mItemModel);
+    fillList();
 }
 
 QPushButton* HomeWidget::makeIconButton(const QString& icon, IconButton button) {
@@ -26,10 +30,19 @@ QPushButton* HomeWidget::makeIconButton(const QString& icon, IconButton button) 
     return pushButton;
 }
 
+QStandardItem* HomeWidget::makeListItem(const QIcon& icon, const QString& title, const QString& subtitle, const QString& trailing) {
+    auto item = new QStandardItem(); // TODO
+    item->setText(title);
+    return item;
+}
+
+void HomeWidget::fillList() {
+    for (unsigned i = 0; i < ITEMS; i++)
+        mItemModel.setItem(static_cast<signed>(i), 0, makeListItem(QIcon(), QString::asprintf("%u", i), QString(), QString()));
+}
+
 void HomeWidget::iconButtonClicked(IconButton button) {
     qDebug() << (button == IconButton::INFO ? "info" : "login"); // TODO: test only
 }
 
-HomeWidget::~HomeWidget() {
-
-}
+HomeWidget::~HomeWidget() { for (auto item : mListItems) delete item; }

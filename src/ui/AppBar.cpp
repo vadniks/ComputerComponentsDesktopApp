@@ -1,6 +1,7 @@
 
 #include "AppBar.hpp"
 
+[[gnu::used]]
 AppBar::AppBar(
     QWidget* parent, const QString& title, QList<QPushButton*>&& buttons
 ) :
@@ -15,6 +16,4 @@ AppBar::AppBar(
     for (auto button : mButtons) mButtonLayout.addWidget(button);
 }
 
-AppBar::~AppBar() {
-    for (auto button : mButtons) delete button;
-}
+AppBar::~AppBar() { for (auto button : mButtons) delete button; }
