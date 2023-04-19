@@ -1,6 +1,5 @@
 
 #include "HomeWidget.hpp"
-//#include <QtSvgWidgets/QSvgWidget>
 #include <QFile>
 
 static QByteArray a() {
@@ -11,10 +10,17 @@ static QByteArray a() {
     return b; // TODO
 }
 
+static QPushButton* c() {
+    auto d = new QPushButton(u8"");
+    d->setStyleSheet("border-image:url(:/pc_icon.svg);");
+    d->setFixedSize(25, 25);
+    return d;
+}
+
 HomeWidget::HomeWidget(QWidget* parent) :
     QWidget(parent),
     mBaseLayout(this),
-    mAppBar(this, u8"Title", { new QPushButton(QIcon(QPixmap::fromImage(QImage::fromData(a()))), u8"") }),
+    mAppBar(this, u8"Title", { c() }),
     mListView(this)
 {
     mBaseLayout.addWidget(&mAppBar);
