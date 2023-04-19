@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QListView>
+#include <QPushButton>
 #include "AppBar.hpp"
 
 class HomeWidget final : public QWidget {
@@ -15,4 +16,9 @@ private:
     QVBoxLayout mBaseLayout;
     AppBar mAppBar;
     QListView mListView;
+
+    QPushButton* e();
+
+private slots:
+    void f();
 };

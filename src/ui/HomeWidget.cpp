@@ -2,14 +2,6 @@
 #include "HomeWidget.hpp"
 #include <QFile>
 
-static QByteArray a() {
-    QFile file(":/pc_icon.svg");
-    file.open(QIODevice::ReadOnly);
-    auto b = file.readAll();
-    file.close();
-    return b; // TODO
-}
-
 static QPushButton* c() {
     auto d = new QPushButton(u8"");
     d->setStyleSheet("border-image:url(:/pc_icon.svg);");
@@ -17,10 +9,22 @@ static QPushButton* c() {
     return d;
 }
 
+QPushButton* HomeWidget::e() {
+    auto a = c();
+    connect(a, &QPushButton::clicked, this, &HomeWidget::f);
+    return a;
+}
+
+#include <QDebug>
+
+void HomeWidget::f() {
+    qDebug() << "fcedcfed"; // TODO
+}
+
 HomeWidget::HomeWidget(QWidget* parent) :
     QWidget(parent),
     mBaseLayout(this),
-    mAppBar(this, u8"Title", { c() }),
+    mAppBar(this, u8"Title", { e() }),
     mListView(this)
 {
     mBaseLayout.addWidget(&mAppBar);
