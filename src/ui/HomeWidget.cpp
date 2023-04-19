@@ -1,34 +1,33 @@
 
-#include "HomeWidget.hpp"
-
-static QPushButton* c() {
-    auto d = new QPushButton(QIcon(u8":/pc_icon.svg"), u8"");
-    d->setFixedSize(50, 50);
-    d->setFlat(true);
-    d->setIconSize(QSize(40, 40)); // TODO: this is just a test, will be cleaned up
-    return d;
-}
-
-QPushButton* HomeWidget::e() {
-    auto a = c();
-    connect(a, &QPushButton::clicked, this, &HomeWidget::f);
-    return a;
-}
-
 #include <QDebug>
-
-void HomeWidget::f() {
-    qDebug() << "fcedcfed"; // TODO
-}
+#include "HomeWidget.hpp"
 
 HomeWidget::HomeWidget(QWidget* parent) :
     QWidget(parent),
     mBaseLayout(this),
-    mAppBar(this, u8"Title", { e() }),
+    mAppBar(this, u8"Title", {
+        makeIconButton(u8":/info.svg", IconButton::INFO),
+        makeIconButton(u8":/login.svg", IconButton::LOGIN)
+    }),
     mListView(this)
 {
     mBaseLayout.addWidget(&mAppBar);
     mBaseLayout.addWidget(&mListView);
+}
+
+QPushButton* HomeWidget::makeIconButton(const QString& icon, IconButton button) {
+    auto pushButton = new QPushButton(QIcon(icon), QString());
+
+    pushButton->setFixedSize(30, 30);
+    pushButton->setFlat(true);
+    pushButton->setIconSize(QSize(25, 25));
+
+    connect(pushButton, &QPushButton::clicked, this, [this, button](){ iconButtonClicked(button); });
+    return pushButton;
+}
+
+void HomeWidget::iconButtonClicked(IconButton button) {
+    qDebug() << (button == IconButton::INFO ? "info" : "login"); // TODO: test only
 }
 
 HomeWidget::~HomeWidget() {

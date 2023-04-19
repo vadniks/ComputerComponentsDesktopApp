@@ -14,5 +14,7 @@
         <file>pc_ram.svg</file>
         <file>pc_ssd.svg</file>
         <file>qlt_ico.svg</file>
+        <file>info.svg</file>
+        <file>login.svg</file>
     </qresource>
 </RCC>
