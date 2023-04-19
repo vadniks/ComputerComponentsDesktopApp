@@ -1,11 +1,21 @@
 
 #include "HomeWidget.hpp"
+
 #include <QFile>
 
+static QByteArray a() {
+    QFile file(":/pc_icon.svg");
+    file.open(QIODevice::ReadOnly);
+    auto b = file.readAll();
+    file.close();
+    return b; // TODO
+}
+
 static QPushButton* c() {
-    auto d = new QPushButton(u8"");
-    d->setStyleSheet("border-image:url(:/pc_icon.svg);");
-    d->setFixedSize(25, 25);
+    auto d = new QPushButton(QIcon(QPixmap::fromImage(QImage::fromData(a()))), u8"");
+    d->setFixedSize(50, 50);
+    d->setFlat(true);
+    d->setIconSize(QSize(40, 40)); // TODO: this is just a test, will be cleaned up
     return d;
 }
 
