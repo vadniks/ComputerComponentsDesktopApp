@@ -1,0 +1,18 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource>
+        <file>hwr_ico.svg</file>
+        <file>pc_case.svg</file>
+        <file>pc_cpu.svg</file>
+        <file>pc_fan.svg</file>
+        <file>pc_gpu.svg</file>
+        <file>pc_hdd.svg</file>
+        <file>pc_icon.svg</file>
+        <file>pc_mb.svg</file>
+        <file>pc_os.svg</file>
+        <file>pc_psu.svg</file>
+        <file>pc_ram.svg</file>
+        <file>pc_ssd.svg</file>
+        <file>qlt_ico.svg</file>
+    </qresource>
+</RCC>
