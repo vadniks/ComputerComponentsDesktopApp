@@ -1,6 +1,7 @@
 
 #include <QTimer>
 #include "HomeWidget.hpp"
+#include "../Util.hpp"
 
 HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     QWidget(parent),
@@ -21,12 +22,7 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
 }
 
 QPushButton* HomeWidget::makeIconButton(const QString& icon, IconButton button) {
-    auto pushButton = new QPushButton(QIcon(icon), QString());
-
-    pushButton->setFixedSize(Consts::ICON_SIZE, Consts::ICON_SIZE);
-    pushButton->setFlat(true);
-    pushButton->setIconSize(QSize(Consts::ICON_SIZE - 5, Consts::ICON_SIZE - 5));
-
+    auto pushButton = Util::makeIconButton(icon);
     connect(pushButton, &QPushButton::clicked, this, [this, button](){ iconButtonClicked(button); });
     return pushButton;
 }
