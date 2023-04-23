@@ -14,7 +14,7 @@ ComponentListItemWidget::ComponentListItemWidget(
     mTitlesLayout(nullptr),
     mTitle(title),
     mDescription(Component::typeTitle(type)),
-    mCost(QString::asprintf("$%u", cost))
+    mCost(QString(u8"$%1").arg(cost))
 {
     setContentsMargins(0, 0, 0, 0);
 
@@ -26,7 +26,7 @@ ComponentListItemWidget::ComponentListItemWidget(
     mDescription.setStyleSheet(u8"color: grey");
     mCost.setStyleSheet(u8"font-size: 14px");
 
-    mTitlesLayout.addWidget(&mTitle);
+    mTitlesLayout.addWidget(&mTitle, 0, Qt::AlignCenter);
     mTitlesLayout.addWidget(&mDescription);
 
     mBaseLayout.addWidget(&mIcon);
