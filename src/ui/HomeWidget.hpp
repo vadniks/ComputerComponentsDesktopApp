@@ -26,5 +26,7 @@ private:
     QPushButton* makeIconButton(const QString& icon, IconButton button);
     void fillList();
 private slots:
-    static void iconButtonClicked(HomeWidget::IconButton button);
+    void iconButtonClicked(HomeWidget::IconButton button);
+    void listItemClicked(QListWidgetItem* item);
+    void listItemDeselectRequested();
 };

@@ -1,5 +1,6 @@
 
 #include <QDebug>
+#include <QTimer>
 #include "HomeWidget.hpp"
 #include "UIConsts.hpp"
 
@@ -15,6 +16,8 @@ HomeWidget::HomeWidget(QWidget* parent) :
     mBaseLayout.addWidget(&mAppBar);
     mBaseLayout.addWidget(&mListWidget);
 
+    mListWidget.setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
+    connect(&mListWidget, &QListWidget::itemClicked, this, &HomeWidget::listItemClicked);
     fillList();
 }
 
@@ -25,7 +28,7 @@ QPushButton* HomeWidget::makeIconButton(const QString& icon, IconButton button) 
     pushButton->setFlat(true);
     pushButton->setIconSize(QSize(UIConsts::ICON_SIZE - 5, UIConsts::ICON_SIZE - 5));
 
-    connect(pushButton, &QPushButton::clicked, this, [button](){ iconButtonClicked(button); });
+    connect(pushButton, &QPushButton::clicked, this, [this, button](){ iconButtonClicked(button); });
     return pushButton;
 }
 
@@ -57,6 +60,13 @@ void HomeWidget::fillList() {
 void HomeWidget::iconButtonClicked(IconButton button) {
     qDebug() << (button == IconButton::INFO ? "info" : "login"); // TODO: test only
 }
+
+void HomeWidget::listItemClicked(QListWidgetItem* item) {
+    qDebug() << mListWidget.indexFromItem(item).row(); // TODO
+    QTimer::singleShot(100, this, &HomeWidget::listItemDeselectRequested);
+}
+
+void HomeWidget::listItemDeselectRequested() { mListWidget.clearSelection(); }
 
 HomeWidget::~HomeWidget() {
     for (auto item : mListItems)

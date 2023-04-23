@@ -2,6 +2,9 @@
 #include "ComponentListItemWidget.hpp"
 #include "UIConsts.hpp"
 
+static QPixmap makeTypedStubIconPixmap(ComponentType type)
+{ return QIcon(Component::typeImage(type)).pixmap(UIConsts::ICON_SIZE, UIConsts::ICON_SIZE); }
+
 ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* component) :
     QWidget(parent),
     mBaseLayout(this),
@@ -13,7 +16,7 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* com
     setContentsMargins(0, 0, 0, 0);
 
     if (!component->image)
-        mIcon.setPixmap(QIcon(Component::typeImage(component->type)).pixmap(UIConsts::ICON_SIZE, UIConsts::ICON_SIZE));
+        mIcon.setPixmap(makeTypedStubIconPixmap(component->type));
     else {/*TODO*/}
 
     mTitle.setStyleSheet(u8R"(
