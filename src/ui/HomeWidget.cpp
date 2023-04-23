@@ -52,11 +52,11 @@ void HomeWidget::iconButtonClicked(IconButton button) {
 }
 
 void HomeWidget::listItemClicked(QListWidgetItem* item) {
-    QTimer::singleShot(100, this, &HomeWidget::listItemDeselectRequested);
-    emit cartComponentSelected(mAppState.selectedComponents[mListWidget.indexFromItem(item).row()]);
+    QTimer::singleShot(100, this, [this, item](){
+        mListWidget.clearSelection();
+        emit cartComponentSelected(mAppState.selectedComponents[mListWidget.indexFromItem(item).row()]);
+    });
 }
-
-void HomeWidget::listItemDeselectRequested() { mListWidget.clearSelection(); }
 
 HomeWidget::~HomeWidget() {
     for (auto item : mListItems)
