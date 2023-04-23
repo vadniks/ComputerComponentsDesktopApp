@@ -33,4 +33,6 @@ public:
     const QString description;
     const unsigned cost;
     const optional<QString> image;
+
+    static const unsigned COMPONENTS = 9;
 };

@@ -34,7 +34,7 @@ void HomeWidget::fillList() {
     QWidget* widget;
     Component* component;
 
-    for (unsigned i = 0; i < ITEMS; i++)
+    for (unsigned i = 0; i < Component::COMPONENTS; i++)
         component = new Component( // TODO: test only
             QString(UIConsts::TITLE),
             static_cast<ComponentType>(i),

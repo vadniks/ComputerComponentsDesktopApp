@@ -17,8 +17,6 @@ public:
 private:
     enum IconButton { INFO, LOGIN };
 
-    static const unsigned ITEMS = 9;
-
     QVBoxLayout mBaseLayout;
     AppBarWidget mAppBar;
     QListWidget mListWidget;
