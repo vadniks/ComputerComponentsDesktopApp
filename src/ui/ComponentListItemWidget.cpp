@@ -1,5 +1,6 @@
 
 #include "ComponentListItemWidget.hpp"
+#include "UIConsts.hpp"
 
 ComponentListItemWidget::ComponentListItemWidget(
     QWidget* parent,
@@ -10,13 +11,14 @@ ComponentListItemWidget::ComponentListItemWidget(
 ) :
     QWidget(parent),
     mBaseLayout(this),
+    mTitlesLayout(nullptr),
     mTitle(title),
     mDescription(description),
     mCost(QString::asprintf("$%u", cost))
 {
     setContentsMargins(0, 0, 0, 0);
 
-    mIcon.setPixmap(icon.pixmap(static_cast<signed>(ICON_SIZE), static_cast<signed>(ICON_SIZE)));
+    mIcon.setPixmap(icon.pixmap(UIConsts::ICON_SIZE, UIConsts::ICON_SIZE));
     mTitle.setStyleSheet(u8R"(
         color: white;
         font-size: 14px;

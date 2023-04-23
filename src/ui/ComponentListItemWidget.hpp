@@ -19,8 +19,6 @@ public:
 
     [[nodiscard]] QSize sizeHint() const override;
 private:
-    static const unsigned ICON_SIZE = 30;
-
     QHBoxLayout mBaseLayout;
     QVBoxLayout mTitlesLayout;
     QLabel mIcon;
