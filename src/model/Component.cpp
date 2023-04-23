@@ -1,5 +1,6 @@
 
 #include "Component.hpp"
+#include "../ui//UIConsts.hpp"
 
 Component::Component(
     QString&& title,
@@ -32,6 +33,14 @@ QString Component::typeTitle(ComponentType type) SWITCH(type,
     CASE(ComponentType::CASE, Case)
 )
 
-QString Component::typeImage(ComponentType type) {
-    return QString();
-}
+QString Component::typeImage(ComponentType type) SWITCH(type,
+    CASE(ComponentType::CPU, UIConsts::CPU_ICON)
+    CASE(ComponentType::MB, UIConsts::MB_ICON)
+    CASE(ComponentType::GPU, UIConsts::GPU_ICON)
+    CASE(ComponentType::RAM, UIConsts::RAM_ICON)
+    CASE(ComponentType::HDD, UIConsts::HDD_ICON)
+    CASE(ComponentType::SSD, UIConsts::SSD_ICON)
+    CASE(ComponentType::PSU, UIConsts::PSU_ICON)
+    CASE(ComponentType::FAN, UIConsts::FAN_ICON)
+    CASE(ComponentType::CASE, UIConsts::CASE_ICON)
+)

@@ -12,8 +12,8 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* com
 {
     setContentsMargins(0, 0, 0, 0);
 
-    if (!component->image)
-        mIcon.setPixmap(QIcon(UIConsts::PC_ICON).pixmap(UIConsts::ICON_SIZE, UIConsts::ICON_SIZE));
+    if (!component->image)     // TODO: not working ---\/
+        mIcon.setPixmap(QIcon(Component::typeImage(component->type)).pixmap(UIConsts::ICON_SIZE, UIConsts::ICON_SIZE));
     else {/*TODO*/}
 
     mTitle.setStyleSheet(u8R"(
