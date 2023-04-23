@@ -6,8 +6,8 @@
 #include <QListWidget>
 #include <QPushButton>
 #include <QPair>
-#include "AppBar.hpp"
-#include "ComponentListItem.hpp"
+#include "AppBarWidget.hpp"
+#include "ComponentListItemWidget.hpp"
 
 class HomeWidget final : public QWidget {
     Q_OBJECT
@@ -20,7 +20,7 @@ private:
     static const unsigned ITEMS = 10;
 
     QVBoxLayout mBaseLayout;
-    AppBar mAppBar;
+    AppBarWidget mAppBar;
     QListWidget mListWidget;
     QList<QPair<QListWidgetItem*, QWidget*>> mListItems;
 

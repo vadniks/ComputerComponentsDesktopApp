@@ -1,7 +1,7 @@
 
-#include "ComponentListItem.hpp"
+#include "ComponentListItemWidget.hpp"
 
-ComponentListItem::ComponentListItem(
+ComponentListItemWidget::ComponentListItemWidget(
     QWidget* parent,
     const QIcon& icon,
     const QString& title,
@@ -12,13 +12,17 @@ ComponentListItem::ComponentListItem(
     mBaseLayout(this),
     mTitle(title),
     mDescription(description),
-    mCost(QString::asprintf("%u", cost))
+    mCost(QString::asprintf("$%u", cost))
 {
     setContentsMargins(0, 0, 0, 0);
 
-    mIcon.setPixmap(icon.pixmap(25, 25));
-    mTitle.setStyleSheet(u8"color: white");
+    mIcon.setPixmap(icon.pixmap(static_cast<signed>(ICON_SIZE), static_cast<signed>(ICON_SIZE)));
+    mTitle.setStyleSheet(u8R"(
+        color: white;
+        font-size: 14px;
+    )");
     mDescription.setStyleSheet(u8"color: grey");
+    mCost.setStyleSheet(u8"font-size: 14px");
 
     mTitlesLayout.addWidget(&mTitle);
     mTitlesLayout.addWidget(&mDescription);
@@ -30,5 +34,5 @@ ComponentListItem::ComponentListItem(
     mBaseLayout.addWidget(&mCost);
 }
 
-QSize ComponentListItem::sizeHint() const
+QSize ComponentListItemWidget::sizeHint() const
 { return mBaseLayout.sizeHint(); }

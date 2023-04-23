@@ -6,10 +6,10 @@
 #include <QVBoxLayout>
 #include <QLabel>
 
-class ComponentListItem final : public QWidget {
+class ComponentListItemWidget final : public QWidget {
     Q_OBJECT
 public:
-    ComponentListItem(
+    ComponentListItemWidget(
         QWidget* parent,
         const QIcon& icon,
         const QString& title,
@@ -19,6 +19,8 @@ public:
 
     [[nodiscard]] QSize sizeHint() const override;
 private:
+    static const unsigned ICON_SIZE = 30;
+
     QHBoxLayout mBaseLayout;
     QVBoxLayout mTitlesLayout;
     QLabel mIcon;

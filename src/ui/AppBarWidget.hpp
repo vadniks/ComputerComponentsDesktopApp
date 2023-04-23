@@ -7,11 +7,11 @@
 #include <QList>
 #include <QLabel>
 
-class AppBar final : public QWidget {
+class AppBarWidget final : public QWidget {
     Q_OBJECT
 public:
-    [[gnu::used]] AppBar(QWidget* parent, const QString& title, QList<QPushButton*>&& buttons);
-    ~AppBar() override;
+    [[gnu::used]] AppBarWidget(QWidget* parent, const QString& title, QList<QPushButton*>&& buttons);
+    ~AppBarWidget() override;
 private:
     QHBoxLayout mBaseLayout;
     QLabel mTitle;
