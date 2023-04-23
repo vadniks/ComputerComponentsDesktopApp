@@ -20,6 +20,7 @@ Component::Component(
 
 #define SWITCH(x, y) { switch (x) { y } }
 #define CASE(x, y) case x: return u8 ## #y;
+#define CASE2(x, y) case x: return y;
 
 QString Component::typeTitle(ComponentType type) SWITCH(type,
     CASE(ComponentType::CPU, Processor)
@@ -34,13 +35,13 @@ QString Component::typeTitle(ComponentType type) SWITCH(type,
 )
 
 QString Component::typeImage(ComponentType type) SWITCH(type,
-    CASE(ComponentType::CPU, UIConsts::CPU_ICON)
-    CASE(ComponentType::MB, UIConsts::MB_ICON)
-    CASE(ComponentType::GPU, UIConsts::GPU_ICON)
-    CASE(ComponentType::RAM, UIConsts::RAM_ICON)
-    CASE(ComponentType::HDD, UIConsts::HDD_ICON)
-    CASE(ComponentType::SSD, UIConsts::SSD_ICON)
-    CASE(ComponentType::PSU, UIConsts::PSU_ICON)
-    CASE(ComponentType::FAN, UIConsts::FAN_ICON)
-    CASE(ComponentType::CASE, UIConsts::CASE_ICON)
+    CASE2(ComponentType::CPU, UIConsts::CPU_ICON)
+    CASE2(ComponentType::MB, UIConsts::MB_ICON)
+    CASE2(ComponentType::GPU, UIConsts::GPU_ICON)
+    CASE2(ComponentType::RAM, UIConsts::RAM_ICON)
+    CASE2(ComponentType::HDD, UIConsts::HDD_ICON)
+    CASE2(ComponentType::SSD, UIConsts::SSD_ICON)
+    CASE2(ComponentType::PSU, UIConsts::PSU_ICON)
+    CASE2(ComponentType::FAN, UIConsts::FAN_ICON)
+    CASE2(ComponentType::CASE, UIConsts::CASE_ICON)
 )

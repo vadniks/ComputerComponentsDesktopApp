@@ -12,7 +12,7 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* com
 {
     setContentsMargins(0, 0, 0, 0);
 
-    if (!component->image)     // TODO: not working ---\/
+    if (!component->image)
         mIcon.setPixmap(QIcon(Component::typeImage(component->type)).pixmap(UIConsts::ICON_SIZE, UIConsts::ICON_SIZE));
     else {/*TODO*/}
 
