@@ -5,6 +5,8 @@
 #define INT_IMPL(n, i) const int UIConsts::n = i;
 
 U8_STRING_IMPL(APP_NAME, "Componenta")
+U8_STRING_IMPL(TITLE, "Title")
+U8_STRING_IMPL(DESCRIPTION, "Description")
 
 U8_STRING_IMPL(PC_ICON, ":/pc_icon.svg")
 U8_STRING_IMPL(INFO_ICON, ":/info.svg")
