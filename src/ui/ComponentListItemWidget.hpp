@@ -14,6 +14,7 @@ class ComponentListItemWidget final : public QWidget {
 public:
     ComponentListItemWidget(QWidget* parent, Component* component);
     [[nodiscard]] QSize sizeHint() const override;
+    void resizeEvent(QResizeEvent* event) override;
 private:
     QHBoxLayout mBaseLayout;
     QVBoxLayout mTitlesLayout;
@@ -21,4 +22,5 @@ private:
     QLabel mTitle;
     QLabel mDescription;
     QLabel mCost;
+    const QString mTitleString;
 };

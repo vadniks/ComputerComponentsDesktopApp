@@ -6,9 +6,9 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* com
     QWidget(parent),
     mBaseLayout(this),
     mTitlesLayout(nullptr),
-    mTitle(component->title),
     mDescription(Component::typeTitle(component->type)),
-    mCost(QString(u8"$%1").arg(component->cost))
+    mCost(QString(u8"$%1").arg(component->cost)),
+    mTitleString(component->title)
 {
     setContentsMargins(0, 0, 0, 0);
 
@@ -22,16 +22,22 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* com
     )");
 
     mDescription.setStyleSheet(u8"color: grey");
-    mCost.setStyleSheet(u8"font-size: 14px");
+    mCost.setStyleSheet(u8"font-size: 16px");
 
     mTitlesLayout.addWidget(&mTitle, 0, Qt::AlignCenter);
-    mTitlesLayout.addWidget(&mDescription);
+    mTitlesLayout.addWidget(&mDescription, 0, Qt::AlignCenter);
 
     mBaseLayout.addWidget(&mIcon);
     mBaseLayout.addStretch();
     mBaseLayout.addLayout(&mTitlesLayout);
     mBaseLayout.addStretch();
     mBaseLayout.addWidget(&mCost);
+}
+
+void ComponentListItemWidget::resizeEvent(QResizeEvent* event) {
+    mTitle.setMaximumSize(static_cast<signed>(static_cast<float>(window()->width()) * 0.75f), 50);
+    QFontMetrics metrics(mTitle.font());
+    mTitle.setText(metrics.elidedText(mTitleString, Qt::ElideRight, mTitle.maximumWidth()));
 }
 
 QSize ComponentListItemWidget::sizeHint() const
