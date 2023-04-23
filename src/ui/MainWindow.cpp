@@ -1,5 +1,4 @@
 
-#include <QDebug>
 #include "MainWindow.hpp"
 #include "HomeWidget.hpp"
 #include "SelectWidget.hpp"
@@ -19,8 +18,6 @@ MainWindow::MainWindow() {
 }
 
 void MainWindow::cartComponentTypeSelected(Component* component) {
-    qDebug() << Component::typeTitle(component->type); // TODO
-
     auto widget = new SelectWidget(this, component);
     setCentralWidget(widget);
 
