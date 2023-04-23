@@ -8,11 +8,12 @@
 #include <QPair>
 #include "AppBarWidget.hpp"
 #include "ComponentListItemWidget.hpp"
+#include "../model/AppState.hpp"
 
 class HomeWidget final : public QWidget {
     Q_OBJECT
 public:
-    explicit HomeWidget(QWidget* parent);
+    HomeWidget(QWidget* parent, AppState& state);
     ~HomeWidget() override;
 private:
     enum IconButton { INFO, LOGIN };
@@ -21,7 +22,7 @@ private:
     AppBarWidget mAppBar;
     QListWidget mListWidget;
     QList<QPair<QListWidgetItem*, QWidget*>> mListItems;
-    QList<Component*> mComponents;
+    AppState& mAppState;
 
     QPushButton* makeIconButton(const QString& icon, IconButton button);
     void fillList();

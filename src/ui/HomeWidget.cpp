@@ -2,16 +2,16 @@
 #include <QDebug>
 #include <QTimer>
 #include "HomeWidget.hpp"
-#include "UIConsts.hpp"
 
-HomeWidget::HomeWidget(QWidget* parent) :
+HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     QWidget(parent),
     mBaseLayout(this),
-    mAppBar(this, UIConsts::APP_NAME, {
-        makeIconButton(UIConsts::INFO_ICON, IconButton::INFO),
-        makeIconButton(UIConsts::LOGIN_ICON, IconButton::LOGIN)
+    mAppBar(this, Consts::APP_NAME, {
+        makeIconButton(Consts::INFO_ICON, IconButton::INFO),
+        makeIconButton(Consts::LOGIN_ICON, IconButton::LOGIN)
     }),
-    mListWidget(this)
+    mListWidget(this),
+    mAppState(state)
 {
     mBaseLayout.addWidget(&mAppBar);
     mBaseLayout.addWidget(&mListWidget);
@@ -24,9 +24,9 @@ HomeWidget::HomeWidget(QWidget* parent) :
 QPushButton* HomeWidget::makeIconButton(const QString& icon, IconButton button) {
     auto pushButton = new QPushButton(QIcon(icon), QString());
 
-    pushButton->setFixedSize(UIConsts::ICON_SIZE, UIConsts::ICON_SIZE);
+    pushButton->setFixedSize(Consts::ICON_SIZE, Consts::ICON_SIZE);
     pushButton->setFlat(true);
-    pushButton->setIconSize(QSize(UIConsts::ICON_SIZE - 5, UIConsts::ICON_SIZE - 5));
+    pushButton->setIconSize(QSize(Consts::ICON_SIZE - 5, Consts::ICON_SIZE - 5));
 
     connect(pushButton, &QPushButton::clicked, this, [this, button](){ iconButtonClicked(button); });
     return pushButton;
@@ -35,17 +35,8 @@ QPushButton* HomeWidget::makeIconButton(const QString& icon, IconButton button) 
 void HomeWidget::fillList() {
     QListWidgetItem* item;
     QWidget* widget;
-    Component* component;
 
-    for (unsigned i = 0; i < Component::COMPONENTS; i++)
-        component = new Component( // TODO: test only
-            QString(UIConsts::TITLE),
-            static_cast<ComponentType>(i),
-            QString(),
-            i
-        ),
-        mComponents.push_back(component),
-
+    for (auto component : mAppState.selectedComponents)
         widget = new ComponentListItemWidget(this, component),
 
         item = new QListWidgetItem(),
@@ -72,7 +63,4 @@ HomeWidget::~HomeWidget() {
     for (auto item : mListItems)
         delete item.first,
         delete item.second;
-
-    for (auto component : mComponents)
-        delete component;
 }

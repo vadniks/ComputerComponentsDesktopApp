@@ -1,9 +1,9 @@
 
 #include "ComponentListItemWidget.hpp"
-#include "UIConsts.hpp"
+#include "../Consts.hpp"
 
 static QPixmap makeTypedStubIconPixmap(ComponentType type)
-{ return QIcon(Component::typeImage(type)).pixmap(UIConsts::ICON_SIZE, UIConsts::ICON_SIZE); }
+{ return QIcon(Component::typeImage(type)).pixmap(Consts::ICON_SIZE, Consts::ICON_SIZE); }
 
 ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* component) :
     QWidget(parent),

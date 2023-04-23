@@ -7,8 +7,6 @@
 #include <QLabel>
 #include "../model/Component.hpp"
 
-using ComponentType = Component::ComponentType;
-
 class ComponentListItemWidget final : public QWidget {
     Q_OBJECT
 public:

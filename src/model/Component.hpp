@@ -36,3 +36,5 @@ public:
 
     static const unsigned COMPONENTS = 9;
 };
+
+using ComponentType = Component::ComponentType;

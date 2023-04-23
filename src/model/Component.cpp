@@ -1,6 +1,6 @@
 
 #include "Component.hpp"
-#include "../ui//UIConsts.hpp"
+#include "../Consts.hpp"
 
 Component::Component(
     QString&& title,
@@ -35,13 +35,13 @@ QString Component::typeTitle(ComponentType type) SWITCH(type,
 )
 
 QString Component::typeImage(ComponentType type) SWITCH(type,
-    CASE2(ComponentType::CPU, UIConsts::CPU_ICON)
-    CASE2(ComponentType::MB, UIConsts::MB_ICON)
-    CASE2(ComponentType::GPU, UIConsts::GPU_ICON)
-    CASE2(ComponentType::RAM, UIConsts::RAM_ICON)
-    CASE2(ComponentType::HDD, UIConsts::HDD_ICON)
-    CASE2(ComponentType::SSD, UIConsts::SSD_ICON)
-    CASE2(ComponentType::PSU, UIConsts::PSU_ICON)
-    CASE2(ComponentType::FAN, UIConsts::FAN_ICON)
-    CASE2(ComponentType::CASE, UIConsts::CASE_ICON)
+    CASE2(ComponentType::CPU, Consts::CPU_ICON)
+    CASE2(ComponentType::MB, Consts::MB_ICON)
+    CASE2(ComponentType::GPU, Consts::GPU_ICON)
+    CASE2(ComponentType::RAM, Consts::RAM_ICON)
+    CASE2(ComponentType::HDD, Consts::HDD_ICON)
+    CASE2(ComponentType::SSD, Consts::SSD_ICON)
+    CASE2(ComponentType::PSU, Consts::PSU_ICON)
+    CASE2(ComponentType::FAN, Consts::FAN_ICON)
+    CASE2(ComponentType::CASE, Consts::CASE_ICON)
 )

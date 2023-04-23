@@ -4,13 +4,14 @@
 #define U8_STRING static const char8_t*
 #define INT static const int
 
-class UIConsts final {
+class Consts final {
 private:
-    inline UIConsts() { throw -1; } // NOLINT(hicpp-exception-baseclass)
+    inline Consts() { throw -1; } // NOLINT(hicpp-exception-baseclass)
 public:
     U8_STRING APP_NAME;
     U8_STRING TITLE;
     U8_STRING DESCRIPTION;
+    U8_STRING NOT_SELECTED;
 
     U8_STRING PC_ICON;
     U8_STRING CPU_ICON;

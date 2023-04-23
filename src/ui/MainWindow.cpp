@@ -1,10 +1,10 @@
 
 #include "MainWindow.hpp"
-#include "UIConsts.hpp"
 
-MainWindow::MainWindow() : mHomeWidget(this) {
-    setCentralWidget(&mHomeWidget);
-    setMinimumSize(UIConsts::APP_WIDTH, UIConsts::APP_HEIGHT);
+MainWindow::MainWindow() {
+    mAppState.currentWidget = new HomeWidget(this, mAppState);
+    setCentralWidget(mAppState.currentWidget);
+    setMinimumSize(Consts::APP_WIDTH, Consts::APP_HEIGHT);
     show();
 }
 

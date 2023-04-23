@@ -1,12 +1,13 @@
 
-#include "UIConsts.hpp"
+#include "Consts.hpp"
 
-#define U8_STRING_IMPL(n, s) const char8_t* UIConsts::n = u8 ## #s;
-#define INT_IMPL(n, i) const int UIConsts::n = i;
+#define U8_STRING_IMPL(n, s) const char8_t* Consts::n = u8 ## #s;
+#define INT_IMPL(n, i) const int Consts::n = i;
 
 U8_STRING_IMPL(APP_NAME, Componenta)
 U8_STRING_IMPL(TITLE, Title)
 U8_STRING_IMPL(DESCRIPTION, Description)
+U8_STRING_IMPL(NOT_SELECTED, Not selected)
 
 U8_STRING_IMPL(PC_ICON, :/pc_icon.svg)
 U8_STRING_IMPL(CPU_ICON, :/pc_cpu.svg)
