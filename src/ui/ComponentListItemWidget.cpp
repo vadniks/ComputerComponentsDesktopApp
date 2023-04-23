@@ -6,14 +6,14 @@ ComponentListItemWidget::ComponentListItemWidget(
     QWidget* parent,
     const QIcon& icon,
     const QString& title,
-    const QString& description,
-    unsigned cost
+    unsigned cost,
+    ComponentType type
 ) :
     QWidget(parent),
     mBaseLayout(this),
     mTitlesLayout(nullptr),
     mTitle(title),
-    mDescription(description),
+    mDescription(Component::typeTitle(type)),
     mCost(QString::asprintf("$%u", cost))
 {
     setContentsMargins(0, 0, 0, 0);

@@ -34,7 +34,7 @@ void HomeWidget::fillList() {
     QWidget* widget;
 
     for (unsigned i = 0; i < ITEMS; i++) // TODO: test only
-        widget = new ComponentListItemWidget(this, QIcon(UIConsts::PC_ICON), UIConsts::TITLE, UIConsts::DESCRIPTION, i),
+        widget = new ComponentListItemWidget(this, QIcon(UIConsts::PC_ICON), UIConsts::TITLE, i, static_cast<ComponentType>(i)),
 
         item = new QListWidgetItem(),
         item->setSizeHint(widget->sizeHint()),
