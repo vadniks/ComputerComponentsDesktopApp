@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QPair>
 #include "AppBar.hpp"
+#include "ComponentListItem.hpp"
 
 class HomeWidget final : public QWidget {
     Q_OBJECT
@@ -24,7 +25,6 @@ private:
     QList<QPair<QListWidgetItem*, QWidget*>> mListItems;
 
     QPushButton* makeIconButton(const QString& icon, IconButton button);
-    QWidget* makeWidgetForListItem(const QIcon& icon, const QString& title, const QString& subtitle, const QString& trailing);
     void fillList();
 private slots:
     static void iconButtonClicked(HomeWidget::IconButton button);

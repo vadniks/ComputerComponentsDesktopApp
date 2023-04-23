@@ -28,17 +28,13 @@ QPushButton* HomeWidget::makeIconButton(const QString& icon, IconButton button) 
     return pushButton;
 }
 
-QWidget* HomeWidget::makeWidgetForListItem(const QIcon& icon, const QString& title, const QString& subtitle, const QString& trailing) {
-    return new QLabel(title); // TODO
-}
-
 void HomeWidget::fillList() {
     QListWidgetItem* item;
     QWidget* widget;
 
     for (unsigned i = 0; i < ITEMS; i++)
-        item = new QListWidgetItem(),
-        widget = makeWidgetForListItem(QIcon(), QString::asprintf("%d", i), "", ""),
+        item = new QListWidgetItem(), // TODO:                              ~~~\/
+        widget = new ComponentListItem(this, QIcon(u8":/pc_icon.svg"), u8"Title", u8"", i),
         item->setSizeHint(widget->sizeHint()),
         mListItems.push_back({item, widget}),
         mListWidget.addItem(item),

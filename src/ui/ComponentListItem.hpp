@@ -1,11 +1,28 @@
 
 #pragma once
 
-#include <QListWidgetItem>
+#include <QWidget>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QLabel>
 
-//class ComponentListItem final : public QListWidgetItem {
-//    Q_OBJECT
-//private:
-//    explicit ComponentListItem(QObject* parent);
-//
-//};
+class ComponentListItem final : public QWidget {
+    Q_OBJECT
+public:
+    ComponentListItem(
+        QWidget* parent,
+        const QIcon& icon,
+        const QString& title,
+        const QString& description,
+        unsigned cost
+    );
+
+    [[nodiscard]] QSize sizeHint() const override;
+private:
+    QHBoxLayout mBaseLayout;
+    QVBoxLayout mTitlesLayout;
+    QLabel mIcon;
+    QLabel mTitle;
+    QLabel mDescription;
+    QLabel mCost;
+};
