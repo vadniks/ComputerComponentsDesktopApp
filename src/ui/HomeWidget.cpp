@@ -9,13 +9,11 @@ HomeWidget::HomeWidget(QWidget* parent) :
         makeIconButton(u8":/info.svg", IconButton::INFO),
         makeIconButton(u8":/login.svg", IconButton::LOGIN)
     }),
-    mListView(this),
-    mItemModel(static_cast<signed>(ITEMS), 1)
+    mListWidget(this)
 {
     mBaseLayout.addWidget(&mAppBar);
-    mBaseLayout.addWidget(&mListView);
+    mBaseLayout.addWidget(&mListWidget);
 
-    mListView.setModel(&mItemModel);
     fillList();
 }
 
@@ -30,19 +28,29 @@ QPushButton* HomeWidget::makeIconButton(const QString& icon, IconButton button) 
     return pushButton;
 }
 
-QStandardItem* HomeWidget::makeListItem(const QIcon& icon, const QString& title, const QString& subtitle, const QString& trailing) {
-    auto item = new QStandardItem(); // TODO
-    item->setText(title);
-    return item;
+QWidget* HomeWidget::makeWidgetForListItem(const QIcon& icon, const QString& title, const QString& subtitle, const QString& trailing) {
+    return new QLabel(title); // TODO
 }
 
 void HomeWidget::fillList() {
+    QListWidgetItem* item;
+    QWidget* widget;
+
     for (unsigned i = 0; i < ITEMS; i++)
-        mItemModel.setItem(static_cast<signed>(i), 0, makeListItem(QIcon(), QString(u8"%0").arg(i), QString(), QString()));
+        item = new QListWidgetItem(),
+        widget = makeWidgetForListItem(QIcon(), QString::asprintf("%d", i), "", ""),
+        item->setSizeHint(widget->sizeHint()),
+        mListItems.push_back({item, widget}),
+        mListWidget.addItem(item),
+        mListWidget.setItemWidget(item, widget);
 }
 
 void HomeWidget::iconButtonClicked(IconButton button) {
     qDebug() << (button == IconButton::INFO ? "info" : "login"); // TODO: test only
 }
 
-HomeWidget::~HomeWidget() { for (auto item : mListItems) delete item; }
+HomeWidget::~HomeWidget() {
+    for (auto item : mListItems)
+        delete item.first,
+        delete item.second;
+}

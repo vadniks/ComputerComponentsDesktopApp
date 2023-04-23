@@ -3,10 +3,9 @@
 
 #include <QWidget>
 #include <QVBoxLayout>
-#include <QListView>
+#include <QListWidget>
 #include <QPushButton>
-#include <QStandardItemModel>
-#include <QStandardItem>
+#include <QPair>
 #include "AppBar.hpp"
 
 class HomeWidget final : public QWidget {
@@ -21,12 +20,11 @@ private:
 
     QVBoxLayout mBaseLayout;
     AppBar mAppBar;
-    QListView mListView;
-    QList<QWidget*> mListItems;
-    QStandardItemModel mItemModel;
+    QListWidget mListWidget;
+    QList<QPair<QListWidgetItem*, QWidget*>> mListItems;
 
     QPushButton* makeIconButton(const QString& icon, IconButton button);
-    QStandardItem* makeListItem(const QIcon& icon, const QString& title, const QString& subtitle, const QString& trailing);
+    QWidget* makeWidgetForListItem(const QIcon& icon, const QString& title, const QString& subtitle, const QString& trailing);
     void fillList();
 private slots:
     static void iconButtonClicked(HomeWidget::IconButton button);
