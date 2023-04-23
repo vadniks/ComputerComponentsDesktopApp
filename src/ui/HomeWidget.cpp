@@ -32,11 +32,14 @@ void HomeWidget::fillList() {
     QListWidgetItem* item;
     QWidget* widget;
 
-    for (unsigned i = 0; i < ITEMS; i++)
-        item = new QListWidgetItem(), // TODO:                              ~~~\/
-        widget = new ComponentListItem(this, QIcon(u8":/pc_icon.svg"), u8"Title", u8"", i),
+    for (unsigned i = 0; i < ITEMS; i++) // TODO:                             ↓
+        widget = new ComponentListItem(this, QIcon(u8":/pc_icon.svg"), u8"Title", u8"Description", i),
+
+        item = new QListWidgetItem(),
         item->setSizeHint(widget->sizeHint()),
+
         mListItems.push_back({item, widget}),
+
         mListWidget.addItem(item),
         mListWidget.setItemWidget(item, widget);
 }
