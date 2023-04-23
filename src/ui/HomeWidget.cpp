@@ -1,5 +1,4 @@
 
-#include <QDebug>
 #include <QTimer>
 #include "HomeWidget.hpp"
 
@@ -49,12 +48,12 @@ void HomeWidget::fillList() {
 }
 
 void HomeWidget::iconButtonClicked(IconButton button) {
-    qDebug() << (button == IconButton::INFO ? "info" : "login"); // TODO: test only
+
 }
 
 void HomeWidget::listItemClicked(QListWidgetItem* item) {
-    qDebug() << mListWidget.indexFromItem(item).row(); // TODO
     QTimer::singleShot(100, this, &HomeWidget::listItemDeselectRequested);
+    emit cartComponentSelected(mAppState.selectedComponents[mListWidget.indexFromItem(item).row()]);
 }
 
 void HomeWidget::listItemDeselectRequested() { mListWidget.clearSelection(); }

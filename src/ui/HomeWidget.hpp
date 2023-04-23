@@ -30,4 +30,6 @@ private slots:
     void iconButtonClicked(HomeWidget::IconButton button);
     void listItemClicked(QListWidgetItem* item);
     void listItemDeselectRequested();
+signals:
+    void cartComponentSelected(Component* component);
 };

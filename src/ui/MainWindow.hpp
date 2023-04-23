@@ -12,4 +12,6 @@ public:
     ~MainWindow() override;
 private:
     AppState mAppState;
+private slots:
+    void cartComponentTypeSelected(Component* component);
 };
