@@ -23,6 +23,7 @@ private:
     AppBarWidget mAppBar;
     QListWidget mListWidget;
     QList<QPair<QListWidgetItem*, QWidget*>> mListItems;
+    QList<Component*> mComponents;
 
     QPushButton* makeIconButton(const QString& icon, IconButton button);
     void fillList();

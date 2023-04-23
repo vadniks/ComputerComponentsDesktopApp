@@ -32,9 +32,18 @@ QPushButton* HomeWidget::makeIconButton(const QString& icon, IconButton button) 
 void HomeWidget::fillList() {
     QListWidgetItem* item;
     QWidget* widget;
+    Component* component;
 
-    for (unsigned i = 0; i < ITEMS; i++) // TODO: test only
-        widget = new ComponentListItemWidget(this, QIcon(UIConsts::PC_ICON), UIConsts::TITLE, i, static_cast<ComponentType>(i)),
+    for (unsigned i = 0; i < ITEMS; i++)
+        component = new Component( // TODO: test only
+            QString(UIConsts::TITLE),
+            static_cast<ComponentType>(i),
+            QString(),
+            i
+        ),
+        mComponents.push_back(component),
+
+        widget = new ComponentListItemWidget(this, component),
 
         item = new QListWidgetItem(),
         item->setSizeHint(widget->sizeHint()),
@@ -53,4 +62,7 @@ HomeWidget::~HomeWidget() {
     for (auto item : mListItems)
         delete item.first,
         delete item.second;
+
+    for (auto component : mComponents)
+        delete component;
 }

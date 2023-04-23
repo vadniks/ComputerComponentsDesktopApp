@@ -5,7 +5,7 @@
 #include <optional>
 #include <utility>
 
-using std::optional;
+using std::optional, std::nullopt;
 
 class Component final {
 public:
@@ -20,16 +20,14 @@ public:
         ComponentType type,
         QString&& description,
         unsigned cost,
-        optional<QString>&& image,
-        unsigned id = INVALID_ID
+        optional<QString>&& image = nullopt,
+        optional<unsigned> id = nullopt
     );
 
     static QString typeTitle(ComponentType type);
     static QString typeImage(ComponentType type);
 
-    static const unsigned INVALID_ID = 0xffffffff;
-
-    const unsigned id;
+    const optional<unsigned> id;
     const QString title;
     const ComponentType type;
     const QString description;

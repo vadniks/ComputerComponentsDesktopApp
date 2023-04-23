@@ -12,14 +12,7 @@ using ComponentType = Component::ComponentType;
 class ComponentListItemWidget final : public QWidget {
     Q_OBJECT
 public:
-    ComponentListItemWidget(
-        QWidget* parent,
-        const QIcon& icon,
-        const QString& title,
-        unsigned cost,
-        ComponentType type
-    );
-
+    ComponentListItemWidget(QWidget* parent, Component* component);
     [[nodiscard]] QSize sizeHint() const override;
 private:
     QHBoxLayout mBaseLayout;

@@ -7,7 +7,7 @@ Component::Component(
     QString&& description,
     unsigned int cost,
     optional<QString>&& image,
-    unsigned int id
+    optional<unsigned> id
 ) :
     title(std::move(title)),
     type(type),
