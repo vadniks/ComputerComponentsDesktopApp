@@ -1,7 +1,6 @@
 
 #include "SelectWidget.hpp"
 #include "../Util.hpp"
-#include "../Consts.hpp"
 
 SelectWidget::SelectWidget(QWidget* parent, Component* target) :
     QWidget(parent),
@@ -13,9 +12,11 @@ SelectWidget::SelectWidget(QWidget* parent, Component* target) :
         makeIconButton(Consts::BACK_ICON, Button::BACK),
         std::make_optional(new QString(Consts::COMPONENT_SELECTION)),
         mState.fetchedComponents()
-    )
+    ),
+    mDetails(nullptr)
 {
     mBaseLayout.addWidget(&mComponentList);
+    connect(&mComponentList, &BaseComponentListWidget::componentSelected, this, &SelectWidget::componentClicked);
 }
 
 QPushButton* SelectWidget::makeIconButton(const QString& icon, Button which) {
@@ -27,4 +28,19 @@ QPushButton* SelectWidget::makeIconButton(const QString& icon, Button which) {
 void SelectWidget::iconButtonClicked(Button button) {
     if (button == Button::BACK)
         emit exitRequested(nullptr);
+}
+
+void SelectWidget::componentClicked(Component* component) {
+    if (mDetails) {
+        mBaseLayout.removeWidget(mDetails);
+        mDetails->disconnect();
+        delete mDetails;
+    }
+
+    mDetails = new ComponentDetailsWidget(this, component);
+    mBaseLayout.addWidget(mDetails);
+}
+
+SelectWidget::~SelectWidget() {
+    delete mDetails;
 }
