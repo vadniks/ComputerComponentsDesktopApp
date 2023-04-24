@@ -11,13 +11,19 @@ ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, Component* compo
     mCost(QString(Consts::DOLLAR_SIGN_WITH_ARG).arg(component->cost)),
     mDescription(component->description)
 {
-    mImage.setPixmap(QIcon(Component::typeImage(component->type)).pixmap(50, 50));
+    mTitle.setStyleSheet(u8"font-size: 18px");
+    mCost.setStyleSheet(u8R"(
+        font-size: 18px;
+        font-weight: bold;
+    )");
 
-    mTitleCostLayout.addWidget(&mTitle);
-    mTitleCostLayout.addWidget(&mCost);
+    mImage.setPixmap(QIcon(Component::typeImage(component->type)).pixmap(250, 250));
 
-    mImageDescriptionLayout.addWidget(&mImage);
-    mImageDescriptionLayout.addWidget(&mDescription);
+    mTitleCostLayout.addWidget(&mTitle, 0, Qt::AlignLeading);
+    mTitleCostLayout.addWidget(&mCost, 0, Qt::AlignTrailing);
+
+    mImageDescriptionLayout.addWidget(&mImage, 0, Qt::AlignLeading);
+    mImageDescriptionLayout.addWidget(&mDescription, 0, Qt::AlignTrailing);
 
     mBaseLayout.addLayout(&mTitleCostLayout);
     mBaseLayout.addLayout(&mImageDescriptionLayout);

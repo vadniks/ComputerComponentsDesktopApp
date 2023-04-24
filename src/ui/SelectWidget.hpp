@@ -2,7 +2,7 @@
 #pragma once
 
 #include <QWidget>
-#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include "BaseComponentListWidget.hpp"
 #include "../state/SelectState.hpp"
 #include "ComponentDetailsWidget.hpp"
@@ -16,7 +16,7 @@ public:
     ~SelectWidget() override;
 private:
     SelectState mState;
-    QHBoxLayout mBaseLayout;
+    QVBoxLayout mBaseLayout;
     BaseComponentListWidget mComponentList;
     ComponentDetailsWidget* mDetails;
 
