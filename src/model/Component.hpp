@@ -3,7 +3,6 @@
 
 #include <QString>
 #include <optional>
-#include <utility>
 
 using std::optional, std::nullopt;
 

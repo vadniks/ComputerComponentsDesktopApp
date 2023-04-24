@@ -1,6 +1,9 @@
 
+#include <utility>
 #include "Component.hpp"
 #include "../Consts.hpp"
+
+using std::move;
 
 Component::Component(
     QString&& title,
@@ -10,11 +13,11 @@ Component::Component(
     optional<QString>&& image,
     optional<unsigned> id
 ) :
-    title(std::move(title)),
+    title(move(title)),
     type(type),
-    description(std::move(description)),
+    description(move(description)),
     cost(cost),
-    image(std::move(image)),
+    image(move(image)),
     id(id)
 {}
 
