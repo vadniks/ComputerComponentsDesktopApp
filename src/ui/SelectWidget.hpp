@@ -24,6 +24,8 @@ private:
 private slots:
     void iconButtonClicked(SelectWidget::Button button);
     void componentClicked(Component* component);
+    void componentSelected();
+    void detailsRequestedExit();
 signals:
     void exitRequested(void* parameter);
 };
