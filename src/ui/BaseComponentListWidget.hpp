@@ -8,7 +8,7 @@
 #include <QPair>
 #include "AppBarWidget.hpp"
 #include "ComponentListItemWidget.hpp"
-#include "../model/AppState.hpp"
+#include "../state/AppState.hpp"
 
 class BaseComponentListWidget final : public QWidget {
     Q_OBJECT

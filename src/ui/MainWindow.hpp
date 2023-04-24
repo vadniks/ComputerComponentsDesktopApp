@@ -2,7 +2,7 @@
 #pragma once
 
 #include <QMainWindow>
-#include "../model//AppState.hpp"
+#include "../state/AppState.hpp"
 
 class MainWindow final : public QMainWindow {
     Q_OBJECT

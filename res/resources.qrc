@@ -16,5 +16,7 @@
         <file>qlt_ico.svg</file>
         <file>info.svg</file>
         <file>login.svg</file>
+        <file>back.svg</file>
+        <file>done.svg</file>
     </qresource>
 </RCC>

@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QList>
-#include "Component.hpp"
+#include "../model/Component.hpp"
 #include "../Consts.hpp"
 
 class AppState final {

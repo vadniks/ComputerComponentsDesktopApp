@@ -3,9 +3,8 @@
 
 #include <QWidget>
 #include <QVBoxLayout>
-#include <QListView>
-#include "../model/Component.hpp"
-#include "AppBarWidget.hpp"
+#include "BaseComponentListWidget.hpp"
+#include "../state/SelectState.hpp"
 
 class SelectWidget final : public QWidget {
     Q_OBJECT
@@ -13,7 +12,9 @@ public:
     SelectWidget(QWidget* parent, Component* target);
 private:
     Component* mTargetComponent;
-    AppBarWidget mAppBar;
+    SelectState mState;
     QVBoxLayout mBaseLayout;
-    QListView mListView;
+    BaseComponentListWidget mComponentList;
+private slots:
+    void iconButtonClicked();
 };

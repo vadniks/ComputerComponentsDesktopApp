@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include "BaseComponentListWidget.hpp"
-#include "../model/AppState.hpp"
+#include "../state/AppState.hpp"
 
 class HomeWidget final : public QWidget {
     Q_OBJECT
