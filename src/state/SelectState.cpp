@@ -16,8 +16,7 @@ SelectState::SelectState(QObject* parent, Component* target) :
     QObject(parent), mTargetComponent(target), mType(target->type)
 {
     fetchComponents(mType).then([this](QList<Component*>* components){
-        for (auto component : *components)
-            mFetchedComponents.push_back(component);
+        for (auto component : *components) mFetchedComponents.push_back(component);
         delete components;
         mHasFetched = true;
     });

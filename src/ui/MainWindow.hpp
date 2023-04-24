@@ -11,6 +11,10 @@ public:
     ~MainWindow() override;
 private:
     AppState mAppState;
+
+    void connectHomeWidget();
+    void replaceWidgetWith(QWidget* widget);
 private slots:
     void cartComponentTypeSelected(Component* component);
+    void exitRequested(void* parameter);
 };
