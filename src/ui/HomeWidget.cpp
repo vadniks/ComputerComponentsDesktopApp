@@ -12,6 +12,7 @@ HomeWidget::HomeWidget(QWidget* parent, const AppState& state) :
             makeIconButton(Consts::LOGIN_ICON, Button::LOGIN)
         },
         nullptr,
+        std::nullopt,
         state.selectedComponents()
     )
 {

@@ -7,11 +7,12 @@ BaseComponentListWidget::BaseComponentListWidget(
     QWidget* parent,
     QList<QPushButton*>&& buttons,
     QPushButton* leftButton,
+    optional<const QString*> subtitle,
     const QList<Component*>& components
 ) :
     QWidget(parent),
     mBaseLayout(this),
-    mAppBar(this, Consts::APP_NAME, std::move(buttons), leftButton),
+    mAppBar(this, Consts::APP_NAME, subtitle, std::move(buttons), leftButton),
     mListWidget(this),
     mComponents(components)
 {

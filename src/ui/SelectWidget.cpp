@@ -14,6 +14,7 @@ SelectWidget::SelectWidget(QWidget* parent, Component* target) :
             connect(button, &QPushButton::clicked, this, &SelectWidget::iconButtonClicked);
             return button;
         }(),
+        std::make_optional(new QString(Consts::COMPONENT_SELECTION)),
         mState.fetchedComponents()
     )
 {

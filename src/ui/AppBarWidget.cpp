@@ -4,12 +4,15 @@
 AppBarWidget::AppBarWidget(
     QWidget* parent,
     const QString& title,
+    optional<const QString*> subtitle,
     QList<QPushButton*>&& buttons,
     QPushButton* leftButton
 ) :
     QWidget(parent),
     mBaseLayout(this),
+    mTitlesLayout(nullptr),
     mTitle(title),
+    mSubtitle(subtitle ? new QLabel(*(subtitle.value())) : nullptr),
     mButtons(std::move(buttons)),
     mButtonLayout(nullptr),
     mLeftButton(leftButton)
@@ -20,14 +23,18 @@ AppBarWidget::AppBarWidget(
         font-weight: bold;
     )");
 
+    mTitlesLayout.addWidget(&mTitle);
+    if (mSubtitle) mTitlesLayout.addWidget(mSubtitle);
+
     if (mLeftButton) mBaseLayout.addWidget(mLeftButton);
-    mBaseLayout.addWidget(&mTitle);
+    mBaseLayout.addLayout(&mTitlesLayout);
     mBaseLayout.addLayout(&mButtonLayout);
 
     for (auto button : mButtons) mButtonLayout.addWidget(button);
 }
 
 AppBarWidget::~AppBarWidget() {
+    delete mSubtitle;
     for (auto button : mButtons) delete button;
     delete mLeftButton;
 }
