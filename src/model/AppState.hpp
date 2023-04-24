@@ -10,7 +10,10 @@ class AppState final {
 public:
     AppState();
     ~AppState();
-
-    QWidget* currentWidget = nullptr;
-    QList<Component*> selectedComponents;
+    QWidget* currentWidget();
+    void setCurrentWidget(QWidget* widget);
+    [[nodiscard]] const QList<Component*>& selectedComponents() const;
+private:
+    QWidget* mCurrentWidget = nullptr;
+    QList<Component*> mSelectedComponents;
 };

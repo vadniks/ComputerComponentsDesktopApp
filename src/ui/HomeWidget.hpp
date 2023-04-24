@@ -3,32 +3,21 @@
 
 #include <QWidget>
 #include <QVBoxLayout>
-#include <QListWidget>
-#include <QPushButton>
-#include <QPair>
-#include "AppBarWidget.hpp"
-#include "ComponentListItemWidget.hpp"
+#include "BaseComponentListWidget.hpp"
 #include "../model/AppState.hpp"
 
 class HomeWidget final : public QWidget {
     Q_OBJECT
+
+    enum Button : unsigned { INFO = 0, LOGIN = 1 };
 public:
-    HomeWidget(QWidget* parent, AppState& state);
-    ~HomeWidget() override;
-private:
-    enum IconButton { INFO, LOGIN };
-
-    QVBoxLayout mBaseLayout;
-    AppBarWidget mAppBar;
-    QListWidget mListWidget;
-    QList<QPair<QListWidgetItem*, QWidget*>> mListItems;
-    AppState& mAppState;
-
-    QPushButton* makeIconButton(const QString& icon, IconButton button);
-    void fillList();
+    HomeWidget(QWidget* parent, const AppState& state);
+    QPushButton* makeIconButton(const QString& icon, Button button);
 private slots:
-    void iconButtonClicked(HomeWidget::IconButton button);
-    void listItemClicked(QListWidgetItem* item);
+    void iconButtonClicked(HomeWidget::Button button);
 signals:
     void cartComponentSelected(Component* component);
+private:
+    QVBoxLayout mBaseLayout;
+    BaseComponentListWidget mComponentList;
 };

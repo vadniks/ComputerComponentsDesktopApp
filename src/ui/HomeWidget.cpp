@@ -1,61 +1,29 @@
 
-#include <QTimer>
 #include "HomeWidget.hpp"
 #include "../Util.hpp"
 
-HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
+HomeWidget::HomeWidget(QWidget* parent, const AppState& state) :
     QWidget(parent),
     mBaseLayout(this),
-    mAppBar(this, Consts::APP_NAME, {
-        makeIconButton(Consts::INFO_ICON, IconButton::INFO),
-        makeIconButton(Consts::LOGIN_ICON, IconButton::LOGIN)
-    }),
-    mListWidget(this),
-    mAppState(state)
+    mComponentList(
+        this,
+        {
+            makeIconButton(Consts::INFO_ICON, Button::INFO),
+            makeIconButton(Consts::LOGIN_ICON, Button::LOGIN)
+        },
+        state.selectedComponents()
+    )
 {
-    mBaseLayout.addWidget(&mAppBar);
-    mBaseLayout.addWidget(&mListWidget);
-
-    mListWidget.setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
-    connect(&mListWidget, &QListWidget::itemClicked, this, &HomeWidget::listItemClicked);
-    fillList();
+    connect(&mComponentList, &BaseComponentListWidget::componentSelected, this, &HomeWidget::cartComponentSelected);
+    mBaseLayout.addWidget(&mComponentList);
 }
 
-QPushButton* HomeWidget::makeIconButton(const QString& icon, IconButton button) {
+QPushButton* HomeWidget::makeIconButton(const QString& icon, Button button) {
     auto pushButton = Util::makeIconButton(icon);
-    connect(pushButton, &QPushButton::clicked, this, [this, button](){ iconButtonClicked(button); });
+    connect(pushButton, &QPushButton::clicked, this, [this, button]() { iconButtonClicked(button); });
     return pushButton;
 }
 
-void HomeWidget::fillList() {
-    QListWidgetItem* item;
-    QWidget* widget;
+void HomeWidget::iconButtonClicked(Button button) {
 
-    for (auto component : mAppState.selectedComponents)
-        widget = new ComponentListItemWidget(this, component),
-
-        item = new QListWidgetItem(),
-        item->setSizeHint(widget->sizeHint()),
-
-        mListItems.push_back({item, widget}),
-
-        mListWidget.addItem(item),
-        mListWidget.setItemWidget(item, widget);
-}
-
-void HomeWidget::iconButtonClicked(IconButton button) {
-
-}
-
-void HomeWidget::listItemClicked(QListWidgetItem* item) {
-    QTimer::singleShot(100, this, [this, item](){
-        mListWidget.clearSelection();
-        emit cartComponentSelected(mAppState.selectedComponents[mListWidget.indexFromItem(item).row()]);
-    });
-}
-
-HomeWidget::~HomeWidget() {
-    for (auto item : mListItems)
-        delete item.first,
-        delete item.second;
 }

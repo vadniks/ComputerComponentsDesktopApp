@@ -8,11 +8,17 @@ AppState::AppState() {
             QString(Consts::NOT_SELECTED),
             static_cast<ComponentType>(i),
             QString(),
-            0
+            i
         ),
-        selectedComponents.push_back(component);
+        mSelectedComponents.push_back(component);
 }
 
+QWidget* AppState::currentWidget() { return mCurrentWidget; }
+
+void AppState::setCurrentWidget(QWidget* widget) { mCurrentWidget = widget; }
+
+const QList<Component*>& AppState::selectedComponents() const { return mSelectedComponents; }
+
 AppState::~AppState() {
-    for (auto component : selectedComponents) delete component;
+    for (auto component : mSelectedComponents) delete component;
 }
