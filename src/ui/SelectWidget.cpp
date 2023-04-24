@@ -8,11 +8,12 @@ SelectWidget::SelectWidget(QWidget* parent, Component* target) :
     mBaseLayout(this),
     mComponentList(
         this,
-        {[this]() -> QPushButton* {
+        {},
+        [this]() -> QPushButton* {
             auto button = Util::makeIconButton(Consts::BACK_ICON);
             connect(button, &QPushButton::clicked, this, &SelectWidget::iconButtonClicked);
             return button;
-        }()},
+        }(),
         mState.fetchedComponents()
     )
 {

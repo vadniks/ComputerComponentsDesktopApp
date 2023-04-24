@@ -13,7 +13,12 @@
 class BaseComponentListWidget final : public QWidget {
     Q_OBJECT
 public:
-    BaseComponentListWidget(QWidget* parent, QList<QPushButton*>&& buttons, const QList<Component*>& components);
+    BaseComponentListWidget(
+        QWidget* parent,
+        QList<QPushButton*>&& buttons,
+        QPushButton* leftButton,
+        const QList<Component*>& components
+    );
     ~BaseComponentListWidget() override;
 private:
     QVBoxLayout mBaseLayout;

@@ -11,6 +11,7 @@ HomeWidget::HomeWidget(QWidget* parent, const AppState& state) :
             makeIconButton(Consts::INFO_ICON, Button::INFO),
             makeIconButton(Consts::LOGIN_ICON, Button::LOGIN)
         },
+        nullptr,
         state.selectedComponents()
     )
 {
