@@ -1,7 +1,6 @@
 
 #include "AppBarWidget.hpp"
 
-[[gnu::used]]
 AppBarWidget::AppBarWidget(
     QWidget* parent, const QString& title, QList<QPushButton*>&& buttons
 ) :
