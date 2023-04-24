@@ -34,8 +34,6 @@ void SelectWidget::componentClicked(Component* component) {
     if (mDetails) detailsRequestedExit();
 
     mDetails = new ComponentDetailsWidget(this, component);
-    connect(mDetails, &ComponentDetailsWidget::doneClicked, this, &SelectWidget::componentSelected);
-    connect(mDetails, &ComponentDetailsWidget::closeClicked, this, &SelectWidget::detailsRequestedExit);
     mBaseLayout.addWidget(mDetails);
 }
 
@@ -44,9 +42,9 @@ void SelectWidget::componentSelected() {
 }
 
 void SelectWidget::detailsRequestedExit() {
-    mBaseLayout.removeWidget(mDetails);
     mDetails->disconnect();
-    delete mDetails; // TODO: double free or corruption (out)
+    mBaseLayout.removeWidget(mDetails);
+    delete mDetails;
     mDetails = nullptr;
 }
 
