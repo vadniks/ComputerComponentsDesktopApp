@@ -11,7 +11,6 @@ class SelectWidget final : public QWidget {
 public:
     SelectWidget(QWidget* parent, Component* target);
 private:
-    Component* mTargetComponent;
     SelectState mState;
     QVBoxLayout mBaseLayout;
     BaseComponentListWidget mComponentList;

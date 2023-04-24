@@ -4,7 +4,7 @@
 
 SelectWidget::SelectWidget(QWidget* parent, Component* target) :
     QWidget(parent),
-    mTargetComponent(target),
+    mState(this, target),
     mBaseLayout(this),
     mComponentList(
         this,
