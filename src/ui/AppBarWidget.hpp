@@ -19,11 +19,14 @@ public:
         QPushButton* _Nullable leftButton
     );
     ~AppBarWidget() override;
+protected:
+    void resizeEvent(QResizeEvent* event) override;
 private:
     QHBoxLayout mBody;
     QVBoxLayout mTitles;
     QLabel mTitle;
     QLabel* mSubtitle;
+    const QString* mSubtitleText;
     QHBoxLayout mButtons;
     QList<QPushButton*> mButtonList;
     QPushButton* mLeftButton;

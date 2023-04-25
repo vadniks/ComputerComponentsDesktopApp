@@ -12,11 +12,8 @@ AppBarWidget::AppBarWidget(
     mBody(this),
     mTitles(nullptr),
     mTitle(title),
-    mSubtitle(subtitle ? new QLabel([subtitle]() -> QString {
-        auto _subtitle = *subtitle;
-        delete subtitle;
-        return _subtitle;
-    }()) : nullptr),
+    mSubtitle(subtitle ? new QLabel(*subtitle) : nullptr),
+    mSubtitleText(subtitle),
     mButtons(nullptr),
     mButtonList(std::move(buttons)),
     mLeftButton(leftButton)
@@ -37,12 +34,23 @@ AppBarWidget::AppBarWidget(
     for (auto button : mButtonList) mButtons.addWidget(button);
 
     setMaximumHeight(mTitles.sizeHint().height() + 10);
+    resizeEvent(nullptr);
 }
 
-// TODO: resizeEvent for subtitle
+void AppBarWidget::resizeEvent(QResizeEvent* event) {
+    if (event) QWidget::resizeEvent(event);
+    if (!mSubtitle) return;
+
+    mSubtitle->setText(mSubtitle->fontMetrics().elidedText(
+        *mSubtitleText,
+        Qt::TextElideMode::ElideRight,
+        width() - (mLeftButton ? mLeftButton->sizeHint().width() : 0) - mButtons.sizeHint().width() - 20
+    ));
+}
 
 AppBarWidget::~AppBarWidget() {
     delete mSubtitle;
+    delete mSubtitleText;
     for (auto button : mButtonList) delete button;
     delete mLeftButton;
 }
