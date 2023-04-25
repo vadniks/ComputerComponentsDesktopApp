@@ -22,14 +22,16 @@ ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, const Component*
     mTitleCostLayout.addWidget(&mTitle, 0, Qt::AlignLeading);
     mTitleCostLayout.addWidget(&mCost, 0, Qt::AlignTrailing);
 //
-//    mDescription.setWordWrap(true);
-//    mScrollArea.setWidget(&mDescription);
-//
-//    mImageDescriptionLayout.addWidget(&mImage, 0, Qt::AlignLeading);
-//    mImageDescriptionLayout.addWidget(&mScrollArea, 0, Qt::AlignTrailing);
+    mDescription.setWordWrap(true);
+//    mScrollArea.setWidget(&mDescription); // TODO: SIGABRT if this is used
+    mScrollArea.setWidget(nullptr);
+
+    mImageDescriptionLayout.addWidget(&mImage, 0, Qt::AlignLeading);
+    mImageDescriptionLayout.addWidget(&mScrollArea, 0, Qt::AlignTrailing);
+//    mImageDescriptionLayout.addWidget(&mDescription, 0, Qt::AlignTrailing);
 //
     mBaseLayout.addLayout(&mTitleCostLayout); // TODO: free(): invalid pointer on destruction of an instance of this class
-//    mBaseLayout.addLayout(&mImageDescriptionLayout);
+    mBaseLayout.addLayout(&mImageDescriptionLayout);
 //
 //    this->resizeEvent(nullptr);
 }
@@ -51,4 +53,8 @@ void ComponentDetailsWidget::resizeEvent([[maybe_unused]] QResizeEvent* event) {
 //    mImage.setPixmap(QIcon(Component::typeImage(mCurrentComponent->type)).pixmap(reducedHeight)); // TODO
 //    mScrollArea.setFixedSize(parentWidget()->width() - 50 - reducedHeight, reducedHeight);
 //    mDescription.setMaximumHeight(reducedHeight);
+}
+
+ComponentDetailsWidget::~ComponentDetailsWidget() {
+    mScrollArea.setWidget(nullptr);
 }

@@ -13,6 +13,7 @@ class ComponentDetailsWidget final : public QWidget {
     Q_OBJECT
 public:
     ComponentDetailsWidget(QWidget* parent, const Component* component);
+    ~ComponentDetailsWidget() override;
     const Component* currentComponent();
     void resizeEvent(QResizeEvent* event) override;
 private:
