@@ -33,6 +33,7 @@ void SelectWidget::componentClicked(Component* component) {
     if (mDetails) detailsRequestedExit();
 
     mDetails = new ComponentDetailsWidget(this, component);
+    connect(mDetails, &ComponentDetailsWidget::closeClicked, this, &SelectWidget::detailsRequestedExit);
     mBaseLayout.addWidget(mDetails);
 }
 
