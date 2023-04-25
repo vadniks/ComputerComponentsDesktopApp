@@ -37,15 +37,14 @@ LoginWidget::LoginWidget(QWidget* parent) :
     mControlsLayout.addWidget(&mPassword);
     mControlsLayout.addLayout(&mButtonsLayout);
 
+    mBodyProxyLayout.addStretch();
+    mBodyProxyLayout.addLayout(&mControlsLayout);
+    mBodyProxyLayout.addStretch();
+
     mBaseLayout.addWidget(&mAppBar);
     mBaseLayout.addStretch();
-    mBaseLayout.addLayout(&mControlsLayout);
+    mBaseLayout.addLayout(&mBodyProxyLayout);
     mBaseLayout.addStretch();
-}
-
-void LoginWidget::resizeEvent(QResizeEvent* event) {
-
-    QWidget::resizeEvent(event);
 }
 
 void LoginWidget::proceedClicked() {

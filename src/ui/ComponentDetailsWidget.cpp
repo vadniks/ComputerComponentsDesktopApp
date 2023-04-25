@@ -52,8 +52,8 @@ ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, Component* compo
     this->resizeEvent(nullptr);
 }
 
-void ComponentDetailsWidget::resizeEvent([[maybe_unused]] QResizeEvent* event) {
-    QWidget::resizeEvent(event);
+void ComponentDetailsWidget::resizeEvent(QResizeEvent* event) {
+    if (event) QWidget::resizeEvent(event);
 
     int reducedHeight = static_cast<int>(static_cast<float>(parentWidget()->height()) * 0.4f),
         width = parentWidget()->width(),
