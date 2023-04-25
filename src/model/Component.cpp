@@ -5,12 +5,12 @@
 #include "../Consts.hpp"
 
 Component::Component(
-    QString&& title,
+    QString title,
     ComponentType type,
-    QString&& description,
+    QString description,
     unsigned int cost,
-    std::optional<QString>&& image,
-    std::optional<unsigned>&& id
+    std::optional<QString> image,
+    const std::optional<unsigned>& id
 ) :
     id(id),
     title(std::move(title)),

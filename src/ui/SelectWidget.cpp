@@ -15,7 +15,8 @@ SelectWidget::SelectWidget(QWidget* parent, Component* target) :
     mDetails(nullptr)
 {
     mBaseLayout.addWidget(&mComponentList);
-    connect(&mComponentList, &BaseComponentListWidget::componentSelected, this, &SelectWidget::componentClicked);
+    connect(&mComponentList, &BaseComponentListWidget::componentSelected, this,
+            &SelectWidget::requestedDetailsForComponent);
 }
 
 QPushButton* SelectWidget::makeIconButton(const QString& icon, Button which) {
@@ -29,17 +30,16 @@ void SelectWidget::iconButtonClicked(Button button) {
         emit exitRequested(nullptr);
 }
 
-void SelectWidget::componentClicked(Component* component) {
+void SelectWidget::requestedDetailsForComponent(Component* component) {
     if (mDetails) detailsRequestedExit();
 
     mDetails = new ComponentDetailsWidget(this, component);
     connect(mDetails, &ComponentDetailsWidget::closeClicked, this, &SelectWidget::detailsRequestedExit);
+    connect(mDetails, &ComponentDetailsWidget::doneClicked, this, &SelectWidget::componentSelected);
     mBaseLayout.addWidget(mDetails);
 }
 
-void SelectWidget::componentSelected() {
-
-}
+void SelectWidget::componentSelected(Component* component) { emit exitRequested(component); }
 
 void SelectWidget::detailsRequestedExit() {
     mBaseLayout.removeWidget(mDetails);

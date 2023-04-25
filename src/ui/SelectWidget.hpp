@@ -23,8 +23,8 @@ private:
     QPushButton* makeIconButton(const QString& icon, Button which);
 private slots:
     void iconButtonClicked(SelectWidget::Button button);
-    void componentClicked(Component* component);
-    void componentSelected();
+    void requestedDetailsForComponent(Component* component);
+    void componentSelected(Component* component);
     void detailsRequestedExit();
 signals:
     void exitRequested(void* parameter);

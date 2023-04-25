@@ -13,12 +13,11 @@
 class ComponentDetailsWidget final : public QWidget {
     Q_OBJECT
 public:
-    ComponentDetailsWidget(QWidget* parent, const Component* component);
+    ComponentDetailsWidget(QWidget* parent, Component* component);
     ~ComponentDetailsWidget() override;
-    const Component* currentComponent();
     void resizeEvent(QResizeEvent* event) override;
 private:
-    const Component* mCurrentComponent;
+    Component* mCurrentComponent;
     QVBoxLayout mBaseLayout;
     QHBoxLayout mTitleCostLayout;
     QHBoxLayout mImageDescriptionLayout;
@@ -31,6 +30,6 @@ private:
     QPushButton* mDone;
     QPushButton* mClose;
 signals:
-    void doneClicked();
+    void doneClicked(Component* target);
     void closeClicked();
 };

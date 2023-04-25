@@ -2,7 +2,7 @@
 #include "ComponentDetailsWidget.hpp"
 #include "../Consts.hpp"
 
-ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, const Component* component) :
+ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, Component* component) :
     QWidget(parent),
     mCurrentComponent(component),
     mBaseLayout(this),
@@ -45,13 +45,11 @@ ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, const Component*
     mBaseLayout.addLayout(&mButtonsLayout);
     mBaseLayout.setContentsMargins(0, 0, 0, 0);
 
-    connect(mDone, &QPushButton::clicked, this, &ComponentDetailsWidget::doneClicked);
+    connect(mDone, &QPushButton::clicked, this, [this](){ doneClicked(mCurrentComponent); });
     connect(mClose, &QPushButton::clicked, this, &ComponentDetailsWidget::closeClicked);
 
     this->resizeEvent(nullptr);
 }
-
-const Component* ComponentDetailsWidget::currentComponent() { return mCurrentComponent; }
 
 void ComponentDetailsWidget::resizeEvent([[maybe_unused]] QResizeEvent* event) {
     int reducedHeight = static_cast<int>(static_cast<float>(parentWidget()->height()) * 0.4f),
