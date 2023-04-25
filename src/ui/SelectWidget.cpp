@@ -1,6 +1,5 @@
 
 #include "SelectWidget.hpp"
-#include "../Util.hpp"
 
 SelectWidget::SelectWidget(QWidget* parent, Component* target) :
     QWidget(parent),
@@ -42,8 +41,8 @@ void SelectWidget::componentSelected() {
 }
 
 void SelectWidget::detailsRequestedExit() {
-    mDetails->disconnect();
     mBaseLayout.removeWidget(mDetails);
+    mDetails->disconnect();
     delete mDetails;
     mDetails = nullptr;
 }
