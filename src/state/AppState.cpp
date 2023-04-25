@@ -1,13 +1,14 @@
 
 #include "AppState.hpp"
+#include "../Util.hpp"
 
 AppState::AppState() {
     Component* component;
     for (unsigned i = 0; i < Component::COMPONENTS; i++)
         component = new Component(
-            QString(Consts::NOT_SELECTED),
+            Consts::NOT_SELECTED(),
             static_cast<ComponentType>(i),
-            QString(),
+            u8""_u8h,
             i
         ),
         mSelectedComponents.push_back(component);

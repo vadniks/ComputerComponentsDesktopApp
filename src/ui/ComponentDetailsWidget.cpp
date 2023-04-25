@@ -10,7 +10,7 @@ ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, const Component*
     mTitleCostLayout(nullptr),
     mImageDescriptionLayout(nullptr),
     mTitle(component->title),
-    mCost(QString(Consts::DOLLAR_SIGN_WITH_ARG).arg(component->cost)),
+    mCost(QString(Consts::DOLLAR_SIGN_WITH_ARG_S).arg(component->cost)),
     mDescription(component->description)
 {
     mTitle.setStyleSheet(u8"font-size: 18px");

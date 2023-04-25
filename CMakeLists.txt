@@ -7,8 +7,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-add_compile_options("-O3")
-add_link_options("-s")
+#add_compile_options("-O3")
+#add_link_options("-s")
 
 file(GLOB sources CONFIGURE_DEPENDS "src/*.cpp" "src/*.hpp" "src/*/*.cpp" "src/*/*.hpp" res/resources.qrc)
 add_executable(${PROJECT_NAME} ${sources})

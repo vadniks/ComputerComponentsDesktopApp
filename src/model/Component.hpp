@@ -1,11 +1,6 @@
 
 #pragma once
 
-#include <QString>
-#include <optional>
-
-using std::optional, std::nullopt;
-
 class Component final {
 public:
     enum ComponentType : unsigned {
@@ -15,23 +10,24 @@ public:
     };
 
     Component(
-        QString&& title,
+        const char8_t* _Nonnull title,
         ComponentType type,
-        QString&& description,
+        const char8_t* _Nonnull description,
         unsigned cost,
-        optional<QString>&& image = nullopt,
-        optional<unsigned> id = nullopt
+        const char8_t* _Nullable image = nullptr,
+        const unsigned* _Nullable id = nullptr
     );
+    ~Component();
 
-    static QString typeTitle(ComponentType type);
-    static QString typeImage(ComponentType type);
+    static const char8_t* _Nonnull typeTitle(ComponentType type);
+    static const char8_t* _Nonnull typeImage(ComponentType type);
 
-    const optional<unsigned> id;
-    const QString title;
+    const unsigned* _Nullable const id;
+    const char8_t* _Nonnull const title;
     const ComponentType type;
-    const QString description;
+    const char8_t* _Nonnull const description;
     const unsigned cost;
-    const optional<QString> image;
+    const char8_t* _Nullable const image;
 
     static const unsigned COMPONENTS = 9;
 };

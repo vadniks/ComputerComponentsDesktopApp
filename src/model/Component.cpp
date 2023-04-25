@@ -1,21 +1,20 @@
 
-#include <utility>
 #include "Component.hpp"
 #include "../Consts.hpp"
 
 Component::Component(
-    QString&& title,
+    const char8_t* title,
     ComponentType type,
-    QString&& description,
+    const char8_t* description,
     unsigned int cost,
-    optional<QString>&& image,
-    optional<unsigned> id
+    const char8_t* _Nullable image,
+    const unsigned int* _Nullable id
 ) :
-    title(std::move(title)),
+    title(title),
     type(type),
-    description(std::move(description)),
+    description(description),
     cost(cost),
-    image(std::move(image)),
+    image(image),
     id(id)
 {}
 
@@ -23,7 +22,7 @@ Component::Component(
 #define CASE(x, y) case x: return u8 ## #y;
 #define CASE2(x, y) case x: return y;
 
-QString Component::typeTitle(ComponentType type) SWITCH(type,
+const char8_t* Component::typeTitle(ComponentType type) SWITCH(type,
     CASE(ComponentType::CPU, Processor)
     CASE(ComponentType::MB, Motherboard)
     CASE(ComponentType::GPU, Graphics adapter)
@@ -35,14 +34,21 @@ QString Component::typeTitle(ComponentType type) SWITCH(type,
     CASE(ComponentType::CASE, Case)
 )
 
-QString Component::typeImage(ComponentType type) SWITCH(type,
-    CASE2(ComponentType::CPU, Consts::CPU_ICON)
-    CASE2(ComponentType::MB, Consts::MB_ICON)
-    CASE2(ComponentType::GPU, Consts::GPU_ICON)
-    CASE2(ComponentType::RAM, Consts::RAM_ICON)
-    CASE2(ComponentType::HDD, Consts::HDD_ICON)
-    CASE2(ComponentType::SSD, Consts::SSD_ICON)
-    CASE2(ComponentType::PSU, Consts::PSU_ICON)
-    CASE2(ComponentType::FAN, Consts::FAN_ICON)
-    CASE2(ComponentType::CASE, Consts::CASE_ICON)
+const char8_t* Component::typeImage(ComponentType type) SWITCH(type,
+    CASE2(ComponentType::CPU, Consts::CPU_ICON_S)
+    CASE2(ComponentType::MB, Consts::MB_ICON_S)
+    CASE2(ComponentType::GPU, Consts::GPU_ICON_S)
+    CASE2(ComponentType::RAM, Consts::RAM_ICON_S)
+    CASE2(ComponentType::HDD, Consts::HDD_ICON_S)
+    CASE2(ComponentType::SSD, Consts::SSD_ICON_S)
+    CASE2(ComponentType::PSU, Consts::PSU_ICON_S)
+    CASE2(ComponentType::FAN, Consts::FAN_ICON_S)
+    CASE2(ComponentType::CASE, Consts::CASE_ICON_S)
 )
+
+Component::~Component() {
+    delete title;
+    delete description;
+    delete image;
+    delete id;
+}

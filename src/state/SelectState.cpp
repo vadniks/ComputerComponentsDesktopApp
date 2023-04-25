@@ -2,12 +2,13 @@
 #include <QFuture>
 #include <QtConcurrent/QtConcurrent>
 #include "SelectState.hpp"
+#include "../Util.hpp"
 
 static QFuture<QList<Component*>*> fetchComponents(ComponentType type) {
     return QtConcurrent::run([type]() -> QList<Component*>* {
         auto components = new QList<Component*>();
         for (unsigned i = 0; i < 10; i++) // TODO: test only
-            components->push_back(new Component(u8"Title", type, u8"Description", i, std::nullopt, std::make_optional(i)));
+            components->push_back(new Component(u8"Title"_u8h, type, u8"Description"_u8h, i, nullptr, new unsigned(i)));
         return components;
     });
 }

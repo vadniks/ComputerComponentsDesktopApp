@@ -12,7 +12,7 @@ BaseComponentListWidget::BaseComponentListWidget(
 ) :
     QWidget(parent),
     mBaseLayout(this),
-    mAppBar(this, Consts::APP_NAME, subtitle, std::move(buttons), leftButton),
+    mAppBar(this, Consts::APP_NAME_S, subtitle, std::move(buttons), leftButton),
     mListWidget(this),
     mComponents(components)
 {

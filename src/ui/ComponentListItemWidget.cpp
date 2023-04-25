@@ -10,7 +10,7 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* com
     mBaseLayout(this),
     mTitlesLayout(nullptr),
     mDescription(Component::typeTitle(component->type)),
-    mCost(QString(Consts::DOLLAR_SIGN_WITH_ARG).arg(component->cost)),
+    mCost(QString(Consts::DOLLAR_SIGN_WITH_ARG_S).arg(component->cost)),
     mTitleString(component->title)
 {
     setContentsMargins(0, 0, 0, 0);
