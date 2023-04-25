@@ -46,6 +46,8 @@ The quality of our custom built computers speak for themselves. They are reliabl
     U8_STRING(BACK_ICON, :/back.svg)
     U8_STRING(DONE_ICON, :/done.svg)
     U8_STRING(REMOVE_ICON, :/remove.svg)
+    U8_STRING(HARDWARE_ICON, :/hwr_ico.svg)
+    U8_STRING(QUALITY_ICON, :/qlt_ico.svg)
 
     INT(APP_WIDTH, 640)
     INT(APP_HEIGHT, 640)

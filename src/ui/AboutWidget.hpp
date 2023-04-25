@@ -11,6 +11,8 @@ class [[maybe_unused]] AboutWidget final : public QWidget {
     Q_OBJECT
 public:
     [[maybe_unused]] explicit AboutWidget(QWidget* parent);
+protected:
+    void resizeEvent(QResizeEvent* event) override;
 private:
     QVBoxLayout mBody;
     AppBarWidget mAppBar;
