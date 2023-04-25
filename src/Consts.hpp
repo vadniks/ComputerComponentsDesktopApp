@@ -3,7 +3,9 @@
 
 #include <cstring>
 
-#define U8_STRING(n, s) inline static const char8_t* n = u8 ## #s;
+#define _U8_STRING_PREFIX(n) inline static const char8_t* n =
+#define U8_STRING(n, s) _U8_STRING_PREFIX(n) u8 ## #s;
+#define U8_STRING_2(n, s) _U8_STRING_PREFIX(n) s;
 #define INT(n, i) inline static const int n = i;
 
 class Consts final {
@@ -22,6 +24,12 @@ public:
     U8_STRING(LOGIN, Login)
     U8_STRING(PASSWORD, Password)
     U8_STRING(WELCOME_ANON, Welcome Anonymous!)
+    U8_STRING(SLOGAN, Build your own PC with PC Configurator online and free! Choose any components you like and buy them!)
+    U8_STRING(COPYRIGHT, Copyright (C) 2022-2023 | All rights reserved)
+    U8_STRING_2(ABOUT_TEXT, u8R"(We are Leading Company
+Provide our customers with superior products and services at the most reasonable rates available. At the time of company formation in 2022, our core business was as a computer parts reseller. We initiated our company with the philosophy that “We refuse to compromise quality for profit” and have not since changed that guiding principle.
+The quality of our custom built computers speak for themselves. They are reliable because we use brand name components which equals no headaches. PC Configurator sales and services focus on selling the best possible product at the best possible price. On a local level, PC Configurator’s exists to provide computer hardware and services. PC Configurator’s is very competitive on a national level in terms of price, quality and services. PC Configurator’s major market extends to all those with access to the internet and a web browser.
+)")
 
     U8_STRING(DOLLAR_SIGN_WITH_ARG, $%1)
 
@@ -46,5 +54,7 @@ public:
     INT(ICON_SIZE, 30)
 };
 
+#undef _U8_STRING_PREFIX
 #undef U8_STRING
+#undef U8_STRING_2
 #undef INT

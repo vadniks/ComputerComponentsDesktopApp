@@ -39,6 +39,8 @@ AppBarWidget::AppBarWidget(
     setMaximumHeight(mTitles.sizeHint().height() + 10);
 }
 
+// TODO: resizeEvent for subtitle
+
 AppBarWidget::~AppBarWidget() {
     delete mSubtitle;
     for (auto button : mButtonList) delete button;
