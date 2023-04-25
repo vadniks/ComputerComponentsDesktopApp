@@ -37,8 +37,8 @@ ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, const Component*
 const Component* ComponentDetailsWidget::currentComponent() { return mCurrentComponent; }
 
 void ComponentDetailsWidget::resizeEvent([[maybe_unused]] QResizeEvent* event) {
-    float reducedHeight = static_cast<float>(parentWidget()->height()) * 0.4f;
-    setMaximumHeight(static_cast<int>(reducedHeight));
+    int reducedHeight = static_cast<int>(static_cast<float>(parentWidget()->height()) * 0.4f);
+    setMaximumHeight(reducedHeight);
 
     auto metrics = QFontMetrics(mTitle.font());
     mTitle.setText(metrics.elidedText(
@@ -48,5 +48,7 @@ void ComponentDetailsWidget::resizeEvent([[maybe_unused]] QResizeEvent* event) {
     );
 
     reducedHeight -= 50;
-    mImage.setPixmap(QIcon(Component::typeImage(mCurrentComponent->type)).pixmap(static_cast<int>(reducedHeight))); // TODO
+    mImage.setPixmap(QIcon(Component::typeImage(mCurrentComponent->type)).pixmap(reducedHeight)); // TODO
+    mScrollArea.setFixedSize(parentWidget()->width() - 50 - reducedHeight, reducedHeight);
+    mDescription.setMaximumHeight(reducedHeight);
 }
