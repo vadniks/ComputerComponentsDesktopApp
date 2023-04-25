@@ -1,13 +1,12 @@
 
 #include <QTimer>
 #include "BaseComponentListWidget.hpp"
-#include "../Util.hpp"
 
 BaseComponentListWidget::BaseComponentListWidget(
     QWidget* parent,
     QList<QPushButton*>&& buttons,
-    QPushButton* leftButton,
-    optional<const QString*> subtitle,
+    QPushButton* _Nullable leftButton,
+    const QString* _Nullable subtitle,
     const QList<Component*>& components
 ) :
     QWidget(parent),

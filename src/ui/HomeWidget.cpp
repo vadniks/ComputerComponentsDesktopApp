@@ -1,6 +1,5 @@
 
 #include "HomeWidget.hpp"
-#include "../Util.hpp"
 
 HomeWidget::HomeWidget(QWidget* parent, const AppState& state) :
     QWidget(parent),
@@ -12,7 +11,7 @@ HomeWidget::HomeWidget(QWidget* parent, const AppState& state) :
             makeIconButton(Consts::LOGIN_ICON_S, Button::LOGIN)
         },
         nullptr,
-        std::nullopt,
+        nullptr,
         state.selectedComponents()
     )
 {

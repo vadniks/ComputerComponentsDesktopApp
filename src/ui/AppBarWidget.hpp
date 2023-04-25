@@ -7,9 +7,6 @@
 #include <QPushButton>
 #include <QList>
 #include <QLabel>
-#include <optional>
-
-using std::optional;
 
 class AppBarWidget final : public QWidget {
     Q_OBJECT
@@ -17,9 +14,9 @@ public:
     AppBarWidget(
         QWidget* parent,
         const QString& title,
-        optional<const QString*> subtitle,
+        const QString* _Nullable subtitle,
         QList<QPushButton*>&& buttons,
-        QPushButton* leftButton = nullptr
+        QPushButton* _Nullable leftButton
     );
     ~AppBarWidget() override;
 private:

@@ -4,15 +4,19 @@
 AppBarWidget::AppBarWidget(
     QWidget* parent,
     const QString& title,
-    optional<const QString*> subtitle,
+    const QString* _Nullable subtitle,
     QList<QPushButton*>&& buttons,
-    QPushButton* leftButton
+    QPushButton* _Nullable leftButton
 ) :
     QWidget(parent),
     mBaseLayout(this),
     mTitlesLayout(nullptr),
     mTitle(title),
-    mSubtitle(subtitle ? new QLabel(*(subtitle.value())) : nullptr),
+    mSubtitle(subtitle ? new QLabel([subtitle]() -> QString {
+        auto _subtitle = *subtitle;
+        delete subtitle;
+        return _subtitle;
+    }()) : nullptr),
     mButtons(std::move(buttons)),
     mButtonLayout(nullptr),
     mLeftButton(leftButton)

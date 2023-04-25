@@ -10,7 +10,7 @@ SelectWidget::SelectWidget(QWidget* parent, Component* target) :
         this,
         { makeIconButton(Consts::REMOVE_ICON_S, Button::REMOVE) },
         makeIconButton(Consts::BACK_ICON_S, Button::BACK),
-        std::make_optional(new QString(Consts::COMPONENT_SELECTION_S)),
+        new QString(Consts::COMPONENT_SELECTION_S),
         mState.fetchedComponents()
     ),
     mDetails(nullptr)
