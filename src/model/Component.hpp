@@ -10,22 +10,22 @@ public:
     };
 
     Component(
-        const char8_t* _Nonnull title,
+        const char8_t* title,
         ComponentType type,
-        const char8_t* _Nonnull description,
+        const char8_t* description,
         unsigned cost,
-        const char8_t* _Nullable image = nullptr,
-        const unsigned* _Nullable id = nullptr
+        const char8_t* image = nullptr,
+        const unsigned* id = nullptr
     );
     ~Component();
 
-    static const char8_t* _Nonnull typeTitle(ComponentType type);
-    static const char8_t* _Nonnull typeImage(ComponentType type);
+    static const char8_t* typeTitle(ComponentType type);
+    static const char8_t* typeImage(ComponentType type);
 
     const unsigned* _Nullable const id;
-    const char8_t* _Nonnull const title;
+    const char8_t* const title;
     const ComponentType type;
-    const char8_t* _Nonnull const description;
+    const char8_t* const description;
     const unsigned cost;
     const char8_t* _Nullable const image;
 

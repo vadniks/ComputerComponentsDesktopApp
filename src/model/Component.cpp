@@ -10,12 +10,12 @@ Component::Component(
     const char8_t* _Nullable image,
     const unsigned int* _Nullable id
 ) :
+    id(id),
     title(title),
     type(type),
     description(description),
     cost(cost),
-    image(image),
-    id(id)
+    image(image)
 {}
 
 #define SWITCH(x, y) { switch (x) { y } }

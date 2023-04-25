@@ -1,7 +1,6 @@
 
 #include "ComponentDetailsWidget.hpp"
 #include "../Consts.hpp"
-#include "../Util.hpp"
 
 ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, const Component* component) :
     QWidget(parent),

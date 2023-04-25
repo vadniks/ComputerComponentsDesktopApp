@@ -17,8 +17,8 @@ AppBarWidget::AppBarWidget(
         delete subtitle;
         return _subtitle;
     }()) : nullptr),
-    mButtons(std::move(buttons)),
     mButtonLayout(nullptr),
+    mButtons(std::move(buttons)),
     mLeftButton(leftButton)
 {
     mTitle.setStyleSheet(u8R"(
