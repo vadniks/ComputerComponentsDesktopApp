@@ -34,7 +34,13 @@ void MainWindow::cartComponentTypeSelected(Component* component) {
     replaceWidgetWith(widget);
 }
 
-void MainWindow::exitRequested([[maybe_unused]] void* parameter) {
+void MainWindow::exitRequested(void* parameter) {
+    if (parameter != nullptr) {
+        auto result = static_cast<QPair<const Component*, Component*>*>(parameter);
+        mAppState.replaceSelected(result->first, result->second);
+        delete result;
+    }
+
     auto widget = new HomeWidget(this, mAppState);
     replaceWidgetWith(widget);
     connectHomeWidget();

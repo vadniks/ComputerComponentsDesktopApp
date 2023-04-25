@@ -10,6 +10,7 @@ public:
     SelectState(QObject* parent, Component* target);
     ~SelectState() override;
     [[nodiscard]] const QList<Component*>& fetchedComponents() const;
+    [[nodiscard]] const Component* targetComponent();
     [[nodiscard]] const bool& hasFetched() const;
 private:
     QList<Component*> mFetchedComponents;

@@ -25,6 +25,8 @@ SelectState::SelectState(QObject* parent, Component* target) :
 
 const QList<Component*>& SelectState::fetchedComponents() const { return mFetchedComponents; }
 
+const Component* SelectState::targetComponent() { return mTargetComponent; }
+
 const bool& SelectState::hasFetched() const { return mHasFetched; }
 
 SelectState::~SelectState() {

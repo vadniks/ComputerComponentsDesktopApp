@@ -13,6 +13,7 @@ public:
     QWidget* currentWidget();
     void setCurrentWidget(QWidget* widget);
     [[nodiscard]] const QList<Component*>& selectedComponents() const;
+    void replaceSelected(const Component* old, Component* nw);
 private:
     QWidget* mCurrentWidget = nullptr;
     QList<Component*> mSelectedComponents;

@@ -19,6 +19,11 @@ void AppState::setCurrentWidget(QWidget* widget) { mCurrentWidget = widget; }
 
 const QList<Component*>& AppState::selectedComponents() const { return mSelectedComponents; }
 
+void AppState::replaceSelected(const Component* old, Component* nw) {
+    mSelectedComponents[mSelectedComponents.indexOf(old)] = nw;
+    delete old;
+}
+
 AppState::~AppState() {
     for (auto component : mSelectedComponents) delete component;
 }

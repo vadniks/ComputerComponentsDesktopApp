@@ -39,7 +39,18 @@ void SelectWidget::requestedDetailsForComponent(Component* component) {
     mBaseLayout.addWidget(mDetails);
 }
 
-void SelectWidget::componentSelected(Component* component) { emit exitRequested(component); }
+void SelectWidget::componentSelected(Component* component) {
+    emit exitRequested(
+        new QPair<const Component*, Component*>(mState.targetComponent(), new Component(
+            component->title,
+            component->type,
+            component->description,
+            component->cost,
+            component->image,
+            component->id
+        ))
+    );
+}
 
 void SelectWidget::detailsRequestedExit() {
     mBaseLayout.removeWidget(mDetails);
