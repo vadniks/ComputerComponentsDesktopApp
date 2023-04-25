@@ -19,14 +19,13 @@ LoginWidget::LoginWidget(QWidget* parent) :
 {
     int r = 0, g = 0, b = 0, a = 0;
     palette().text().color().getRgb(&r, &g, &b, &a);
-
-    qDebug() << QString(u8"color: rgba(%1, %2, %3, %4)").arg(r).arg(g).arg(b).arg(a);
+    auto textColorCss = QString(u8"color: rgba(%1, %2, %3, %4)").arg(r).arg(g).arg(b).arg(a);
 
     mName.setPlaceholderText(Consts::LOGIN);
-    mName.setStyleSheet(QString(u8"color: rgba(%1, %2, %3, %4)").arg(r).arg(g).arg(b).arg(a));
+    mName.setStyleSheet(textColorCss);
 
     mPassword.setPlaceholderText(Consts::PASSWORD);
-    mPassword.setStyleSheet(QString(u8"color: rgba(%1, %2, %3, %4)").arg(r).arg(g).arg(b).arg(a));
+    mPassword.setStyleSheet(textColorCss);
 
     connect(&mProceed, &QPushButton::clicked, this, &LoginWidget::proceedClicked);
     connect(&mClear, &QPushButton::clicked, this, &LoginWidget::clearClicked);
