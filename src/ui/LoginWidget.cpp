@@ -43,8 +43,20 @@ LoginWidget::LoginWidget(QWidget* parent) :
 
     mBaseLayout.addWidget(&mAppBar);
     mBaseLayout.addStretch();
+    mBaseLayout.addWidget(&mImage, 0, Qt::AlignCenter);
+    mBaseLayout.addStretch();
     mBaseLayout.addLayout(&mBodyProxyLayout);
     mBaseLayout.addStretch();
+    mBaseLayout.addStretch();
+
+    resizeEvent(nullptr);
+}
+
+void LoginWidget::resizeEvent(QResizeEvent* event) {
+    if (event) QWidget::resizeEvent(event);
+
+    const auto size = static_cast<int>(static_cast<float>(width()) * 0.25f);
+    mImage.setPixmap(QIcon(Consts::PC_ICON).pixmap(size));
 }
 
 void LoginWidget::proceedClicked() {

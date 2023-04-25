@@ -2,6 +2,7 @@
 #pragma once
 
 #include <QWidget>
+#include <QLabel>
 #include <QVBoxLayout>
 #include <QLineEdit>
 #include <QHBoxLayout>
@@ -12,9 +13,12 @@ class LoginWidget final : public QWidget {
     Q_OBJECT
 public:
     explicit LoginWidget(QWidget* parent);
+protected:
+    void resizeEvent(QResizeEvent* event) override;
 private:
     QVBoxLayout mBaseLayout;
     AppBarWidget mAppBar;
+    QLabel mImage;
     QHBoxLayout mBodyProxyLayout;
     QVBoxLayout mControlsLayout;
     QLineEdit mName;
