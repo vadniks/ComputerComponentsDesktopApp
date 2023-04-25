@@ -45,11 +45,10 @@ void ComponentDetailsWidget::resizeEvent([[maybe_unused]] QResizeEvent* event) {
     mTitle.setText(metrics.elidedText(
         mCurrentComponent->title,
         Qt::TextElideMode::ElideRight,
-        static_cast<int>(static_cast<float>(parentWidget()->width()) * 0.9f))
+        parentWidget()->width() - mCost.width() - 40)
     );
 
     reducedHeight -= 50;
     mImage.setPixmap(QIcon(Component::typeImage(mCurrentComponent->type)).pixmap(reducedHeight)); // TODO
     mScrollArea.setFixedSize(parentWidget()->width() - 50 - reducedHeight, reducedHeight);
-    mDescription.setMaximumHeight(reducedHeight);
 }
