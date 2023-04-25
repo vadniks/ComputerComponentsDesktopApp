@@ -5,6 +5,11 @@
 #include "LoginWidget.hpp"
 #include "AboutWidget.hpp"
 
+#define REPLACE_WIDGET(x, y...) \
+    auto widget = new x ## Widget(y); \
+    connect(widget, &x ## Widget::exitRequested, this, &MainWindow::exitRequested); \
+    replaceWidgetWith(widget);
+
 MainWindow::MainWindow() {
     mAppState.setCurrentWidget(new HomeWidget(this, mAppState));
     connectHomeWidget();
@@ -28,11 +33,7 @@ void MainWindow::replaceWidgetWith(QWidget* widget) {
     mAppState.setCurrentWidget(widget);
 }
 
-void MainWindow::cartComponentTypeSelected(Component* component) {
-    auto widget = new SelectWidget(this, component);
-    connect(widget, &SelectWidget::exitRequested, this, &MainWindow::exitRequested);
-    replaceWidgetWith(widget);
-}
+void MainWindow::cartComponentTypeSelected(Component* component) { REPLACE_WIDGET(Select, this, component) }
 
 void MainWindow::exitRequested(void* parameter) {
     if (parameter != nullptr) {
@@ -46,16 +47,6 @@ void MainWindow::exitRequested(void* parameter) {
     connectHomeWidget();
 }
 
-void MainWindow::loginRequested() {
-    auto widget = new LoginWidget(this);
-    connect(widget, &LoginWidget::exitRequested, this, &MainWindow::exitRequested);
-    replaceWidgetWith(widget);
-}
-
-void MainWindow::infoRequested() {
-    auto widget = new AboutWidget(this);
-    connect(widget, &AboutWidget::exitRequested, this, &MainWindow::exitRequested);
-    replaceWidgetWith(widget);
-}
-
+void MainWindow::loginRequested() { REPLACE_WIDGET(Login, this) }
+void MainWindow::infoRequested() { REPLACE_WIDGET(About, this) }
 MainWindow::~MainWindow() { delete mAppState.currentWidget(); }
