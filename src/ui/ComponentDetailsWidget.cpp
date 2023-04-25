@@ -53,7 +53,3 @@ void ComponentDetailsWidget::resizeEvent([[maybe_unused]] QResizeEvent* event) {
     mScrollArea.setFixedSize(parentWidget()->width() - 50 - reducedHeight, reducedHeight);
     mDescription.setMaximumHeight(reducedHeight);
 }
-
-ComponentDetailsWidget::~ComponentDetailsWidget() {
-    mScrollArea.setWidget(nullptr);
-}
