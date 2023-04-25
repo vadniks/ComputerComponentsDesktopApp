@@ -35,6 +35,8 @@ AppBarWidget::AppBarWidget(
     mBaseLayout.addLayout(&mButtonLayout);
 
     for (auto button : mButtons) mButtonLayout.addWidget(button);
+
+    setMaximumHeight(mTitlesLayout.sizeHint().height() + 10);
 }
 
 AppBarWidget::~AppBarWidget() {
