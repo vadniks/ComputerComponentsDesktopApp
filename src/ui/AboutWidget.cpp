@@ -17,6 +17,7 @@
     mCopyright(Consts::COPYRIGHT)
 {
     mAbout.setWordWrap(true);
+    mAbout.setStyleSheet(u8"font-size: 14px");
 
     mImages.addStretch();
     mImages.addWidget(&mHardware, 0, Qt::AlignCenter);
