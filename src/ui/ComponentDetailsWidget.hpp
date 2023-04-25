@@ -24,6 +24,6 @@ private:
     QLabel mTitle;
     QLabel mCost;
     QLabel mImage;
-    QLabel mDescription;
     QScrollArea mScrollArea;
+    QLabel mDescription;
 };
