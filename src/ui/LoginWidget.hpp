@@ -3,6 +3,9 @@
 
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QLineEdit>
+#include <QHBoxLayout>
+#include <QPushButton>
 #include "AppBarWidget.hpp"
 
 class LoginWidget final : public QWidget {
@@ -10,5 +13,16 @@ class LoginWidget final : public QWidget {
 public:
     explicit LoginWidget(QWidget* parent);
 private:
-
+    QVBoxLayout mBaseLayout;
+    AppBarWidget mAppBar;
+    QLineEdit mName;
+    QLineEdit mPassword;
+    QHBoxLayout mButtonsLayout;
+    QPushButton mProceed;
+    QPushButton mClear;
+private slots:
+    void proceedClicked();
+    void clearClicked();
+signals:
+    void exitRequested();
 };

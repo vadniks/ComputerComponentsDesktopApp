@@ -1,5 +1,6 @@
 
 #include "SelectWidget.hpp"
+#include "../Util.hpp"
 
 SelectWidget::SelectWidget(QWidget* parent, Component* target) :
     QWidget(parent),
@@ -8,11 +9,7 @@ SelectWidget::SelectWidget(QWidget* parent, Component* target) :
     mComponentList(
         this,
         {},
-        [this]() -> QPushButton* {
-            auto button = Util::makeIconButton(Consts::BACK_ICON);
-            connect(button, &QPushButton::clicked, this, [this](){ emit exitRequested(nullptr); });
-            return button;
-        }(),
+        BACK_ICON_BUTTON(emit exitRequested(nullptr);),
         new QString(Consts::COMPONENT_SELECTION),
         mState.fetchedComponents()
     ),

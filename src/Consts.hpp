@@ -2,10 +2,8 @@
 #pragma once
 
 #include <cstring>
-#include "Util.hpp"
 
 #define U8_STRING(n, s) inline static const char8_t* n = u8 ## #s;
-
 #define INT(n, i) inline static const int n = i;
 
 class Consts final {
@@ -18,6 +16,11 @@ public:
     U8_STRING(NOT_SELECTED, Not selected)
     U8_STRING(COMPONENT_SELECTION, Component selection)
     U8_STRING(EMPTY, )
+    U8_STRING(LOGING_IN, Logging in)
+    U8_STRING(PROCEED, Proceed)
+    U8_STRING(CLEAR, Clear)
+    U8_STRING(LOGIN, Login)
+    U8_STRING(PASSWORD, Password)
 
     U8_STRING(DOLLAR_SIGN_WITH_ARG, $%1)
 
