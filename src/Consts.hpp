@@ -21,6 +21,7 @@ public:
     U8_STRING(CLEAR, Clear)
     U8_STRING(LOGIN, Login)
     U8_STRING(PASSWORD, Password)
+    U8_STRING(WELCOME_ANON, Welcome Anonymous!)
 
     U8_STRING(DOLLAR_SIGN_WITH_ARG, $%1)
 

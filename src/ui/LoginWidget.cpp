@@ -14,9 +14,15 @@ LoginWidget::LoginWidget(QWidget* parent) :
         {},
         BACK_ICON_BUTTON
     ),
+    mWelcome(Consts::WELCOME_ANON),
     mProceed(Consts::PROCEED),
     mClear(Consts::CLEAR)
 {
+    mWelcome.setStyleSheet(u8R"(
+        font-style: italic;
+        font-size: 16px;
+    )");
+
     int r = 0, g = 0, b = 0, a = 0;
     palette().text().color().getRgb(&r, &g, &b, &a);
     auto textColorCss = QString(u8"color: rgba(%1, %2, %3, %4)").arg(r).arg(g).arg(b).arg(a);
@@ -42,12 +48,12 @@ LoginWidget::LoginWidget(QWidget* parent) :
     mBodyProxyLayout.addStretch();
 
     mBaseLayout.addWidget(&mAppBar);
-    mBaseLayout.addStretch();
+    mBaseLayout.addStretch(1);
     mBaseLayout.addWidget(&mImage, 0, Qt::AlignCenter);
-    mBaseLayout.addStretch();
+    mBaseLayout.addWidget(&mWelcome, 0, Qt::AlignCenter);
+    mBaseLayout.addStretch(1);
     mBaseLayout.addLayout(&mBodyProxyLayout);
-    mBaseLayout.addStretch();
-    mBaseLayout.addStretch();
+    mBaseLayout.addStretch(3);
 
     resizeEvent(nullptr);
 }

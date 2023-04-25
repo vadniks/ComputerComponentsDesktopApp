@@ -19,6 +19,7 @@ private:
     QVBoxLayout mBaseLayout;
     AppBarWidget mAppBar;
     QLabel mImage;
+    QLabel mWelcome;
     QHBoxLayout mBodyProxyLayout;
     QVBoxLayout mControlsLayout;
     QLineEdit mName;
