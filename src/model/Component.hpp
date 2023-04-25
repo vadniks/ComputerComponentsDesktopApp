@@ -13,11 +13,11 @@ public:
     };
 
     Component(
-        QString  title,
+        QString title,
         ComponentType type,
-        QString  description,
+        QString description,
         unsigned cost,
-        std::optional<QString>  image = std::nullopt,
+        std::optional<QString> image = std::nullopt,
         const std::optional<unsigned>& id = std::nullopt
     );
 
