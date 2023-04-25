@@ -6,6 +6,7 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QLabel>
+#include <QScrollArea>
 #include "../model/Component.hpp"
 
 class ComponentDetailsWidget final : public QWidget {
@@ -13,6 +14,7 @@ class ComponentDetailsWidget final : public QWidget {
 public:
     ComponentDetailsWidget(QWidget* parent, const Component* component);
     const Component* currentComponent();
+    void resizeEvent(QResizeEvent* event) override;
 private:
     const Component* mCurrentComponent;
     QVBoxLayout mBaseLayout;
@@ -22,4 +24,5 @@ private:
     QLabel mCost;
     QLabel mImage;
     QLabel mDescription;
+    QScrollArea mScrollArea;
 };
