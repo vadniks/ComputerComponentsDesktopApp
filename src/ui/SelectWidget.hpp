@@ -7,10 +7,10 @@
 #include "../state/SelectState.hpp"
 #include "ComponentDetailsWidget.hpp"
 
-class SelectWidget final : public QWidget {
+class [[maybe_unused]] SelectWidget final : public QWidget {
     Q_OBJECT
 public:
-    SelectWidget(QWidget* parent, Component* target);
+    [[maybe_unused]] SelectWidget(QWidget* parent, Component* target);
     ~SelectWidget() override;
 private:
     SelectState mState;

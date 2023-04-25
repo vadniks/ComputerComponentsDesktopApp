@@ -7,10 +7,10 @@
 #include <QLabel>
 #include <QHBoxLayout>
 
-class AboutWidget final : public QWidget {
+class [[maybe_unused]] AboutWidget final : public QWidget {
     Q_OBJECT
 public:
-    explicit AboutWidget(QWidget* parent);
+    [[maybe_unused]] explicit AboutWidget(QWidget* parent);
 private:
     QVBoxLayout mBody;
     AppBarWidget mAppBar;
