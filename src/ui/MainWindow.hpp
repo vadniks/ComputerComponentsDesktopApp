@@ -17,4 +17,5 @@ private:
 private slots:
     void cartComponentTypeSelected(Component* component);
     void exitRequested(void* parameter);
+    void loginRequested();
 };

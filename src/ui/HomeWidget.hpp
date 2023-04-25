@@ -17,6 +17,7 @@ private slots:
     void iconButtonClicked(HomeWidget::Button button);
 signals:
     void cartComponentSelected(Component* component);
+    void loginRequested();
 private:
     QVBoxLayout mBaseLayout;
     BaseComponentListWidget mComponentList;

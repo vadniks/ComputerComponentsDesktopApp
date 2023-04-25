@@ -27,5 +27,6 @@ QPushButton* HomeWidget::makeIconButton(const QString& icon, Button button) {
 }
 
 void HomeWidget::iconButtonClicked(Button button) {
-
+    if (button == Button::LOGIN)
+        emit loginRequested();
 }
