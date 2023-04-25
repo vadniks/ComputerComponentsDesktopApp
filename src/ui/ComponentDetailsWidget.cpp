@@ -6,14 +6,14 @@
 ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, Component* component) :
     QWidget(parent),
     mCurrentComponent(component),
-    mBaseLayout(this),
-    mTitleCostLayout(nullptr),
-    mImageDescriptionLayout(nullptr),
+    mBody(this),
+    mTitleCost(nullptr),
+    mImageDescription(nullptr),
     mTitle(component->title),
     mCost(QString(Consts::DOLLAR_SIGN_WITH_ARG).arg(component->cost)),
     mScrollArea(this),
     mDescription(component->description),
-    mButtonsLayout(nullptr),
+    mButtons(nullptr),
     mDone(Util::makeIconButton(Consts::DONE_ICON)),
     mClose(Util::makeIconButton(Consts::REMOVE_ICON))
 {
@@ -23,28 +23,28 @@ ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, Component* compo
         font-weight: bold;
     )");
 
-    mTitleCostLayout.addWidget(&mTitle, 0, Qt::AlignLeading);
-    mTitleCostLayout.addWidget(&mCost, 0, Qt::AlignTrailing);
-    mTitleCostLayout.setContentsMargins(0, 0, 0, 0);
+    mTitleCost.addWidget(&mTitle, 0, Qt::AlignLeading);
+    mTitleCost.addWidget(&mCost, 0, Qt::AlignTrailing);
+    mTitleCost.setContentsMargins(0, 0, 0, 0);
 
     mDescription.setWordWrap(true);
     mScrollArea.setWidget(&mDescription);
     mScrollArea.setWidget(nullptr);
 
-    mImageDescriptionLayout.addWidget(&mImage, 0, Qt::AlignLeading);
-    mImageDescriptionLayout.addWidget(&mScrollArea, 0, Qt::AlignTrailing);
-    mImageDescriptionLayout.setContentsMargins(0, 0, 0, 0);
+    mImageDescription.addWidget(&mImage, 0, Qt::AlignLeading);
+    mImageDescription.addWidget(&mScrollArea, 0, Qt::AlignTrailing);
+    mImageDescription.setContentsMargins(0, 0, 0, 0);
 
-    mButtonsLayout.addStretch();
-    mButtonsLayout.addWidget(mDone);
-    mButtonsLayout.addWidget(mClose);
-    mButtonsLayout.addStretch();
-    mButtonsLayout.setContentsMargins(0, 0, 0, 0);
+    mButtons.addStretch();
+    mButtons.addWidget(mDone);
+    mButtons.addWidget(mClose);
+    mButtons.addStretch();
+    mButtons.setContentsMargins(0, 0, 0, 0);
 
-    mBaseLayout.addLayout(&mTitleCostLayout);
-    mBaseLayout.addLayout(&mImageDescriptionLayout);
-    mBaseLayout.addLayout(&mButtonsLayout);
-    mBaseLayout.setContentsMargins(0, 0, 0, 0);
+    mBody.addLayout(&mTitleCost);
+    mBody.addLayout(&mImageDescription);
+    mBody.addLayout(&mButtons);
+    mBody.setContentsMargins(0, 0, 0, 0);
 
     connect(mDone, &QPushButton::clicked, this, [this](){ doneClicked(mCurrentComponent); });
     connect(mClose, &QPushButton::clicked, this, &ComponentDetailsWidget::closeClicked);
@@ -57,7 +57,7 @@ void ComponentDetailsWidget::resizeEvent(QResizeEvent* event) {
 
     int reducedHeight = static_cast<int>(static_cast<float>(parentWidget()->height()) * 0.4f),
         width = parentWidget()->width(),
-        layoutsHeight = mTitleCostLayout.sizeHint().height() + mButtonsLayout.sizeHint().height();
+        layoutsHeight = mTitleCost.sizeHint().height() + mButtons.sizeHint().height();
     setMaximumHeight(reducedHeight + layoutsHeight);
 
     auto metrics = QFontMetrics(mTitle.font());

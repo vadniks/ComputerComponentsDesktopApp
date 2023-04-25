@@ -19,15 +19,15 @@ protected:
     void resizeEvent(QResizeEvent* event) override;
 private:
     Component* mCurrentComponent;
-    QVBoxLayout mBaseLayout;
-    QHBoxLayout mTitleCostLayout;
-    QHBoxLayout mImageDescriptionLayout;
+    QVBoxLayout mBody;
+    QHBoxLayout mTitleCost;
+    QHBoxLayout mImageDescription;
     QLabel mTitle;
     QLabel mCost;
     QLabel mImage;
     QScrollArea mScrollArea;
     QLabel mDescription;
-    QHBoxLayout mButtonsLayout;
+    QHBoxLayout mButtons;
     QPushButton* mDone;
     QPushButton* mClose;
 signals:

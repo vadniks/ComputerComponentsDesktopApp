@@ -9,16 +9,16 @@ AppBarWidget::AppBarWidget(
     QPushButton* _Nullable leftButton
 ) :
     QWidget(parent),
-    mBaseLayout(this),
-    mTitlesLayout(nullptr),
+    mBody(this),
+    mTitles(nullptr),
     mTitle(title),
     mSubtitle(subtitle ? new QLabel([subtitle]() -> QString {
         auto _subtitle = *subtitle;
         delete subtitle;
         return _subtitle;
     }()) : nullptr),
-    mButtonLayout(nullptr),
-    mButtons(std::move(buttons)),
+    mButtons(nullptr),
+    mButtonList(std::move(buttons)),
     mLeftButton(leftButton)
 {
     mTitle.setStyleSheet(u8R"(
@@ -27,20 +27,20 @@ AppBarWidget::AppBarWidget(
         font-weight: bold;
     )");
 
-    mTitlesLayout.addWidget(&mTitle);
-    if (mSubtitle) mTitlesLayout.addWidget(mSubtitle);
+    mTitles.addWidget(&mTitle);
+    if (mSubtitle) mTitles.addWidget(mSubtitle);
 
-    if (mLeftButton) mBaseLayout.addWidget(mLeftButton);
-    mBaseLayout.addLayout(&mTitlesLayout);
-    mBaseLayout.addLayout(&mButtonLayout);
+    if (mLeftButton) mBody.addWidget(mLeftButton);
+    mBody.addLayout(&mTitles);
+    mBody.addLayout(&mButtons);
 
-    for (auto button : mButtons) mButtonLayout.addWidget(button);
+    for (auto button : mButtonList) mButtons.addWidget(button);
 
-    setMaximumHeight(mTitlesLayout.sizeHint().height() + 10);
+    setMaximumHeight(mTitles.sizeHint().height() + 10);
 }
 
 AppBarWidget::~AppBarWidget() {
     delete mSubtitle;
-    for (auto button : mButtons) delete button;
+    for (auto button : mButtonList) delete button;
     delete mLeftButton;
 }

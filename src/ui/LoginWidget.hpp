@@ -16,15 +16,15 @@ public:
 protected:
     void resizeEvent(QResizeEvent* event) override;
 private:
-    QVBoxLayout mBaseLayout;
+    QVBoxLayout mBody;
     AppBarWidget mAppBar;
     QLabel mImage;
     QLabel mWelcome;
-    QHBoxLayout mBodyProxyLayout;
-    QVBoxLayout mControlsLayout;
+    QHBoxLayout mBodyProxy;
+    QVBoxLayout mControls;
     QLineEdit mName;
     QLineEdit mPassword;
-    QHBoxLayout mButtonsLayout;
+    QHBoxLayout mButtons;
     QPushButton mProceed;
     QPushButton mClear;
 private slots:

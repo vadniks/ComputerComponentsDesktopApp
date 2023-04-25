@@ -20,11 +20,11 @@ public:
     );
     ~AppBarWidget() override;
 private:
-    QHBoxLayout mBaseLayout;
-    QVBoxLayout mTitlesLayout;
+    QHBoxLayout mBody;
+    QVBoxLayout mTitles;
     QLabel mTitle;
     QLabel* mSubtitle;
-    QHBoxLayout mButtonLayout;
-    QList<QPushButton*> mButtons;
+    QHBoxLayout mButtons;
+    QList<QPushButton*> mButtonList;
     QPushButton* mLeftButton;
 };

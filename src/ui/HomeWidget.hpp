@@ -20,6 +20,6 @@ signals:
     void cartComponentSelected(Component* component);
     void loginRequested();
 private:
-    QVBoxLayout mBaseLayout;
+    QVBoxLayout mBody;
     BaseComponentListWidget mComponentList;
 };

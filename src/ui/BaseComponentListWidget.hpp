@@ -22,7 +22,7 @@ public:
     );
     ~BaseComponentListWidget() override;
 private:
-    QVBoxLayout mBaseLayout;
+    QVBoxLayout mBody;
     AppBarWidget mAppBar;
     QListWidget mListWidget;
     QList<QPair<QListWidgetItem*, QWidget*>> mListItems;

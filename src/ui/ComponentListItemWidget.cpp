@@ -7,8 +7,8 @@ static QPixmap makeTypedStubIconPixmap(ComponentType type)
 
 ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* component) :
     QWidget(parent),
-    mBaseLayout(this),
-    mTitlesLayout(nullptr),
+    mBody(this),
+    mTitles(nullptr),
     mDescription(Component::typeTitle(component->type)),
     mCost(QString(Consts::DOLLAR_SIGN_WITH_ARG).arg(component->cost)),
     mTitleString(component->title)
@@ -27,14 +27,14 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* com
     mDescription.setStyleSheet(u8"color: grey");
     mCost.setStyleSheet(u8"font-size: 16px");
 
-    mTitlesLayout.addWidget(&mTitle, 0, Qt::AlignCenter);
-    mTitlesLayout.addWidget(&mDescription, 0, Qt::AlignCenter);
+    mTitles.addWidget(&mTitle, 0, Qt::AlignCenter);
+    mTitles.addWidget(&mDescription, 0, Qt::AlignCenter);
 
-    mBaseLayout.addWidget(&mIcon);
-    mBaseLayout.addStretch();
-    mBaseLayout.addLayout(&mTitlesLayout);
-    mBaseLayout.addStretch();
-    mBaseLayout.addWidget(&mCost);
+    mBody.addWidget(&mIcon);
+    mBody.addStretch();
+    mBody.addLayout(&mTitles);
+    mBody.addStretch();
+    mBody.addWidget(&mCost);
 }
 
 void ComponentListItemWidget::resizeEvent(QResizeEvent* event) {
@@ -46,4 +46,4 @@ void ComponentListItemWidget::resizeEvent(QResizeEvent* event) {
 }
 
 QSize ComponentListItemWidget::sizeHint() const
-{ return mBaseLayout.sizeHint(); }
+{ return mBody.sizeHint(); }

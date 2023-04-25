@@ -4,7 +4,7 @@
 
 HomeWidget::HomeWidget(QWidget* parent, const AppState& state) :
     QWidget(parent),
-    mBaseLayout(this),
+    mBody(this),
     mComponentList(
         this,
         {
@@ -17,7 +17,7 @@ HomeWidget::HomeWidget(QWidget* parent, const AppState& state) :
     )
 {
     connect(&mComponentList, &BaseComponentListWidget::componentSelected, this, &HomeWidget::cartComponentSelected);
-    mBaseLayout.addWidget(&mComponentList);
+    mBody.addWidget(&mComponentList);
 }
 
 QPushButton* HomeWidget::makeIconButton(const QString& icon, Button button) {

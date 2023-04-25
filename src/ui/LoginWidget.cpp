@@ -6,7 +6,7 @@
 
 LoginWidget::LoginWidget(QWidget* parent) :
     QWidget(parent),
-    mBaseLayout(this),
+    mBody(this),
     mAppBar(
         this,
         Consts::APP_NAME,
@@ -36,24 +36,24 @@ LoginWidget::LoginWidget(QWidget* parent) :
     connect(&mProceed, &QPushButton::clicked, this, &LoginWidget::proceedClicked);
     connect(&mClear, &QPushButton::clicked, this, &LoginWidget::clearClicked);
 
-    mButtonsLayout.addWidget(&mProceed);
-    mButtonsLayout.addWidget(&mClear);
+    mButtons.addWidget(&mProceed);
+    mButtons.addWidget(&mClear);
 
-    mControlsLayout.addWidget(&mName);
-    mControlsLayout.addWidget(&mPassword);
-    mControlsLayout.addLayout(&mButtonsLayout);
+    mControls.addWidget(&mName);
+    mControls.addWidget(&mPassword);
+    mControls.addLayout(&mButtons);
 
-    mBodyProxyLayout.addStretch();
-    mBodyProxyLayout.addLayout(&mControlsLayout);
-    mBodyProxyLayout.addStretch();
+    mBodyProxy.addStretch();
+    mBodyProxy.addLayout(&mControls);
+    mBodyProxy.addStretch();
 
-    mBaseLayout.addWidget(&mAppBar);
-    mBaseLayout.addStretch(1);
-    mBaseLayout.addWidget(&mImage, 0, Qt::AlignCenter);
-    mBaseLayout.addWidget(&mWelcome, 0, Qt::AlignCenter);
-    mBaseLayout.addStretch(1);
-    mBaseLayout.addLayout(&mBodyProxyLayout);
-    mBaseLayout.addStretch(3);
+    mBody.addWidget(&mAppBar);
+    mBody.addStretch(1);
+    mBody.addWidget(&mImage, 0, Qt::AlignCenter);
+    mBody.addWidget(&mWelcome, 0, Qt::AlignCenter);
+    mBody.addStretch(1);
+    mBody.addLayout(&mBodyProxy);
+    mBody.addStretch(3);
 
     resizeEvent(nullptr);
 }

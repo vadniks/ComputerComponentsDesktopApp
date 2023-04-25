@@ -16,8 +16,8 @@ protected:
 public:
     [[nodiscard]] QSize sizeHint() const override;
 private:
-    QHBoxLayout mBaseLayout;
-    QVBoxLayout mTitlesLayout;
+    QHBoxLayout mBody;
+    QVBoxLayout mTitles;
     QLabel mIcon;
     QLabel mTitle;
     QLabel mDescription;

@@ -14,7 +14,7 @@ public:
     ~SelectWidget() override;
 private:
     SelectState mState;
-    QVBoxLayout mBaseLayout;
+    QVBoxLayout mBody;
     BaseComponentListWidget mComponentList;
     ComponentDetailsWidget* mDetails;
 private slots:

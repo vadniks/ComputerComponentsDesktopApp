@@ -10,13 +10,13 @@ BaseComponentListWidget::BaseComponentListWidget(
     const QList<Component*>& components
 ) :
     QWidget(parent),
-    mBaseLayout(this),
+    mBody(this),
     mAppBar(this, Consts::APP_NAME, subtitle, std::move(buttons), leftButton),
     mListWidget(this),
     mComponents(components)
 {
-    mBaseLayout.addWidget(&mAppBar);
-    mBaseLayout.addWidget(&mListWidget);
+    mBody.addWidget(&mAppBar);
+    mBody.addWidget(&mListWidget);
 
     mListWidget.setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
     connect(&mListWidget, &QListWidget::itemClicked, this, &BaseComponentListWidget::listItemClicked);

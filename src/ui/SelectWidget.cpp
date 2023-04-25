@@ -5,7 +5,7 @@
 SelectWidget::SelectWidget(QWidget* parent, Component* target) :
     QWidget(parent),
     mState(this, target),
-    mBaseLayout(this),
+    mBody(this),
     mComponentList(
         this,
         {},
@@ -15,7 +15,7 @@ SelectWidget::SelectWidget(QWidget* parent, Component* target) :
     ),
     mDetails(nullptr)
 {
-    mBaseLayout.addWidget(&mComponentList);
+    mBody.addWidget(&mComponentList);
     connect(&mComponentList, &BaseComponentListWidget::componentSelected, this,
             &SelectWidget::requestedDetailsForComponent);
 }
@@ -26,7 +26,7 @@ void SelectWidget::requestedDetailsForComponent(Component* component) {
     mDetails = new ComponentDetailsWidget(this, component);
     connect(mDetails, &ComponentDetailsWidget::closeClicked, this, &SelectWidget::detailsRequestedExit);
     connect(mDetails, &ComponentDetailsWidget::doneClicked, this, &SelectWidget::componentSelected);
-    mBaseLayout.addWidget(mDetails);
+    mBody.addWidget(mDetails);
 }
 
 void SelectWidget::componentSelected(Component* component) {
@@ -43,7 +43,7 @@ void SelectWidget::componentSelected(Component* component) {
 }
 
 void SelectWidget::detailsRequestedExit() {
-    mBaseLayout.removeWidget(mDetails);
+    mBody.removeWidget(mDetails);
     mDetails->disconnect();
     delete mDetails;
     mDetails = nullptr;
