@@ -5,7 +5,7 @@
 
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
-    QApplication::setWindowIcon(QIcon(Consts::PC_ICON_S));
+    QApplication::setWindowIcon(QIcon(Consts::PC_ICON));
     MainWindow window;
     return QApplication::exec();
 }

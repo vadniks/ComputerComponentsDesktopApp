@@ -7,8 +7,8 @@ HomeWidget::HomeWidget(QWidget* parent, const AppState& state) :
     mComponentList(
         this,
         {
-            makeIconButton(Consts::INFO_ICON_S, Button::INFO),
-            makeIconButton(Consts::LOGIN_ICON_S, Button::LOGIN)
+            makeIconButton(Consts::INFO_ICON, Button::INFO),
+            makeIconButton(Consts::LOGIN_ICON, Button::LOGIN)
         },
         nullptr,
         nullptr,

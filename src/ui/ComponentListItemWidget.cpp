@@ -10,7 +10,7 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* com
     mBaseLayout(this),
     mTitlesLayout(nullptr),
     mDescription(Component::typeTitle(component->type)),
-    mCost(QString(Consts::DOLLAR_SIGN_WITH_ARG_S).arg(component->cost)),
+    mCost(QString(Consts::DOLLAR_SIGN_WITH_ARG).arg(component->cost)),
     mTitleString(component->title)
 {
     setContentsMargins(0, 0, 0, 0);
@@ -37,7 +37,7 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* com
     mBaseLayout.addWidget(&mCost);
 }
 
-void ComponentListItemWidget::resizeEvent(QResizeEvent* event) {
+void ComponentListItemWidget::resizeEvent([[maybe_unused]] QResizeEvent* event) {
     mTitle.setMaximumSize(static_cast<signed>(static_cast<float>(window()->width()) * 0.75f), 50);
     QFontMetrics metrics(mTitle.font());
     mTitle.setText(metrics.elidedText(mTitleString, Qt::ElideRight, mTitle.maximumWidth()));

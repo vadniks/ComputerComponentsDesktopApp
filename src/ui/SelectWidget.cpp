@@ -8,9 +8,9 @@ SelectWidget::SelectWidget(QWidget* parent, Component* target) :
     mBaseLayout(this),
     mComponentList(
         this,
-        { makeIconButton(Consts::REMOVE_ICON_S, Button::REMOVE) },
-        makeIconButton(Consts::BACK_ICON_S, Button::BACK),
-        new QString(Consts::COMPONENT_SELECTION_S),
+        { makeIconButton(Consts::REMOVE_ICON, Button::REMOVE) },
+        makeIconButton(Consts::BACK_ICON, Button::BACK),
+        new QString(Consts::COMPONENT_SELECTION),
         mState.fetchedComponents()
     ),
     mDetails(nullptr)

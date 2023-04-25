@@ -34,7 +34,7 @@ void MainWindow::cartComponentTypeSelected(Component* component) {
     replaceWidgetWith(widget);
 }
 
-void MainWindow::exitRequested(void* parameter) {
+void MainWindow::exitRequested([[maybe_unused]] void* parameter) {
     auto widget = new HomeWidget(this, mAppState);
     replaceWidgetWith(widget);
     connectHomeWidget();
