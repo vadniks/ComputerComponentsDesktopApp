@@ -15,6 +15,7 @@ class ComponentDetailsWidget final : public QWidget {
 public:
     ComponentDetailsWidget(QWidget* parent, Component* component);
     ~ComponentDetailsWidget() override;
+protected:
     void resizeEvent(QResizeEvent* event) override;
 private:
     Component* mCurrentComponent;

@@ -38,6 +38,7 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* com
 }
 
 void ComponentListItemWidget::resizeEvent([[maybe_unused]] QResizeEvent* event) {
+    QWidget::resizeEvent(event);
     mTitle.setMaximumSize(static_cast<signed>(static_cast<float>(window()->width()) * 0.75f), 50);
     QFontMetrics metrics(mTitle.font());
     mTitle.setText(metrics.elidedText(mTitleString, Qt::ElideRight, mTitle.maximumWidth()));

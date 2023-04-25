@@ -53,6 +53,8 @@ ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, Component* compo
 }
 
 void ComponentDetailsWidget::resizeEvent([[maybe_unused]] QResizeEvent* event) {
+    QWidget::resizeEvent(event);
+
     int reducedHeight = static_cast<int>(static_cast<float>(parentWidget()->height()) * 0.4f),
         width = parentWidget()->width(),
         layoutsHeight = mTitleCostLayout.sizeHint().height() + mButtonsLayout.sizeHint().height();
