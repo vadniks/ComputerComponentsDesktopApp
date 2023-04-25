@@ -24,5 +24,5 @@ private slots:
     void proceedClicked();
     void clearClicked();
 signals:
-    void exitRequested();
+    void exitRequested(void* parameter);
 };

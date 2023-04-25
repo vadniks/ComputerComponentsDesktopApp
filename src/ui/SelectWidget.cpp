@@ -9,7 +9,7 @@ SelectWidget::SelectWidget(QWidget* parent, Component* target) :
     mComponentList(
         this,
         {},
-        BACK_ICON_BUTTON(emit exitRequested(nullptr);),
+        BACK_ICON_BUTTON,
         new QString(Consts::COMPONENT_SELECTION),
         mState.fetchedComponents()
     ),

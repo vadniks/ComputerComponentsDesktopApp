@@ -1,5 +1,6 @@
 
 #include "HomeWidget.hpp"
+#include "../Util.hpp"
 
 HomeWidget::HomeWidget(QWidget* parent, const AppState& state) :
     QWidget(parent),
