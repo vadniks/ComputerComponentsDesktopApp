@@ -19,6 +19,7 @@ private slots:
 signals:
     void cartComponentSelected(Component* component);
     void loginRequested();
+    void infoRequested();
 private:
     QVBoxLayout mBody;
     BaseComponentListWidget mComponentList;

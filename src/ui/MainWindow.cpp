@@ -3,6 +3,7 @@
 #include "HomeWidget.hpp"
 #include "SelectWidget.hpp"
 #include "LoginWidget.hpp"
+#include "AboutWidget.hpp"
 
 MainWindow::MainWindow() {
     mAppState.setCurrentWidget(new HomeWidget(this, mAppState));
@@ -17,6 +18,7 @@ void MainWindow::connectHomeWidget() {
     auto widget = dynamic_cast<HomeWidget*>(mAppState.currentWidget());
     connect(widget, &HomeWidget::cartComponentSelected, this, &MainWindow::cartComponentTypeSelected);
     connect(widget, &HomeWidget::loginRequested, this, &MainWindow::loginRequested);
+    connect(widget, &HomeWidget::infoRequested, this, &MainWindow::infoRequested);
 }
 
 void MainWindow::replaceWidgetWith(QWidget* widget) {
@@ -47,6 +49,12 @@ void MainWindow::exitRequested(void* parameter) {
 void MainWindow::loginRequested() {
     auto widget = new LoginWidget(this);
     connect(widget, &LoginWidget::exitRequested, this, &MainWindow::exitRequested);
+    replaceWidgetWith(widget);
+}
+
+void MainWindow::infoRequested() {
+    auto widget = new AboutWidget(this);
+    connect(widget, &AboutWidget::exitRequested, this, &MainWindow::exitRequested);
     replaceWidgetWith(widget);
 }
 

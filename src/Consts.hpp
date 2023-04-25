@@ -1,8 +1,6 @@
 
 #pragma once
 
-#include <cstring>
-
 #define _U8_STRING_PREFIX(n) inline static const char8_t* n =
 #define U8_STRING(n, s) _U8_STRING_PREFIX(n) u8 ## #s;
 #define U8_STRING_2(n, s) _U8_STRING_PREFIX(n) s;

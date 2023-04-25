@@ -26,7 +26,12 @@ QPushButton* HomeWidget::makeIconButton(const QString& icon, Button button) {
     return pushButton;
 }
 
-void HomeWidget::iconButtonClicked(Button button) {
-    if (button == Button::LOGIN)
-        emit loginRequested();
-}
+#define CASE(x, y) \
+    case Button::x: \
+        emit y ## Requested(); \
+        break;
+
+void HomeWidget::iconButtonClicked(Button button) { switch (button) {
+    CASE(LOGIN, login)
+    CASE(INFO, info)
+} }
