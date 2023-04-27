@@ -29,7 +29,7 @@ QList<Component*>* Network::components() {
 }
 
 template<typename T, typename>
-void Network::synchronize(const std::function<T()>& asyncAction, const std::function<void(T)>& resultHandler) {
+void Network::synchronize(const std::function<T ()>& asyncAction, const std::function<void (T)>& resultHandler) {
     QEventLoop loop;
     QObject::connect(&mAccessManager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
 
