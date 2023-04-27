@@ -15,6 +15,7 @@ public:
     Network();
     QList<Component*>* _Nullable components();
     Component* _Nullable component(unsigned id);
+    QByteArray* _Nullable image(const QString& imageString);
 private:
     template<typename T, typename = std::enable_if_t<std::is_pointer_v<T>>>
     void synchronize(const std::function<T ()>& asyncAction, const std::function<void (T)>& resultHandler);

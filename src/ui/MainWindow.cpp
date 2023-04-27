@@ -5,28 +5,12 @@
 #include "LoginWidget.hpp"
 #include "AboutWidget.hpp"
 
-#include "../model/Network.hpp" // TODO: test only
-
 #define REPLACE_WIDGET(x, y...) \
     auto widget = new x ## Widget(y); \
     connect(widget, &x ## Widget::exitRequested, this, &MainWindow::exitRequested); \
     replaceWidgetWith(widget);
 
-#include <QDebug> // TODO: test only
-
 MainWindow::MainWindow() {
-    { // TODO: test only
-        Network network;
-        QList<Component*>* components = network.components();
-        qDebug() << (components ? components->size() : -1);
-
-        for (auto item : *components)
-            qDebug() << (item ? item->toString() : Consts::NULL_STRING),
-            delete item;
-
-        delete components;
-    }
-
     mAppState.setCurrentWidget(new HomeWidget(this, mAppState));
     connectHomeWidget();
     setCentralWidget(mAppState.currentWidget());

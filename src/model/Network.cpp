@@ -52,6 +52,24 @@ Component* Network::component(unsigned id) {
     return result;
 }
 
+QByteArray* Network::image(const QString& imageString) {
+    QByteArray* result = nullptr;
+
+    synchronize<QNetworkReply*>(
+        [this, imageString]() -> QNetworkReply* {
+            return mAccessManager.get(
+                QNetworkRequest(QUrl(QString(u8"http://0.0.0.0:8080/res_back/%1.jpg").arg(imageString)))
+            );
+        },
+        [&result](QNetworkReply* reply) {
+            if (reply->error() == QNetworkReply::NoError)
+                *result = reply->readAll();
+        }
+    );
+
+    return result and !result->isEmpty() ? result : nullptr;
+}
+
 template<typename T, typename>
 void Network::synchronize(const std::function<T ()>& asyncAction, const std::function<void (T)>& resultHandler) {
     QEventLoop loop;
