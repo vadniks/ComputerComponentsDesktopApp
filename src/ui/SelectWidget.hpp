@@ -21,6 +21,7 @@ private slots:
     void requestedDetailsForComponent(Component* component);
     void componentSelected(Component* component);
     void detailsRequestedExit();
+    void componentsFetched();
 signals:
     void exitRequested(void* parameter);
 };

@@ -12,15 +12,13 @@ SelectState::SelectState(QObject* parent, Component* target, Network& network) :
             mFetchedComponents.push_back(component);
         }
         delete components;
-        mHasFetched = true;
+        emit componentsFetched();
     });
 }
 
 const QList<Component*>& SelectState::fetchedComponents() const { return mFetchedComponents; }
 
 const Component* SelectState::targetComponent() { return mTargetComponent; }
-
-const bool& SelectState::hasFetched() const { return mHasFetched; }
 
 QFuture<QList<Component*>*> SelectState::fetchComponents(ComponentType type) {
     return QtConcurrent::run([type, this]() -> QList<Component*>* { return mNetwork.components(type); });

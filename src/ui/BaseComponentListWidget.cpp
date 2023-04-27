@@ -20,10 +20,12 @@ BaseComponentListWidget::BaseComponentListWidget(
 
     mListWidget.setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
     connect(&mListWidget, &QListWidget::itemClicked, this, &BaseComponentListWidget::listItemClicked);
-    fillList();
+    reFillList();
 }
 
-void BaseComponentListWidget::fillList() {
+void BaseComponentListWidget::reFillList() {
+    clearListItems();
+
     QListWidgetItem* item;
     QWidget* widget;
 
@@ -39,6 +41,12 @@ void BaseComponentListWidget::fillList() {
         mListWidget.setItemWidget(item, widget);
 }
 
+void BaseComponentListWidget::clearListItems() {
+    for (auto item : mListItems)
+        delete item.first,
+        delete item.second;
+}
+
 void BaseComponentListWidget::listItemClicked(QListWidgetItem* item) {
     QTimer::singleShot(100, this, [this, item](){
         mListWidget.clearSelection();
@@ -46,8 +54,4 @@ void BaseComponentListWidget::listItemClicked(QListWidgetItem* item) {
     });
 }
 
-BaseComponentListWidget::~BaseComponentListWidget() {
-    for (auto item : mListItems)
-        delete item.first,
-        delete item.second;
-}
+BaseComponentListWidget::~BaseComponentListWidget() { clearListItems(); }

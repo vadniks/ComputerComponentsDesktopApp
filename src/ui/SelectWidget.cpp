@@ -16,8 +16,8 @@ SelectWidget::SelectWidget(QWidget* parent, Component* target, Network& network)
     mDetails(nullptr)
 {
     mBody.addWidget(&mComponentList);
-    connect(&mComponentList, &BaseComponentListWidget::componentSelected, this,
-            &SelectWidget::requestedDetailsForComponent);
+    connect(&mComponentList, &BaseComponentListWidget::componentSelected, this, &SelectWidget::requestedDetailsForComponent);
+    connect(&mState, &SelectState::componentsFetched, this, &SelectWidget::componentsFetched);
 }
 
 void SelectWidget::requestedDetailsForComponent(Component* component) {
@@ -49,6 +49,6 @@ void SelectWidget::detailsRequestedExit() {
     mDetails = nullptr;
 }
 
-SelectWidget::~SelectWidget() {
-    delete mDetails;
-}
+void SelectWidget::componentsFetched() { mComponentList.reFillList(); }
+
+SelectWidget::~SelectWidget() { delete mDetails; }

@@ -21,6 +21,7 @@ public:
         const QList<Component*>& components
     );
     ~BaseComponentListWidget() override;
+    void reFillList();
 private:
     QVBoxLayout mBody;
     AppBarWidget mAppBar;
@@ -28,7 +29,7 @@ private:
     QList<QPair<QListWidgetItem*, QWidget*>> mListItems;
     const QList<Component*>& mComponents;
 
-    void fillList();
+    void clearListItems();
 private slots:
     void listItemClicked(QListWidgetItem* item);
 signals:
