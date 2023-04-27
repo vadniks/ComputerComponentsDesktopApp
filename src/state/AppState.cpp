@@ -24,6 +24,8 @@ void AppState::replaceSelected(const Component* old, Component* nw) {
     delete old;
 }
 
+Network& AppState::network() { return mNetwork; }
+
 AppState::~AppState() {
     for (auto component : mSelectedComponents) delete component;
 }

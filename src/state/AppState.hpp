@@ -5,6 +5,7 @@
 #include <QList>
 #include "../model/Component.hpp"
 #include "../Consts.hpp"
+#include "../model/Network.hpp"
 
 class AppState final {
 public:
@@ -14,7 +15,9 @@ public:
     void setCurrentWidget(QWidget* widget);
     [[nodiscard]] const QList<Component*>& selectedComponents() const;
     void replaceSelected(const Component* old, Component* nw);
+    Network& network();
 private:
     QWidget* mCurrentWidget = nullptr;
     QList<Component*> mSelectedComponents;
+    Network mNetwork;
 };

@@ -1,23 +1,16 @@
 
-#include <QFuture>
 #include <QtConcurrent/QtConcurrent>
 #include "SelectState.hpp"
-#include "../Consts.hpp"
 
-static QFuture<QList<Component*>*> fetchComponents(ComponentType type) {
-    return QtConcurrent::run([type]() -> QList<Component*>* {
-        auto components = new QList<Component*>();
-        for (unsigned i = 0; i < 10; i++) // TODO: test only
-            components->push_back(new Component(u8"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.", type, u8"There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).", i, std::nullopt, std::nullopt));
-        return components;
-    });
-}
-
-SelectState::SelectState(QObject* parent, Component* target) :
-    QObject(parent), mTargetComponent(target), mType(target->type)
+SelectState::SelectState(QObject* parent, Component* target, Network& network) :
+    QObject(parent), mTargetComponent(target), mType(target->type), mNetwork(network)
 {
-    fetchComponents(mType).then([this](QList<Component*>* components){
-        for (auto component : *components) mFetchedComponents.push_back(component);
+    fetchComponents(mType).then([this](QList<Component*>* components) {
+        qDebug() << components->size();
+        for (auto component : *components) {
+            qDebug() << component->toString();
+            mFetchedComponents.push_back(component);
+        }
         delete components;
         mHasFetched = true;
     });
@@ -28,6 +21,10 @@ const QList<Component*>& SelectState::fetchedComponents() const { return mFetche
 const Component* SelectState::targetComponent() { return mTargetComponent; }
 
 const bool& SelectState::hasFetched() const { return mHasFetched; }
+
+QFuture<QList<Component*>*> SelectState::fetchComponents(ComponentType type) {
+    return QtConcurrent::run([type, this]() -> QList<Component*>* { return mNetwork.components(type); });
+}
 
 SelectState::~SelectState() {
     for (auto component : mFetchedComponents) delete component;

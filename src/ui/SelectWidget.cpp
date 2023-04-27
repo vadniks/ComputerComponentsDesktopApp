@@ -2,9 +2,9 @@
 #include "SelectWidget.hpp"
 #include "../Util.hpp"
 
-SelectWidget::SelectWidget(QWidget* parent, Component* target) :
+SelectWidget::SelectWidget(QWidget* parent, Component* target, Network& network) :
     QWidget(parent),
-    mState(this, target),
+    mState(this, target, network),
     mBody(this),
     mComponentList(
         this,

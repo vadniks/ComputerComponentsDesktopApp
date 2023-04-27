@@ -6,9 +6,14 @@
 #include <QJsonObject>
 #include "Network.hpp"
 
-Network::Network() { mAccessManager.setCookieJar(&mCookieJar); }
+static bool gInitialized = false;
 
-QList<Component*>* Network::components() {
+Network::Network() {
+    if (gInitialized) throw -1; // NOLINT(hicpp-exception-baseclass)
+    gInitialized = true;
+}
+
+QList<Component*>* Network::components(ComponentType type) {
     QList<Component*>* result = nullptr;
 
     const auto parseComponents = [&result](const QByteArray& bytes) {
@@ -19,9 +24,9 @@ QList<Component*>* Network::components() {
             result->push_back(parseComponent(item.toObject()));
     };
 
-    synchronize<QNetworkReply*>(
-        [this]() -> QNetworkReply* {
-            return mAccessManager.get(QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/component")));
+    synchronize(
+        [type](QNetworkAccessManager& manager) -> QNetworkReply* {
+            return manager.get(QNetworkRequest(QUrl(QString(u8"http://0.0.0.0:8080/component/type/%1").arg(type))));
         },
         [&result, &parseComponents](QNetworkReply* reply) {
             if (reply->error() == QNetworkReply::NoError) {
@@ -37,9 +42,9 @@ QList<Component*>* Network::components() {
 Component* Network::component(unsigned id) {
     Component* result = nullptr;
 
-    synchronize<QNetworkReply*>(
-        [this, id]() -> QNetworkReply* {
-            return mAccessManager.get(
+    synchronize(
+        [id](QNetworkAccessManager& manager) {
+            return manager.get(
                 QNetworkRequest(QUrl(QString(u8"http://0.0.0.0:8080/component/%1").arg(id)))
             );
         },
@@ -55,9 +60,9 @@ Component* Network::component(unsigned id) {
 QByteArray* Network::image(const QString& imageString) {
     QByteArray* result = nullptr;
 
-    synchronize<QNetworkReply*>(
-        [this, imageString]() -> QNetworkReply* {
-            return mAccessManager.get(
+    synchronize(
+        [imageString](QNetworkAccessManager& manager) {
+            return manager.get(
                 QNetworkRequest(QUrl(QString(u8"http://0.0.0.0:8080/res_back/%1.jpg").arg(imageString)))
             );
         },
@@ -70,15 +75,20 @@ QByteArray* Network::image(const QString& imageString) {
     return result and !result->isEmpty() ? result : nullptr;
 }
 
-template<typename T, typename>
-void Network::synchronize(const std::function<T ()>& asyncAction, const std::function<void (T)>& resultHandler) {
-    QEventLoop loop;
-    QObject::connect(&mAccessManager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
+void Network::synchronize(
+    const std::function<QNetworkReply* (QNetworkAccessManager&)>& asyncAction,
+    const std::function<void (QNetworkReply*)>& resultHandler
+) {
+    QNetworkAccessManager manager;
+    manager.setCookieJar(&mCookieJar);
 
-    const T futureResult = asyncAction();
+    QEventLoop loop;
+    QObject::connect(&manager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
+
+    QNetworkReply* futureResult = asyncAction(manager);
     loop.exec();
 
-    QObject::disconnect(&mAccessManager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
+    QObject::disconnect(&manager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
     resultHandler(futureResult);
     delete futureResult;
 }
