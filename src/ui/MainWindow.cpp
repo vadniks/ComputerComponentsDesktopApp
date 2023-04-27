@@ -17,7 +17,7 @@
 MainWindow::MainWindow() {
     Network network; // TODO: test only
     QList<Component*>* components = network.components();
-    qDebug() << components->size();
+    qDebug() << (components ? components->size() : -1);
     delete components;
 
     mAppState.setCurrentWidget(new HomeWidget(this, mAppState));
