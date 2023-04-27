@@ -5,12 +5,21 @@
 #include "LoginWidget.hpp"
 #include "AboutWidget.hpp"
 
+#include "../model/Network.hpp" // TODO: test only
+
 #define REPLACE_WIDGET(x, y...) \
     auto widget = new x ## Widget(y); \
     connect(widget, &x ## Widget::exitRequested, this, &MainWindow::exitRequested); \
     replaceWidgetWith(widget);
 
+#include <QDebug> // TODO: test only
+
+static Network* network; // TODO: test only
+
 MainWindow::MainWindow() {
+    network = new Network(this); // TODO: test only
+    network->components(this, (void (QObject::*)(QList<Component*>*)) &MainWindow::test);
+
     mAppState.setCurrentWidget(new HomeWidget(this, mAppState));
     connectHomeWidget();
     setCentralWidget(mAppState.currentWidget());
@@ -50,4 +59,9 @@ void MainWindow::exitRequested(void* parameter) {
 
 void MainWindow::loginRequested() { REPLACE_WIDGET(Login, this) }
 void MainWindow::infoRequested() { REPLACE_WIDGET(About, this) }
-MainWindow::~MainWindow() { delete mAppState.currentWidget(); }
+MainWindow::~MainWindow() { delete mAppState.currentWidget(); delete network; }
+
+void MainWindow::test(QList<Component*>* a) { // TODO: test only
+    qDebug() << u8"tvrfvgrd";
+    delete a;
+}
