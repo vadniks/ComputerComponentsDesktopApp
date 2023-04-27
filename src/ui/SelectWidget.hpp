@@ -13,6 +13,7 @@ public:
     [[maybe_unused]] SelectWidget(QWidget* parent, Component* target, Network& network);
     ~SelectWidget() override;
 private:
+    Network& mNetwork;
     SelectState mState;
     QVBoxLayout mBody;
     BaseComponentListWidget mComponentList;

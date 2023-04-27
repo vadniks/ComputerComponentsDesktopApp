@@ -4,6 +4,7 @@
 
 SelectWidget::SelectWidget(QWidget* parent, Component* target, Network& network) :
     QWidget(parent),
+    mNetwork(network),
     mState(this, target, network),
     mBody(this),
     mComponentList(
@@ -24,7 +25,7 @@ SelectWidget::SelectWidget(QWidget* parent, Component* target, Network& network)
 void SelectWidget::requestedDetailsForComponent(Component* component) {
     if (mDetails) detailsRequestedExit();
 
-    mDetails = new ComponentDetailsWidget(this, component);
+    mDetails = new ComponentDetailsWidget(this, mNetwork, component);
     connect(mDetails, &ComponentDetailsWidget::closeClicked, this, &SelectWidget::detailsRequestedExit);
     connect(mDetails, &ComponentDetailsWidget::doneClicked, this, &SelectWidget::componentSelected);
     mBody.addWidget(mDetails);

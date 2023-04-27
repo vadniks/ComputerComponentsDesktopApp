@@ -2,8 +2,10 @@
 #include "ComponentDetailsWidget.hpp"
 #include "../Consts.hpp"
 #include "../Util.hpp"
+#include "../state/ImageDisplayingState.hpp"
+#include "../state/Notifier.hpp"
 
-ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, Component* component) :
+ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, Network& network, Component* component) :
     QWidget(parent),
     mCurrentComponent(component),
     mBody(this),
@@ -15,8 +17,16 @@ ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, Component* compo
     mDescription(component->description),
     mButtons(nullptr),
     mDone(Util::makeIconButton(Consts::DONE_ICON)),
-    mClose(Util::makeIconButton(Consts::REMOVE_ICON))
+    mClose(Util::makeIconButton(Consts::REMOVE_ICON)),
+    mImagePixmap(nullptr)
 {
+    auto temp = new Notifier(); // for switching threads
+    connect(temp, &Notifier::notify, this, [this](void* object){ imagePixmapUpdated(static_cast<QPixmap*>(object)); });
+    ImageDisplayingState::fetchImage(network, component).then([temp](QPixmap* pixmap) {
+        emit temp->notify(pixmap);
+        delete temp;
+    });
+
     mTitle.setStyleSheet(u8"font-size: 18px");
     mCost.setStyleSheet(u8R"(
         font-size: 18px;
@@ -68,11 +78,20 @@ void ComponentDetailsWidget::resizeEvent(QResizeEvent* event) {
     );
 
     reducedHeight -= 10;
-    mImage.setPixmap(QIcon(Component::typeImage(mCurrentComponent->type)).pixmap(reducedHeight)); // TODO
+    mImage.setPixmap(!mImagePixmap
+        ? QIcon(Component::typeImage(mCurrentComponent->type)).pixmap(reducedHeight)
+        : mImagePixmap->scaled(reducedHeight, reducedHeight)
+    );
     mScrollArea.setFixedSize(width - 50 - reducedHeight, reducedHeight);
+}
+
+void ComponentDetailsWidget::imagePixmapUpdated(QPixmap* pixmap) {
+    mImagePixmap = pixmap;
+    resizeEvent(nullptr);
 }
 
 ComponentDetailsWidget::~ComponentDetailsWidget() {
     delete mDone;
     delete mClose;
+    delete mImagePixmap;
 }
