@@ -11,11 +11,14 @@ QList<Component*>* Network::components() {
     QList<Component*>* result = nullptr;
     doInEventLoop<QNetworkReply*>(
         [this]() -> QNetworkReply*
-        { return mAccessManager.get(QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/component"))); },
+        { return mAccessManager.get(QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/component/1"))); },
         [&result](QNetworkReply* reply){
             if (reply->error() == QNetworkReply::NoError) {
                 result = new QList<Component*>(1);
-                qDebug() << parseComponent(reply->readAll()); // TODO: nullptr
+
+                auto component = parseComponent(reply->readAll()); // TODO: nullptr
+                qDebug() << component;
+                delete component;
             }
         }
     );
@@ -38,10 +41,10 @@ void Network::doInEventLoop(const std::function<T()>& asyncAction, const std::fu
 Component* Network::parseComponent(const QByteArray& bytes) {
     auto json = QJsonDocument::fromJson(bytes);
     if (json.isEmpty()) return nullptr;
-
+qDebug() << "rvfgrdefvg";
     auto type = parseComponentType(json[Component::TYPE].toString());
     if (!type) return nullptr;
-
+    qDebug() << "hnfgty";
     auto component = new Component(
         json[Component::TITLE].toString(),
         *type,
