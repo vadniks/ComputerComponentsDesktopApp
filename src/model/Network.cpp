@@ -1,17 +1,35 @@
 
+#include <QDebug>
 #include <QEventLoop>
 #include "Network.hpp"
 
-Network::Network(QObject* parent)
-: mAccessManager(parent), mCookieJar(parent)
-{ mAccessManager.setCookieJar(&mCookieJar); }
+Network::Network() { mAccessManager.setCookieJar(&mCookieJar); }
 
 QList<Component*>* Network::components() {
+    QList<Component*>* result = nullptr;
+    doInEventLoop<QNetworkReply*>(
+        [this]() -> QNetworkReply* {
+            return mAccessManager.get(QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/component")));
+        },
+        [&result](QNetworkReply* reply){
+            if (reply->error() == QNetworkReply::NoError) {
+                result = new QList<Component*>(1);
+                qDebug() << QString(reply->readAll());
+            }
+            delete reply;
+        }
+    );
+    return result;
+}
+
+template<typename T, typename>
+void Network::doInEventLoop(const std::function<T()>& asyncAction, const std::function<void(T)>& resultHandler) {
     QEventLoop loop;
-    connect(&mAccessManager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
-    QNetworkReply* reply = mAccessManager.get(QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/component")));
+    QObject::connect(&mAccessManager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
+
+    T futureResult = asyncAction();
     loop.exec();
-    auto a = reply->error() == QNetworkReply::NoError ? new QList<Component*>(1) : nullptr;
-    delete reply;
-    return a;
+
+    QObject::disconnect(&mAccessManager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
+    resultHandler(futureResult);
 }

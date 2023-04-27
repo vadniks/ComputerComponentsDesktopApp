@@ -15,7 +15,7 @@
 #include <QDebug> // TODO: test only
 
 MainWindow::MainWindow() {
-    Network network(this); // TODO: test only
+    Network network; // TODO: test only
     QList<Component*>* components = network.components();
     qDebug() << components->size();
     delete components;
