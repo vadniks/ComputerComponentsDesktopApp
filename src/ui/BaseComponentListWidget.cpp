@@ -7,13 +7,15 @@ BaseComponentListWidget::BaseComponentListWidget(
     QList<QPushButton*>&& buttons,
     QPushButton* _Nullable leftButton,
     const QString* _Nullable subtitle,
-    const QList<Component*>& components
+    const QList<Component*>& components,
+    Network& network
 ) :
     QWidget(parent),
     mBody(this),
     mAppBar(this, Consts::APP_NAME, subtitle, std::move(buttons), leftButton),
     mListWidget(this),
-    mComponents(components)
+    mComponents(components),
+    mNetwork(network)
 {
     mBody.addWidget(&mAppBar);
     mBody.addWidget(&mListWidget);
@@ -30,7 +32,7 @@ void BaseComponentListWidget::reFillList() {
     QWidget* widget;
 
     for (auto component : mComponents)
-        widget = new ComponentListItemWidget(this, component),
+        widget = new ComponentListItemWidget(this, mNetwork, component),
 
         item = new QListWidgetItem(),
         item->setSizeHint(widget->sizeHint()),

@@ -1,11 +1,12 @@
 
 #include "ComponentListItemWidget.hpp"
 #include "../Consts.hpp"
+#include "../state/ComponentListItemState.hpp"
 
 static QPixmap makeTypedStubIconPixmap(ComponentType type)
 { return QIcon(Component::typeImage(type)).pixmap(Consts::ICON_SIZE, Consts::ICON_SIZE); }
 
-ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* component) :
+ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Network& network, Component* component) :
     QWidget(parent),
     mBody(this),
     mTitles(nullptr),
@@ -15,9 +16,13 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* com
 {
     setContentsMargins(0, 0, 0, 0);
 
-    if (!component->image)
-        mIcon.setPixmap(makeTypedStubIconPixmap(component->type));
-    else {/*TODO*/}
+    mIcon.setPixmap(makeTypedStubIconPixmap(component->type));
+
+    if (component->image) ComponentListItemState::fetchImage(network, component)
+        .then([this](QPixmap* pixmap) {
+            mIcon.setPixmap(pixmap->scaled(Consts::ICON_SIZE, Consts::ICON_SIZE));
+            delete pixmap;
+        });
 
     mTitle.setStyleSheet(u8R"(
         color: white;

@@ -11,7 +11,8 @@ SelectWidget::SelectWidget(QWidget* parent, Component* target, Network& network)
         {},
         BACK_ICON_BUTTON,
         new QString(Consts::COMPONENT_SELECTION),
-        mState.fetchedComponents()
+        mState.fetchedComponents(),
+        network
     ),
     mDetails(nullptr)
 {

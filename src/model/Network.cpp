@@ -68,7 +68,7 @@ QByteArray* Network::image(const QString& imageString) {
         },
         [&result](QNetworkReply* reply) {
             if (reply->error() == QNetworkReply::NoError)
-                *result = reply->readAll();
+                result = new QByteArray(reply->readAll());
         }
     );
 

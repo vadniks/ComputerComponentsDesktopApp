@@ -2,7 +2,7 @@
 #include "HomeWidget.hpp"
 #include "../Util.hpp"
 
-HomeWidget::HomeWidget(QWidget* parent, const AppState& state) :
+HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     QWidget(parent),
     mBody(this),
     mComponentList(
@@ -13,7 +13,8 @@ HomeWidget::HomeWidget(QWidget* parent, const AppState& state) :
         },
         nullptr,
         nullptr,
-        state.selectedComponents()
+        state.selectedComponents(),
+        state.network()
     )
 {
     connect(&mComponentList, &BaseComponentListWidget::componentSelected, this, &HomeWidget::cartComponentSelected);

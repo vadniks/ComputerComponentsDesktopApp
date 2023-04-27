@@ -11,7 +11,7 @@ class HomeWidget final : public QWidget {
 
     enum Button : unsigned { INFO = 0, LOGIN = 1 };
 public:
-    HomeWidget(QWidget* parent, const AppState& state);
+    HomeWidget(QWidget* parent, AppState& state);
 private:
     QPushButton* makeIconButton(const QString& icon, Button button);
 private slots:

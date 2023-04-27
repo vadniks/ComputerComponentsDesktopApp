@@ -6,11 +6,9 @@ SelectState::SelectState(QObject* parent, Component* target, Network& network) :
     QObject(parent), mTargetComponent(target), mType(target->type), mNetwork(network)
 {
     fetchComponents(mType).then([this](QList<Component*>* components) {
-        qDebug() << components->size();
-        for (auto component : *components) {
-            qDebug() << component->toString();
+        for (auto component : *components)
             mFetchedComponents.push_back(component);
-        }
+
         delete components;
         emit componentsFetched();
     });
