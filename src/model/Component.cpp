@@ -1,7 +1,6 @@
 
-#include "Component.hpp"
-
 #include <utility>
+#include "Component.hpp"
 #include "../Consts.hpp"
 
 Component::Component(
