@@ -84,16 +84,16 @@ bool Network::authorize(const QString& name, const QString& password) {
     synchronize(
         [name, password](QNetworkAccessManager& manager) {
             auto namePart = QHttpPart();
-            namePart.setBody(name.toUtf8());
+            namePart.setBody(QString(u8"name=%1").arg(name).toUtf8());
 
             auto passwordPart = QHttpPart();
-            passwordPart.setBody(password.toUtf8());
+            passwordPart.setBody(QString(u8"password=%1").arg(password).toUtf8());
 
             auto multiPart = QHttpMultiPart(QHttpMultiPart::ContentType::FormDataType);
             multiPart.append(namePart);
             multiPart.append(passwordPart);
 
-            return manager.post(QNetworkRequest(QUrl(QString(u8""))), &multiPart);
+            return manager.post(QNetworkRequest(QUrl(QString(u8"http://0.0.0.0:8080/login"))), &multiPart);
         },
         [result](QNetworkReply* reply) {
             if (reply->error() == QNetworkReply::NoError) {
@@ -123,7 +123,7 @@ void Network::synchronize(
     QObject::connect(&manager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
 
     QNetworkReply* futureResult = asyncAction(manager);
-    loop.exec();
+    loop.exec(); // TODO: sigsegv when authorize() is called
 
     QObject::disconnect(&manager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
     resultHandler(futureResult);
