@@ -14,11 +14,11 @@
 
 #include <QDebug> // TODO: test only
 
-static Network* network; // TODO: test only
-
 MainWindow::MainWindow() {
-    network = new Network(this); // TODO: test only
-    network->components(this, (void (QObject::*)(QList<Component*>*)) &MainWindow::test);
+    Network network(this); // TODO: test only
+    QList<Component*>* components = network.components();
+    qDebug() << components->size();
+    delete components;
 
     mAppState.setCurrentWidget(new HomeWidget(this, mAppState));
     connectHomeWidget();
@@ -59,9 +59,4 @@ void MainWindow::exitRequested(void* parameter) {
 
 void MainWindow::loginRequested() { REPLACE_WIDGET(Login, this) }
 void MainWindow::infoRequested() { REPLACE_WIDGET(About, this) }
-MainWindow::~MainWindow() { delete mAppState.currentWidget(); delete network; }
-
-void MainWindow::test(QList<Component*>* a) { // TODO: test only
-    qDebug() << u8"tvrfvgrd";
-    delete a;
-}
+MainWindow::~MainWindow() { delete mAppState.currentWidget(); }

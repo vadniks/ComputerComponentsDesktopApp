@@ -14,9 +14,6 @@ private:
 
     void connectHomeWidget();
     void replaceWidgetWith(QWidget* widget);
-
-    void test(QList<Component*>* a); // TODO: test only
-
 private slots:
     void cartComponentTypeSelected(Component* component);
     void exitRequested(void* parameter);
