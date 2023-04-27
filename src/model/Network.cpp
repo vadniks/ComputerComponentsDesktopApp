@@ -16,7 +16,7 @@ QList<Component*>* Network::components() {
             if (reply->error() == QNetworkReply::NoError) {
                 result = new QList<Component*>(1);
 
-                auto component = parseComponent(reply->readAll());
+                auto component = parseComponent(reply->readAll());// TODO: test only
                 qDebug() << component->toString();
                 delete component;
             }
