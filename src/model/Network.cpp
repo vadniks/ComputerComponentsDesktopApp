@@ -4,6 +4,7 @@
 #include <QJsonValue>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QHttpMultiPart>
 #include "Network.hpp"
 
 static bool gInitialized = false;
@@ -35,6 +36,8 @@ QList<Component*>* Network::components(ComponentType type) {
             }
         }
     );
+
+    qDebug() << authorize(u8"user", u8"user"); // TODO: test only
 
     return result and !result->empty() ? result : nullptr;
 }
@@ -76,8 +79,33 @@ QByteArray* Network::image(const QString& imageString) {
 }
 
 bool Network::authorize(const QString& name, const QString& password) {
-    
-    return false;
+    auto result = new bool(false);
+
+    synchronize(
+        [name, password](QNetworkAccessManager& manager) {
+            auto namePart = QHttpPart();
+            namePart.setBody(name.toUtf8());
+
+            auto passwordPart = QHttpPart();
+            passwordPart.setBody(password.toUtf8());
+
+            auto multiPart = QHttpMultiPart(QHttpMultiPart::ContentType::FormDataType);
+            multiPart.append(namePart);
+            multiPart.append(passwordPart);
+
+            return manager.post(QNetworkRequest(QUrl(QString(u8""))), &multiPart);
+        },
+        [result](QNetworkReply* reply) {
+            if (reply->error() == QNetworkReply::NoError) {
+                auto statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+                *result = statusCode.isValid() and statusCode.toInt() == 200;
+            }
+        }
+    );
+
+    auto result2 = *result;
+    delete result;
+    return result2;
 }
 
 bool Network::authorized() {
