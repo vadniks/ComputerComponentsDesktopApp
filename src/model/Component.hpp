@@ -42,7 +42,7 @@ public:
     STRING(ID, id)
     STRING(TITLE, title)
     STRING(TYPE, type)
-    STRING(DESCRIPTION, descryption)
+    STRING(DESCRIPTION, description)
     STRING(COST, cost)
     STRING(IMAGE, image)
 };
