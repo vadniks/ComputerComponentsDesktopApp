@@ -15,10 +15,17 @@
 #include <QDebug> // TODO: test only
 
 MainWindow::MainWindow() {
-    Network network; // TODO: test only
-    QList<Component*>* components = network.components();
-    qDebug() << (components ? components->size() : -1);
-    delete components;
+    { // TODO: test only
+        Network network;
+        QList<Component*>* components = network.components();
+        qDebug() << (components ? components->size() : -1);
+
+        for (auto item : *components)
+            qDebug() << (item ? item->toString() : Consts::NULL_STRING),
+            delete item;
+
+        delete components;
+    }
 
     mAppState.setCurrentWidget(new HomeWidget(this, mAppState));
     connectHomeWidget();

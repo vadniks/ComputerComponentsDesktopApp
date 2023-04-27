@@ -1,8 +1,9 @@
 
-#include <QDebug>
 #include <QEventLoop>
 #include <QJsonDocument>
 #include <QJsonValue>
+#include <QJsonArray>
+#include <QJsonObject>
 #include "Network.hpp"
 
 Network::Network() { mAccessManager.setCookieJar(&mCookieJar); }
@@ -10,18 +11,41 @@ Network::Network() { mAccessManager.setCookieJar(&mCookieJar); }
 QList<Component*>* Network::components() {
     QList<Component*>* result = nullptr;
 
+    const auto parseComponents = [&result](const QByteArray& bytes) {
+        if (!result) throw -1; // NOLINT(hicpp-exception-baseclass)
+        const auto json = QJsonDocument::fromJson(bytes);
+
+        for (const auto item : json.array())
+            result->push_back(parseComponent(item.toObject()));
+    };
+
     synchronize<QNetworkReply*>(
         [this]() -> QNetworkReply* {
-            return mAccessManager.get(QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/component/1"))); // TODO: parse multiple components
+            return mAccessManager.get(QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/component")));
+        },
+        [&result, &parseComponents](QNetworkReply* reply) {
+            if (reply->error() == QNetworkReply::NoError) {
+                result = new QList<Component*>();
+                parseComponents(reply->readAll());
+            }
+        }
+    );
+
+    return result and !result->empty() ? result : nullptr;
+}
+
+Component* Network::component(unsigned id) {
+    Component* result = nullptr;
+
+    synchronize<QNetworkReply*>(
+        [this, id]() -> QNetworkReply* {
+            return mAccessManager.get(
+                QNetworkRequest(QUrl(QString(u8"http://0.0.0.0:8080/component/%1").arg(id)))
+            );
         },
         [&result](QNetworkReply* reply) {
-            if (reply->error() == QNetworkReply::NoError) {
-                result = new QList<Component*>(1);
-
-                auto component = parseComponent(reply->readAll());// TODO: test only
-                qDebug() << component->toString();
-                delete component;
-            }
+            if (reply->error() == QNetworkReply::NoError)
+                result = parseComponent(QJsonDocument::fromJson(reply->readAll()).object());
         }
     );
 
@@ -33,7 +57,7 @@ void Network::synchronize(const std::function<T ()>& asyncAction, const std::fun
     QEventLoop loop;
     QObject::connect(&mAccessManager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
 
-    T futureResult = asyncAction();
+    const T futureResult = asyncAction();
     loop.exec();
 
     QObject::disconnect(&mAccessManager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
@@ -41,14 +65,13 @@ void Network::synchronize(const std::function<T ()>& asyncAction, const std::fun
     delete futureResult;
 }
 
-Component* Network::parseComponent(const QByteArray& bytes) {
-    auto json = QJsonDocument::fromJson(bytes);
+Component* Network::parseComponent(const QJsonObject& json) {
     if (json.isEmpty()) return nullptr;
 
-    auto type = parseComponentType(json[Component::TYPE].toString());
+    const auto type = parseComponentType(json[Component::TYPE].toString());
     if (!type) return nullptr;
 
-    auto component = new Component(
+    const auto component = new Component(
         json[Component::TITLE].toString(),
         *type,
         json[Component::DESCRIPTION].toString(),
