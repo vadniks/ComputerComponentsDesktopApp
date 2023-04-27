@@ -83,7 +83,7 @@ bool Network::authorize(const QString& name, const QString& password) {
 
     synchronize(
         [name, password](QNetworkAccessManager& manager) {
-            auto namePart = QHttpPart();
+            auto namePart = QHttpPart(); // TODO: wrong solution for multipart/form-data (application/x-www-form-urlencoded), reformat
             namePart.setBody(QString(u8"name=%1").arg(name).toUtf8());
 
             auto passwordPart = QHttpPart();
