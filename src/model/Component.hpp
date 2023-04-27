@@ -4,6 +4,9 @@
 #include <QString>
 #include <optional>
 
+#define STRING(n, s) inline static const char8_t* n = u8 ## #s;
+#define UINT(n, i) static const unsigned n = i;
+
 class Component final {
 public:
     enum ComponentType : unsigned {
@@ -31,7 +34,18 @@ public:
     const unsigned cost;
     const std::optional<QString> image;
 
-    static const unsigned COMPONENTS = 9;
+    UINT(COMPONENTS, 9)
+    UINT(FIELDS, 6)
+
+    STRING(ID, id)
+    STRING(TITLE, title)
+    STRING(TYPE, type)
+    STRING(DESCRIPTION, descryption)
+    STRING(COST, cost)
+    STRING(IMAGE, image)
 };
+
+#undef STRING
+#undef UINT
 
 using ComponentType = Component::ComponentType;
