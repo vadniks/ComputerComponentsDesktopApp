@@ -75,6 +75,15 @@ QByteArray* Network::image(const QString& imageString) {
     return result and !result->isEmpty() ? result : nullptr;
 }
 
+bool Network::authorize(const QString& name, const QString& password) {
+    
+    return false;
+}
+
+bool Network::authorized() {
+    return false;
+}
+
 void Network::synchronize(
     const std::function<QNetworkReply* (QNetworkAccessManager&)>& asyncAction,
     const std::function<void (QNetworkReply*)>& resultHandler

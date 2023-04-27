@@ -1,7 +1,7 @@
 
 #include "ComponentListItemWidget.hpp"
 #include "../Consts.hpp"
-#include "../state/ImageDisplayingState.hpp"
+#include "../state/ImageDisplayableState.hpp"
 
 static QPixmap makeTypedStubIconPixmap(ComponentType type)
 { return QIcon(Component::typeImage(type)).pixmap(Consts::ICON_SIZE, Consts::ICON_SIZE); }
@@ -18,7 +18,7 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Network& netwo
 
     mIcon.setPixmap(makeTypedStubIconPixmap(component->type));
 
-    if (component->image) ImageDisplayingState::fetchImage(network, component)
+    if (component->image) ImageDisplayableState::fetchImage(network, component)
         .then([this](QPixmap* pixmap) {
             mIcon.setPixmap(pixmap->scaled(Consts::ICON_SIZE, Consts::ICON_SIZE));
             delete pixmap;

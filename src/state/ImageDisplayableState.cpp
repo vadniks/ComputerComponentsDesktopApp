@@ -1,8 +1,8 @@
 
 #include <QtConcurrent/QtConcurrent>
-#include "ImageDisplayingState.hpp"
+#include "ImageDisplayableState.hpp"
 
-QFuture<QPixmap* _Nullable> ImageDisplayingState::fetchImage(Network& network, Component* component) {
+QFuture<QPixmap* _Nullable> ImageDisplayableState::fetchImage(Network& network, Component* component) {
     return QtConcurrent::run([&network, component]() -> QPixmap* {
         if (!component or !component->image) throw -1; // NOLINT(hicpp-exception-baseclass)
 

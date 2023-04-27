@@ -15,6 +15,8 @@ public:
     QList<Component*>* _Nullable components(ComponentType type);
     Component* _Nullable component(unsigned id);
     QByteArray* _Nullable image(const QString& imageString);
+    bool authorize(const QString& name, const QString& password);
+    bool authorized();
 private:
     void synchronize(
         const std::function<QNetworkReply* (QNetworkAccessManager&)>& asyncAction,

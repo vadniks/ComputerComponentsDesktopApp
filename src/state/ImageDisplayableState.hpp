@@ -6,7 +6,7 @@
 #include "../model/Component.hpp"
 #include "../model/Network.hpp"
 
-class ImageDisplayingState final {
+class ImageDisplayableState final {
 public:
     static QFuture<QPixmap* _Nullable> fetchImage(Network& network, Component* component);
 };

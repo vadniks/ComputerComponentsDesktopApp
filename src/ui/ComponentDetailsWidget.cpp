@@ -2,7 +2,7 @@
 #include "ComponentDetailsWidget.hpp"
 #include "../Consts.hpp"
 #include "../Util.hpp"
-#include "../state/ImageDisplayingState.hpp"
+#include "../state/ImageDisplayableState.hpp"
 #include "../state/Notifier.hpp"
 
 ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, Network& network, Component* component) :
@@ -22,7 +22,7 @@ ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, Network& network
 {
     auto temp = new Notifier(); // for switching threads
     connect(temp, &Notifier::notify, this, [this](void* object){ imagePixmapUpdated(static_cast<QPixmap*>(object)); });
-    ImageDisplayingState::fetchImage(network, component).then([temp](QPixmap* pixmap) {
+    ImageDisplayableState::fetchImage(network, component).then([temp](QPixmap* pixmap) {
         emit temp->notify(pixmap);
         delete temp;
     });
