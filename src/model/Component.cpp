@@ -21,12 +21,12 @@ Component::Component(
 {}
 
 QString Component::toString() { return QString(u8"%1 %2 %3 %4 %5 %6")
-    .arg(id ? id.value() : 0xffffffff)
+    .arg(id ? *id : 0xffffffff)
     .arg(title)
     .arg(type)
     .arg(description)
     .arg(cost)
-    .arg(image ? image.value() : Consts::NULL_STRING); }
+    .arg(image ? *image : Consts::NULL_STRING); }
 
 #define SWITCH(x, y) { switch (x) { y } }
 #define CASE(x, y) case x: return QString(u8 ## #y);
