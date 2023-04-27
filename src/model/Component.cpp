@@ -20,9 +20,18 @@ Component::Component(
     image(std::move(image))
 {}
 
+QString Component::toString() { return QString(u8"%1 %2 %3 %4 %5 %6")
+    .arg(id ? id.value() : 0xffffffff)
+    .arg(title)
+    .arg(type)
+    .arg(description)
+    .arg(cost)
+    .arg(image ? image.value() : Consts::NULL_STRING); }
+
 #define SWITCH(x, y) { switch (x) { y } }
 #define CASE(x, y) case x: return QString(u8 ## #y);
 #define CASE2(x, y) case x: return QString(y);
+#define CASE3(x) CASE(ComponentType::x, x)
 
 QString Component::typeTitle(ComponentType type) SWITCH(type,
     CASE(ComponentType::CPU, Processor)
@@ -46,4 +55,10 @@ QString Component::typeImage(ComponentType type) SWITCH(type,
     CASE2(ComponentType::PSU, Consts::PSU_ICON)
     CASE2(ComponentType::FAN, Consts::FAN_ICON)
     CASE2(ComponentType::CASE, Consts::CASE_ICON)
+)
+
+QString Component::typeTag(ComponentType type) SWITCH(type,
+    CASE3(CPU) CASE3(MB) CASE3(GPU)
+    CASE3(RAM) CASE3(HDD) CASE3(SSD)
+    CASE3(PSU) CASE3(FAN) CASE3(CASE)
 )

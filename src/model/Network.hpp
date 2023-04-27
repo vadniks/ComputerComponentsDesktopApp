@@ -19,7 +19,7 @@ private:
     void doInEventLoop(const std::function<T ()>& asyncAction, const std::function<void (T)>& resultHandler);
 
     static Component* _Nullable parseComponent(const QByteArray& bytes);
-    static std::optional<ComponentType> parseComponentType(const QString& typeTitle);
+    static std::optional<ComponentType> parseComponentType(const QString& typeTag);
 
     QNetworkAccessManager mAccessManager;
     QNetworkCookieJar mCookieJar;

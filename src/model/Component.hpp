@@ -23,9 +23,11 @@ public:
         std::optional<QString> image = std::nullopt,
         const std::optional<unsigned>& id = std::nullopt
     );
+    QString toString();
 
     static QString typeTitle(ComponentType type);
     static QString typeImage(ComponentType type);
+    static QString typeTag(ComponentType type);
 
     const std::optional<unsigned> id;
     const QString title;

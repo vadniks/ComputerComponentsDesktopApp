@@ -16,8 +16,8 @@ QList<Component*>* Network::components() {
             if (reply->error() == QNetworkReply::NoError) {
                 result = new QList<Component*>(1);
 
-                auto component = parseComponent(reply->readAll()); // TODO: nullptr
-                qDebug() << component;
+                auto component = parseComponent(reply->readAll());
+                qDebug() << component->toString();
                 delete component;
             }
         }
@@ -41,10 +41,10 @@ void Network::doInEventLoop(const std::function<T()>& asyncAction, const std::fu
 Component* Network::parseComponent(const QByteArray& bytes) {
     auto json = QJsonDocument::fromJson(bytes);
     if (json.isEmpty()) return nullptr;
-qDebug() << "rvfgrdefvg";
+
     auto type = parseComponentType(json[Component::TYPE].toString());
     if (!type) return nullptr;
-    qDebug() << "hnfgty";
+
     auto component = new Component(
         json[Component::TITLE].toString(),
         *type,
@@ -58,10 +58,10 @@ qDebug() << "rvfgrdefvg";
 }
 
 #define IF(x) \
-    if (typeTitle == Component::typeTitle(Component::x)) \
+    if (typeTag == Component::typeTag(Component::x)) \
         return Component::x;
 
-std::optional<ComponentType> Network::parseComponentType(const QString& typeTitle) {
+std::optional<ComponentType> Network::parseComponentType(const QString& typeTag) {
     IF(CPU) else IF(MB) else IF(GPU)
     else IF(RAM) else IF(HDD) else IF(SSD)
     else IF(PSU) else IF(FAN) else IF(CASE)
