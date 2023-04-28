@@ -44,4 +44,17 @@ void MessageDisplayableWidget::showMessage(const QString& message) {
 #   pragma clang diagnostic pop
 }
 
+void MessageDisplayableWidget::resizeEvent(QResizeEvent* event) {
+    if (event) QWidget::resizeEvent(event);
+
+    auto message = mMessage.text();
+    if (!message.isEmpty()) mMessage.setText(
+        mMessage.fontMetrics().elidedText(
+            message,
+            Qt::ElideRight,
+            static_cast<int>(static_cast<float>(width()) * 0.95)
+        )
+    );
+}
+
 void MessageDisplayableWidget::messageEnded() { mMessage.setText(Consts::EMPTY); }
