@@ -77,6 +77,12 @@ QByteArray* Network::image(const QString& imageString) {
     return result and !result->isEmpty() ? result : nullptr;
 }
 
+#define SET_RESULT_BY_REPLY_STATUS \
+    if (reply->error() == QNetworkReply::NoError) { \
+        auto statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute); \
+        result = statusCode.isValid() and statusCode.toInt() == 200; \
+    }
+
 bool Network::authorize(const QString& name, const QString& password) {
     auto result = false;
 
@@ -91,12 +97,7 @@ bool Network::authorize(const QString& name, const QString& password) {
 
             return manager.post(request, query.toString(QUrl::FullyEncoded).toUtf8());
         },
-        [&result](QNetworkReply* reply) {
-            if (reply->error() == QNetworkReply::NoError) {
-                auto statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-                result = statusCode.isValid() and statusCode.toInt() == 200;
-            }
-        }
+        [&result](QNetworkReply* reply) { SET_RESULT_BY_REPLY_STATUS }
     );
 
     return result;
@@ -109,12 +110,20 @@ bool Network::authorized() {
         [](QNetworkAccessManager& manager) {
             return manager.get(QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/authorizedU")));
         },
-        [&result](QNetworkReply* reply) {
-            if (reply->error() == QNetworkReply::NoError) {
-                auto statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-                result = statusCode.isValid() and statusCode.toInt() == 200;
-            }
-        }
+        [&result](QNetworkReply* reply) { SET_RESULT_BY_REPLY_STATUS }
+    );
+
+    return result;
+}
+
+bool Network::deauthorize() {
+    auto result = false;
+
+    synchronize(
+        [](QNetworkAccessManager& manager) {
+            return manager.post(QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/logout")), QByteArray());
+        },
+        [&result](QNetworkReply* reply) { SET_RESULT_BY_REPLY_STATUS }
     );
 
     return result;

@@ -16,6 +16,7 @@ public:
     [[nodiscard]] const QList<Component*>& selectedComponents() const;
     void replaceSelected(const Component* old, Component* nw);
     QFuture<bool> authorized();
+    QFuture<bool> logout();
 private:
     QList<Component*> mSelectedComponents;
     [[maybe_unused]] Network mNetwork;

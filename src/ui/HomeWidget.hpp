@@ -14,9 +14,11 @@ public:
     HomeWidget(QWidget* parent, AppState& state);
 private:
     QPushButton* makeIconButton(const QString& icon, Button button);
+    void logout();
 private slots:
     void iconButtonClicked(HomeWidget::Button button);
     void authorizationConfirmed();
+    void loggedOut();
 signals:
     void cartComponentSelected(Component* component);
     void loginRequested();
@@ -24,4 +26,5 @@ signals:
 private:
     QVBoxLayout mBody;
     BaseComponentListWidget mComponentList;
+    AppState& mState;
 };
