@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "../state/AppState.hpp"
+#include "MessageDisplayableWidget.hpp"
 
 class MainWindow final : public QMainWindow {
     Q_OBJECT
@@ -11,7 +12,8 @@ public:
     ~MainWindow() override;
 private:
     AppState mAppState;
-    QWidget* mCurrentWidget;
+    QWidget* mWrappedWidget;
+    MessageDisplayableWidget mWidgetWrapper;
 
     void connectHomeWidget();
     void replaceWidgetWith(QWidget* widget);

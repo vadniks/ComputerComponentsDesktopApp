@@ -9,8 +9,14 @@
 MessageDisplayableWidget::MessageDisplayableWidget(QWidget* parent, QWidget* wrapped) :
     QWidget(parent), mBody(this), mWrapped(wrapped)
 {
+    mMessage.setStyleSheet(u8R"(
+        font-size: 18px;
+        font-style: italic;
+    )");
+
     mBody.addWidget(wrapped);
-    mBody.addWidget(&mMessage);
+    mBody.addWidget(&mMessage, 0, Qt::AlignHCenter);
+    mBody.setContentsMargins(0, 0, 0, 0);
 }
 
 void MessageDisplayableWidget::setWrappedWidget(QWidget* wrapped) {
