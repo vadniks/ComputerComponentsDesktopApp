@@ -33,10 +33,11 @@ void MessageDisplayableWidget::showMessage(const QString& message) {
 #   pragma clang diagnostic push
 #   pragma clang diagnostic ignored "-Wunused-result"
 
-    QtConcurrent::run([notifier](){
+    QtConcurrent::run([notifier, this](){
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-
         emit notifier->notify(nullptr);
+
+        disconnect(notifier, &Notifier::notify, this, &MessageDisplayableWidget::messageEnded);
         delete notifier;
     });
 
