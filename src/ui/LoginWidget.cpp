@@ -3,6 +3,7 @@
 #include "LoginWidget.hpp"
 #include "../Consts.hpp"
 #include "../Util.hpp"
+#include "../state/MessageDispatcher.hpp"
 
 LoginWidget::LoginWidget(QWidget* parent) :
     QWidget(parent),
@@ -66,7 +67,7 @@ void LoginWidget::resizeEvent(QResizeEvent* event) {
 }
 
 void LoginWidget::proceedClicked() {
-
+    MessageDispatcher::instance()->dispatchMessage(u8"Test"); // TODO: test only
 }
 
 void LoginWidget::clearClicked() {

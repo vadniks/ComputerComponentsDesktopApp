@@ -10,7 +10,10 @@
     connect(widget, &x ## Widget::exitRequested, this, &MainWindow::exitRequested); \
     replaceWidgetWith(widget);
 
-MainWindow::MainWindow() : mWrappedWidget(new HomeWidget(this, mAppState)), mWidgetWrapper(this, mWrappedWidget) {
+MainWindow::MainWindow() :
+    mAppState([this](const QString& message) { mWidgetWrapper.showMessage(message); }),
+    mWrappedWidget(new HomeWidget(this, mAppState)), mWidgetWrapper(this, mWrappedWidget)
+{
     connectHomeWidget();
     setCentralWidget(&mWidgetWrapper);
 
@@ -26,8 +29,6 @@ void MainWindow::connectHomeWidget() {
 }
 
 void MainWindow::replaceWidgetWith(QWidget* widget) {
-    mWidgetWrapper.showMessage(u8"Test"); // TODO: test only
-
     mWidgetWrapper.setWrappedWidget(widget);
     mWrappedWidget->disconnect();
     delete mWrappedWidget;

@@ -1,7 +1,7 @@
 
 #include "AppState.hpp"
 
-AppState::AppState() {
+AppState::AppState(MessageDispatcher::MessageDispatcherImpl&& messageDispatcherImpl) : mMessageDispatcher(std::move(messageDispatcherImpl)) {
     Component* component;
     for (unsigned i = 0; i < Component::COMPONENTS; i++)
         component = new Component(
