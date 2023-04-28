@@ -38,7 +38,7 @@ QList<Component*>* Network::components(ComponentType type) {
         }
     );
 
-    return result and !result->empty() ? result : nullptr;
+    return result and !result->empty() ? result : [result]() -> decltype(result) { delete result; return nullptr; }();
 }
 
 Component* Network::component(unsigned id) {
@@ -127,6 +127,12 @@ bool Network::deauthorize() {
     );
 
     return result;
+}
+
+QList<Component*>* Network::selectedComponents() {
+
+
+    return nullptr;
 }
 
 void Network::synchronize(
