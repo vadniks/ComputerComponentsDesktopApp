@@ -16,6 +16,6 @@ public:
     void replaceSelected(const Component* old, Component* nw);
 private:
     QList<Component*> mSelectedComponents;
-    [[maybe_unused]] Network mNetwork; // holds instance
+    [[maybe_unused]] Network mNetwork;
     [[maybe_unused]] MessageDispatcher mMessageDispatcher;
 };

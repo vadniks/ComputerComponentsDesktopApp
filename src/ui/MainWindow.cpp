@@ -12,7 +12,8 @@
 
 MainWindow::MainWindow() :
     mAppState([this](const QString& message) { mWidgetWrapper.showMessage(message); }),
-    mWrappedWidget(new HomeWidget(this, mAppState)), mWidgetWrapper(this, mWrappedWidget)
+    mWrappedWidget(new HomeWidget(this, mAppState)),
+    mWidgetWrapper(this, mWrappedWidget)
 {
     connectHomeWidget();
     setCentralWidget(&mWidgetWrapper);
