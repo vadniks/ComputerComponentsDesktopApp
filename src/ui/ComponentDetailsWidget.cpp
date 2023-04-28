@@ -3,7 +3,7 @@
 #include "../Consts.hpp"
 #include "../Util.hpp"
 #include "../state/ImageDisplayableState.hpp"
-#include "../state/Notifier.hpp"
+#include "../Notifier.hpp"
 
 ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, Component* component) :
     QWidget(parent),

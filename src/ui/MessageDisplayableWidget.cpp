@@ -3,7 +3,7 @@
 #include <chrono>
 #include <thread>
 #include "MessageDisplayableWidget.hpp"
-#include "../state/Notifier.hpp"
+#include "../Notifier.hpp"
 #include "../Consts.hpp"
 
 MessageDisplayableWidget::MessageDisplayableWidget(QWidget* parent, QWidget* wrapped) :
@@ -30,12 +30,17 @@ void MessageDisplayableWidget::showMessage(const QString& message) {
     auto notifier = new Notifier();
     connect(notifier, &Notifier::notify, this, &MessageDisplayableWidget::messageEnded);
 
-    auto _ = QtConcurrent::run([notifier](){
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-result"
+
+    QtConcurrent::run([notifier](){
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
         emit notifier->notify(nullptr);
         delete notifier;
     });
+
+#pragma clang diagnostic pop
 }
 
 void MessageDisplayableWidget::messageEnded() { mMessage.setText(Consts::EMPTY); }
