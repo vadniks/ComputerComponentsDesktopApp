@@ -37,9 +37,6 @@ QList<Component*>* Network::components(ComponentType type) {
         }
     );
 
-//    qDebug() << "ervgfrdvg " << authorize(u8"user", u8"user"); // TODO: test only
-//    qDebug() << "rgvfrbfrg " << authorized();
-
     return result and !result->empty() ? result : nullptr;
 }
 

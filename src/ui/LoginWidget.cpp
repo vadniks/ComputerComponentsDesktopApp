@@ -67,9 +67,11 @@ void LoginWidget::resizeEvent(QResizeEvent* event) {
     mImage.setPixmap(QIcon(Consts::PC_ICON).pixmap(size));
 }
 
-void LoginWidget::proceedClicked() { MessageDispatcher::instance()->dispatchMessage(
-    LoginState::login(mName.text(), mPassword.text()) ? Consts::SUCCESSFUL : Consts::FAILED
-); }
+void LoginWidget::proceedClicked() {
+    LoginState::login(mName.text(), mPassword.text()).then([](bool successful) {
+        MessageDispatcher::instance()->dispatchMessage(successful ? Consts::SUCCESSFUL : Consts::FAILED);
+    });
+}
 
 void LoginWidget::clearClicked() {
     mName.setText(Consts::EMPTY);
