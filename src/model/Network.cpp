@@ -37,7 +37,8 @@ QList<Component*>* Network::components(ComponentType type) {
         }
     );
 
-    qDebug() << authorize(u8"user", u8"user"); // TODO: test only
+    qDebug() << "ervgfrdvg " << authorize(u8"user", u8"user"); // TODO: test only
+    qDebug() << "rgvfrbfrg " << authorized();
 
     return result and !result->empty() ? result : nullptr;
 }
@@ -79,7 +80,7 @@ QByteArray* Network::image(const QString& imageString) {
 }
 
 bool Network::authorize(const QString& name, const QString& password) {
-    auto result = new bool(false);
+    auto result = false;
 
     synchronize(
         [name, password](QNetworkAccessManager& manager) {
@@ -92,21 +93,33 @@ bool Network::authorize(const QString& name, const QString& password) {
 
             return manager.post(request, query.toString(QUrl::FullyEncoded).toUtf8());
         },
-        [result](QNetworkReply* reply) {
+        [&result](QNetworkReply* reply) {
             if (reply->error() == QNetworkReply::NoError) {
                 auto statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-                *result = statusCode.isValid() and statusCode.toInt() == 200;
+                result = statusCode.isValid() and statusCode.toInt() == 200;
             }
         }
     );
 
-    auto result2 = *result;
-    delete result;
-    return result2;
+    return result;
 }
 
 bool Network::authorized() {
-    return false;
+    auto result = false;
+
+    synchronize(
+        [](QNetworkAccessManager& manager) {
+            return manager.get(QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/authorizedU")));
+        },
+        [&result](QNetworkReply* reply) {
+            if (reply->error() == QNetworkReply::NoError) {
+                auto statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+                result = statusCode.isValid() and statusCode.toInt() == 200;
+            }
+        }
+    );
+
+    return result;
 }
 
 void Network::synchronize(

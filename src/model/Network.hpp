@@ -12,20 +12,20 @@
 class Network final {
 public:
     Network();
-    static Network* instance();
-    QList<Component*>* _Nullable components(ComponentType type);
-    Component* _Nullable component(unsigned id);
-    QByteArray* _Nullable image(const QString& imageString);
-    bool authorize(const QString& name, const QString& password);
-    bool authorized();
+    [[nodiscard]] static Network* instance();
+    [[nodiscard]] QList<Component*>* _Nullable components(ComponentType type);
+    [[nodiscard]] Component* _Nullable component(unsigned id);
+    [[nodiscard]] QByteArray* _Nullable image(const QString& imageString);
+    [[nodiscard]] bool authorize(const QString& name, const QString& password);
+    [[nodiscard]] bool authorized();
 private:
     void synchronize(
         const std::function<QNetworkReply* (QNetworkAccessManager&)>& asyncAction,
         const std::function<void (QNetworkReply*)>& resultHandler
     );
 
-    static Component* _Nullable parseComponent(const QJsonObject& json);
-    static std::optional<ComponentType> parseComponentType(const QString& typeTag);
+    [[nodiscard]] static Component* _Nullable parseComponent(const QJsonObject& json);
+    [[nodiscard]] static std::optional<ComponentType> parseComponentType(const QString& typeTag);
 
     QNetworkCookieJar mCookieJar;
     inline static Network* cInstance = nullptr;
