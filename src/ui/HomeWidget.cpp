@@ -1,6 +1,7 @@
 
 #include "HomeWidget.hpp"
 #include "../Util.hpp"
+#include "../Notifier.hpp"
 
 HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     QWidget(parent),
@@ -18,6 +19,14 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
 {
     connect(&mComponentList, &BaseComponentListWidget::componentSelected, this, &HomeWidget::cartComponentSelected);
     mBody.addWidget(&mComponentList);
+
+    auto notifier = new Notifier();
+    connect(notifier, &Notifier::notify, this, &HomeWidget::authorizationConfirmed);
+    state.authorized().then([this, notifier](bool authorized){
+        if (authorized) emit notifier->notify(nullptr);
+        disconnect(notifier, &Notifier::notify, this, &HomeWidget::authorizationConfirmed);
+        delete notifier;
+    });
 }
 
 QPushButton* HomeWidget::makeIconButton(const QString& icon, Button button) {
@@ -34,4 +43,14 @@ QPushButton* HomeWidget::makeIconButton(const QString& icon, Button button) {
 void HomeWidget::iconButtonClicked(Button button) { switch (button) {
     CASE(LOGIN, login)
     CASE(INFO, info)
+//    CASE(LOGOUT, logout) // TODO
 } }
+
+void HomeWidget::authorizationConfirmed() {
+    auto newButton = makeIconButton(Consts::LOGOUT_ICON, Button::LOGOUT),
+        prevButton = mComponentList.appBar().buttonList()[1];
+
+    mComponentList.appBar().buttons().replaceWidget(prevButton, newButton);
+    delete prevButton;
+    mComponentList.appBar().buttonList()[1] = newButton;
+}

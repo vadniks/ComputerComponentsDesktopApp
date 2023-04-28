@@ -22,6 +22,7 @@ public:
     );
     ~BaseComponentListWidget() override;
     void reFillList();
+    AppBarWidget& appBar();
 private:
     QVBoxLayout mBody;
     AppBarWidget mAppBar;

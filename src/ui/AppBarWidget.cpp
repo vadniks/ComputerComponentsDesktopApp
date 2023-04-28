@@ -37,6 +37,10 @@ AppBarWidget::AppBarWidget(
     resizeEvent(nullptr);
 }
 
+QList<QPushButton*>& AppBarWidget::buttonList() { return mButtonList; }
+
+QHBoxLayout& AppBarWidget::buttons() { return mButtons; }
+
 void AppBarWidget::resizeEvent(QResizeEvent* event) {
     if (event) QWidget::resizeEvent(event);
     if (!mSubtitle) return;

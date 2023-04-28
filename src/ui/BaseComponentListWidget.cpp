@@ -41,6 +41,8 @@ void BaseComponentListWidget::reFillList() {
         mListWidget.setItemWidget(item, widget);
 }
 
+AppBarWidget& BaseComponentListWidget::appBar() { return mAppBar; }
+
 void BaseComponentListWidget::clearListItems() {
     for (auto item : mListItems)
         delete item.first,

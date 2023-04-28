@@ -19,5 +19,6 @@
         <file>back.svg</file>
         <file>done.svg</file>
         <file>remove.svg</file>
+        <file>logout.svg</file>
     </qresource>
 </RCC>

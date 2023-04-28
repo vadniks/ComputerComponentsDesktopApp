@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QList>
+#include <QFuture>
 #include "../model/Component.hpp"
 #include "../Consts.hpp"
 #include "../model/Network.hpp"
@@ -14,6 +15,7 @@ public:
     ~AppState();
     [[nodiscard]] const QList<Component*>& selectedComponents() const;
     void replaceSelected(const Component* old, Component* nw);
+    QFuture<bool> authorized();
 private:
     QList<Component*> mSelectedComponents;
     [[maybe_unused]] Network mNetwork;

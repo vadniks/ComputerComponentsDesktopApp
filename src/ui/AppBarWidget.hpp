@@ -19,6 +19,8 @@ public:
         QPushButton* _Nullable leftButton
     );
     ~AppBarWidget() override;
+    QList<QPushButton*>& buttonList();
+    QHBoxLayout& buttons();
 protected:
     void resizeEvent(QResizeEvent* event) override;
 private:

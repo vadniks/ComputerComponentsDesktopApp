@@ -9,13 +9,14 @@
 class HomeWidget final : public QWidget {
     Q_OBJECT
 
-    enum Button : unsigned { INFO = 0, LOGIN = 1 };
+    enum Button : unsigned { INFO = 0, LOGIN = 1, LOGOUT = 2 };
 public:
     HomeWidget(QWidget* parent, AppState& state);
 private:
     QPushButton* makeIconButton(const QString& icon, Button button);
 private slots:
     void iconButtonClicked(HomeWidget::Button button);
+    void authorizationConfirmed();
 signals:
     void cartComponentSelected(Component* component);
     void loginRequested();

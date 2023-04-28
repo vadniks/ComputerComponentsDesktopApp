@@ -1,4 +1,5 @@
 
+#include <QtConcurrent/QtConcurrent>
 #include "AppState.hpp"
 
 AppState::AppState(MessageDispatcher::MessageDispatcherImpl&& messageDispatcherImpl)
@@ -20,6 +21,10 @@ const QList<Component*>& AppState::selectedComponents() const { return mSelected
 void AppState::replaceSelected(const Component* old, Component* nw) {
     mSelectedComponents[mSelectedComponents.indexOf(old)] = nw;
     delete old;
+}
+
+QFuture<bool> AppState::authorized() {
+    return QtConcurrent::run([this]() -> bool { return mNetwork.authorized(); });
 }
 
 AppState::~AppState() {
