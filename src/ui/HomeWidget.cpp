@@ -21,7 +21,7 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     connect(&mComponentList, &BaseComponentListWidget::componentSelected, this, &HomeWidget::cartComponentSelected);
     mBody.addWidget(&mComponentList);
 
-    scheduleButtonChange(&HomeWidget::authorizationConfirmed);
+    scheduleButtonChange(&AppState::authorized, &HomeWidget::authorizationConfirmed);
 }
 
 QPushButton* HomeWidget::makeIconButton(const QString& icon, Button button) {
@@ -30,15 +30,13 @@ QPushButton* HomeWidget::makeIconButton(const QString& icon, Button button) {
     return pushButton;
 }
 
-void HomeWidget::logout() {
-    qDebug() << "bvgrfgvbrf";
-}
+void HomeWidget::logout() { scheduleButtonChange(&AppState::logout, &HomeWidget::loggedOut); }
 
-void HomeWidget::scheduleButtonChange(void (HomeWidget::*slot)()) {
+void HomeWidget::scheduleButtonChange(QFuture<bool> (AppState::*action)(), void (HomeWidget::*slot)()) {
     auto notifier = new Notifier();
     connect(notifier, &Notifier::notify, this, slot);
 
-    mState.authorized().then([this, notifier, slot](bool authorized){
+    (mState.*action)().then([this, notifier, slot](bool authorized){
         if (authorized) emit notifier->notify(nullptr);
 
         disconnect(notifier, &Notifier::notify, this, slot);
@@ -70,7 +68,4 @@ void HomeWidget::iconButtonClicked(Button button) { switch (button) {
 } }
 
 void HomeWidget::authorizationConfirmed() { changeButton(Consts::LOGOUT_ICON, Button::LOGOUT); }
-
-void HomeWidget::loggedOut() {
-
-}
+void HomeWidget::loggedOut() { changeButton(Consts::LOGIN_ICON, Button::LOGIN); }
