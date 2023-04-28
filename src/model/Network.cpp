@@ -10,6 +10,7 @@
 Network::Network() {
     if (cInstance) throw -1; // NOLINT(hicpp-exception-baseclass)
     cInstance = this;
+    cMainThreadId = std::this_thread::get_id();
 }
 
 Network* Network::instance() { return cInstance; }
@@ -123,6 +124,8 @@ void Network::synchronize(
     const std::function<QNetworkReply* (QNetworkAccessManager&)>& asyncAction,
     const std::function<void (QNetworkReply*)>& resultHandler
 ) {
+    assertNotMainThread();
+
     QNetworkAccessManager manager;
     manager.setCookieJar(&mCookieJar);
 
@@ -165,3 +168,6 @@ std::optional<ComponentType> Network::parseComponentType(const QString& typeTag)
     else IF(PSU) else IF(FAN) else IF(CASE)
     else return std::nullopt;
 }
+
+void Network::assertNotMainThread()
+{ if (std::this_thread::get_id() == cMainThreadId) throw -1; } // NOLINT(hicpp-exception-baseclass)

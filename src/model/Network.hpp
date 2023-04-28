@@ -7,6 +7,7 @@
 #include <QNetworkReply>
 #include <functional>
 #include <optional>
+#include <thread>
 #include "Component.hpp"
 
 class Network final {
@@ -26,7 +27,9 @@ private:
 
     [[nodiscard]] static Component* _Nullable parseComponent(const QJsonObject& json);
     [[nodiscard]] static std::optional<ComponentType> parseComponentType(const QString& typeTag);
+    static void assertNotMainThread();
 
     QNetworkCookieJar mCookieJar;
     inline static Network* cInstance = nullptr;
+    inline static std::optional<std::thread::id> cMainThreadId = std::nullopt;
 };
