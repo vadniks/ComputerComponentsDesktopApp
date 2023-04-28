@@ -15,6 +15,8 @@ public:
 private:
     QPushButton* makeIconButton(const QString& icon, Button button);
     void logout();
+    void scheduleButtonChange(void (HomeWidget::*slot)());
+    void changeButton(const QString& icon, Button button);
 private slots:
     void iconButtonClicked(HomeWidget::Button button);
     void authorizationConfirmed();

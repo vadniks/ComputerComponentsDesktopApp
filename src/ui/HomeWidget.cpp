@@ -21,15 +21,7 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     connect(&mComponentList, &BaseComponentListWidget::componentSelected, this, &HomeWidget::cartComponentSelected);
     mBody.addWidget(&mComponentList);
 
-    auto notifier = new Notifier();
-    connect(notifier, &Notifier::notify, this, &HomeWidget::authorizationConfirmed);
-
-    state.authorized().then([this, notifier](bool authorized){
-        if (authorized) emit notifier->notify(nullptr);
-
-        disconnect(notifier, &Notifier::notify, this, &HomeWidget::authorizationConfirmed);
-        delete notifier;
-    });
+    scheduleButtonChange(&HomeWidget::authorizationConfirmed);
 }
 
 QPushButton* HomeWidget::makeIconButton(const QString& icon, Button button) {
@@ -39,7 +31,31 @@ QPushButton* HomeWidget::makeIconButton(const QString& icon, Button button) {
 }
 
 void HomeWidget::logout() {
+    qDebug() << "bvgrfgvbrf";
+}
 
+void HomeWidget::scheduleButtonChange(void (HomeWidget::*slot)()) {
+    auto notifier = new Notifier();
+    connect(notifier, &Notifier::notify, this, slot);
+
+    mState.authorized().then([this, notifier, slot](bool authorized){
+        if (authorized) emit notifier->notify(nullptr);
+
+        disconnect(notifier, &Notifier::notify, this, slot);
+        delete notifier;
+    });
+}
+
+void HomeWidget::changeButton(const QString& icon, Button button) {
+    auto newButton = makeIconButton(icon, button),
+        prevButton = mComponentList.appBar().buttonList()[1];
+
+    mComponentList.appBar().buttons().replaceWidget(prevButton, newButton);
+
+    prevButton->disconnect();
+    delete prevButton;
+
+    mComponentList.appBar().buttonList()[1] = newButton;
 }
 
 #define CASE(x, y) \
@@ -53,14 +69,7 @@ void HomeWidget::iconButtonClicked(Button button) { switch (button) {
     case Button::LOGOUT: logout(); break;
 } }
 
-void HomeWidget::authorizationConfirmed() {
-    auto newButton = makeIconButton(Consts::LOGOUT_ICON, Button::LOGOUT),
-        prevButton = mComponentList.appBar().buttonList()[1];
-
-    mComponentList.appBar().buttons().replaceWidget(prevButton, newButton);
-    delete prevButton;
-    mComponentList.appBar().buttonList()[1] = newButton;
-}
+void HomeWidget::authorizationConfirmed() { changeButton(Consts::LOGOUT_ICON, Button::LOGOUT); }
 
 void HomeWidget::loggedOut() {
 
