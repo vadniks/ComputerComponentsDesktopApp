@@ -6,12 +6,11 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include "../model/Component.hpp"
-#include "../model/Network.hpp"
 
 class ComponentListItemWidget final : public QWidget {
     Q_OBJECT
 public:
-    ComponentListItemWidget(QWidget* parent, Network& network, Component* component);
+    ComponentListItemWidget(QWidget* parent, Component* component);
 protected:
     void resizeEvent(QResizeEvent* event) override;
 public:

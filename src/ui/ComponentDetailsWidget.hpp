@@ -9,12 +9,11 @@
 #include <QScrollArea>
 #include <QPushButton>
 #include "../model/Component.hpp"
-#include "../model/Network.hpp"
 
 class ComponentDetailsWidget final : public QWidget {
     Q_OBJECT
 public:
-    ComponentDetailsWidget(QWidget* parent, Network& network, Component* component);
+    ComponentDetailsWidget(QWidget* parent, Component* component);
     ~ComponentDetailsWidget() override;
 protected:
     void resizeEvent(QResizeEvent* event) override;

@@ -1,19 +1,18 @@
 
 #include <QEventLoop>
 #include <QJsonDocument>
-#include <QJsonValue>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QHttpMultiPart>
 #include <QUrlQuery>
 #include "Network.hpp"
 
-static bool gInitialized = false;
-
 Network::Network() {
-    if (gInitialized) throw -1; // NOLINT(hicpp-exception-baseclass)
-    gInitialized = true;
+    if (cInstance) throw -1; // NOLINT(hicpp-exception-baseclass)
+    cInstance = this;
 }
+
+Network* Network::instance() { return cInstance; }
 
 QList<Component*>* Network::components(ComponentType type) {
     QList<Component*>* result = nullptr;

@@ -13,8 +13,7 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
         },
         nullptr,
         nullptr,
-        state.selectedComponents(),
-        state.network()
+        state.selectedComponents()
     )
 {
     connect(&mComponentList, &BaseComponentListWidget::componentSelected, this, &HomeWidget::cartComponentSelected);

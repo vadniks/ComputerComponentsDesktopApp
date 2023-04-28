@@ -18,8 +18,7 @@ public:
         QList<QPushButton*>&& buttons,
         QPushButton* _Nullable leftButton,
         const QString* _Nullable subtitle,
-        const QList<Component*>& components,
-        Network& network
+        const QList<Component*>& components
     );
     ~BaseComponentListWidget() override;
     void reFillList();
@@ -29,7 +28,6 @@ private:
     QListWidget mListWidget;
     QList<QPair<QListWidgetItem*, QWidget*>> mListItems;
     const QList<Component*>& mComponents;
-    Network& mNetwork;
 
     void clearListItems();
 private slots:

@@ -6,7 +6,7 @@
 static QPixmap makeTypedStubIconPixmap(ComponentType type)
 { return QIcon(Component::typeImage(type)).pixmap(Consts::ICON_SIZE, Consts::ICON_SIZE); }
 
-ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Network& network, Component* component) :
+ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* component) :
     QWidget(parent),
     mBody(this),
     mTitles(nullptr),
@@ -18,7 +18,7 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Network& netwo
 
     mIcon.setPixmap(makeTypedStubIconPixmap(component->type));
 
-    if (component->image) ImageDisplayableState::fetchImage(network, component)
+    if (component->image) ImageDisplayableState::fetchImage(component)
         .then([this](QPixmap* pixmap) {
             mIcon.setPixmap(pixmap->scaled(Consts::ICON_SIZE, Consts::ICON_SIZE));
             delete pixmap;

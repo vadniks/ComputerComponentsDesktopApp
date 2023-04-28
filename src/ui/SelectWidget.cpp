@@ -2,18 +2,16 @@
 #include "SelectWidget.hpp"
 #include "../Util.hpp"
 
-SelectWidget::SelectWidget(QWidget* parent, Component* target, Network& network) :
+SelectWidget::SelectWidget(QWidget* parent, Component* target) :
     QWidget(parent),
-    mNetwork(network),
-    mState(this, target, network),
+    mState(this, target),
     mBody(this),
     mComponentList(
         this,
         {},
         BACK_ICON_BUTTON,
         new QString(Consts::COMPONENT_SELECTION),
-        mState.fetchedComponents(),
-        network
+        mState.fetchedComponents()
     ),
     mDetails(nullptr)
 {
@@ -25,7 +23,7 @@ SelectWidget::SelectWidget(QWidget* parent, Component* target, Network& network)
 void SelectWidget::requestedDetailsForComponent(Component* component) {
     if (mDetails) detailsRequestedExit();
 
-    mDetails = new ComponentDetailsWidget(this, mNetwork, component);
+    mDetails = new ComponentDetailsWidget(this, component);
     connect(mDetails, &ComponentDetailsWidget::closeClicked, this, &SelectWidget::detailsRequestedExit);
     connect(mDetails, &ComponentDetailsWidget::doneClicked, this, &SelectWidget::componentSelected);
     mBody.addWidget(mDetails);

@@ -34,7 +34,7 @@ void MainWindow::replaceWidgetWith(QWidget* widget) {
 }
 
 void MainWindow::cartComponentTypeSelected(Component* component)
-{ REPLACE_WIDGET(Select, this, component, mAppState.network()) }
+{ REPLACE_WIDGET(Select, this, component) }
 
 void MainWindow::exitRequested(void* parameter) {
     if (parameter != nullptr) {

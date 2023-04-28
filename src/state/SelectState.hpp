@@ -4,12 +4,11 @@
 #include <QObject>
 #include <QFuture>
 #include "../model/Component.hpp"
-#include "../model/Network.hpp"
 
 class SelectState final : public QObject {
     Q_OBJECT
 public:
-    SelectState(QObject* parent, Component* target, Network& network);
+    SelectState(QObject* parent, Component* target);
     ~SelectState() override;
     [[nodiscard]] const QList<Component*>& fetchedComponents() const;
     [[nodiscard]] const Component* targetComponent();
@@ -19,7 +18,6 @@ private:
     QList<Component*> mFetchedComponents;
     Component* mTargetComponent;
     const ComponentType mType;
-    Network& mNetwork;
 signals:
     void componentsFetched();
 };

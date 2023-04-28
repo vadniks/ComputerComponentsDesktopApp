@@ -15,7 +15,6 @@ public:
     void setCurrentWidget(QWidget* widget);
     [[nodiscard]] const QList<Component*>& selectedComponents() const;
     void replaceSelected(const Component* old, Component* nw);
-    Network& network();
 private:
     QWidget* mCurrentWidget = nullptr;
     QList<Component*> mSelectedComponents;

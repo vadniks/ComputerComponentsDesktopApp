@@ -12,6 +12,7 @@
 class Network final {
 public:
     Network();
+    static Network* instance();
     QList<Component*>* _Nullable components(ComponentType type);
     Component* _Nullable component(unsigned id);
     QByteArray* _Nullable image(const QString& imageString);
@@ -27,4 +28,5 @@ private:
     static std::optional<ComponentType> parseComponentType(const QString& typeTag);
 
     QNetworkCookieJar mCookieJar;
+    inline static Network* cInstance = nullptr;
 };

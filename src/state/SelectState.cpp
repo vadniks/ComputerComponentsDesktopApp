@@ -1,9 +1,10 @@
 
 #include <QtConcurrent/QtConcurrent>
 #include "SelectState.hpp"
+#include "../model/Network.hpp"
 
-SelectState::SelectState(QObject* parent, Component* target, Network& network) :
-    QObject(parent), mTargetComponent(target), mType(target->type), mNetwork(network)
+SelectState::SelectState(QObject* parent, Component* target) :
+    QObject(parent), mTargetComponent(target), mType(target->type)
 {
     fetchComponents(mType).then([this](QList<Component*>* components) {
         if (components)
@@ -20,7 +21,7 @@ const QList<Component*>& SelectState::fetchedComponents() const { return mFetche
 const Component* SelectState::targetComponent() { return mTargetComponent; }
 
 QFuture<QList<Component*>*> SelectState::fetchComponents(ComponentType type) {
-    return QtConcurrent::run([type, this]() -> QList<Component*>* { return mNetwork.components(type); });
+    return QtConcurrent::run([type, this]() -> QList<Component*>* { return Network::instance()->components(type); });
 }
 
 SelectState::~SelectState() {
