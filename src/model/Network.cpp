@@ -5,6 +5,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QHttpMultiPart>
+#include <QUrlQuery>
 #include "Network.hpp"
 
 static bool gInitialized = false;
@@ -83,17 +84,14 @@ bool Network::authorize(const QString& name, const QString& password) {
 
     synchronize(
         [name, password](QNetworkAccessManager& manager) {
-            auto namePart = QHttpPart(); // TODO: wrong solution for multipart/form-data (application/x-www-form-urlencoded), reformat
-            namePart.setBody(QString(u8"name=%1").arg(name).toUtf8());
+            auto request = QNetworkRequest(QUrl(QString(u8"http://0.0.0.0:8080/login")));
+            request.setHeader(QNetworkRequest::ContentTypeHeader, QString(u8"application/x-www-form-urlencoded"));
 
-            auto passwordPart = QHttpPart();
-            passwordPart.setBody(QString(u8"password=%1").arg(password).toUtf8());
+            QUrlQuery query;
+            query.addQueryItem(u8"name", name);
+            query.addQueryItem(u8"password", password);
 
-            auto multiPart = QHttpMultiPart(QHttpMultiPart::ContentType::FormDataType);
-            multiPart.append(namePart);
-            multiPart.append(passwordPart);
-
-            return manager.post(QNetworkRequest(QUrl(QString(u8"http://0.0.0.0:8080/login"))), &multiPart);
+            return manager.post(request, query.toString(QUrl::FullyEncoded).toUtf8());
         },
         [result](QNetworkReply* reply) {
             if (reply->error() == QNetworkReply::NoError) {
