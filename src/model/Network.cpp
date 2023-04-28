@@ -170,4 +170,4 @@ std::optional<ComponentType> Network::parseComponentType(const QString& typeTag)
 }
 
 void Network::assertNotMainThread()
-{ if (std::this_thread::get_id() == cMainThreadId) throw -1; } // NOLINT(hicpp-exception-baseclass)
+{ if (!cMainThreadId or std::this_thread::get_id() == cMainThreadId) throw -1; } // NOLINT(hicpp-exception-baseclass)
