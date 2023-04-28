@@ -24,7 +24,6 @@ private:
         const std::function<QNetworkReply* (QNetworkAccessManager&)>& asyncAction,
         const std::function<void (QNetworkReply*)>& resultHandler
     );
-
     [[nodiscard]] static Component* _Nullable parseComponent(const QJsonObject& json);
     [[nodiscard]] static std::optional<ComponentType> parseComponentType(const QString& typeTag);
     static void assertNotMainThread();

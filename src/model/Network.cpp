@@ -10,7 +10,7 @@
 Network::Network() {
     if (cInstance) throw -1; // NOLINT(hicpp-exception-baseclass)
     cInstance = this;
-    cMainThreadId = std::this_thread::get_id();
+    cMainThreadId = std::make_optional(std::this_thread::get_id());
 }
 
 Network* Network::instance() { return cInstance; }
