@@ -4,6 +4,7 @@
 #include "../Consts.hpp"
 #include "../Util.hpp"
 #include "../state/MessageDispatcher.hpp"
+#include "../state/LoginState.hpp"
 
 LoginWidget::LoginWidget(QWidget* parent) :
     QWidget(parent),
@@ -66,9 +67,9 @@ void LoginWidget::resizeEvent(QResizeEvent* event) {
     mImage.setPixmap(QIcon(Consts::PC_ICON).pixmap(size));
 }
 
-void LoginWidget::proceedClicked() {
-    MessageDispatcher::instance()->dispatchMessage(u8"Test"); // TODO: test only
-}
+void LoginWidget::proceedClicked() { MessageDispatcher::instance()->dispatchMessage(
+    LoginState::login(mName.text(), mPassword.text()) ? Consts::SUCCESSFUL : Consts::FAILED
+); }
 
 void LoginWidget::clearClicked() {
     mName.setText(Consts::EMPTY);
