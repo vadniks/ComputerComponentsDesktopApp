@@ -13,7 +13,7 @@ public:
     [[nodiscard]] const QList<Component*>& fetchedComponents() const;
     [[nodiscard]] const Component* targetComponent();
 private:
-    [[nodiscard]] QFuture<QList<Component*>*> fetchComponents(ComponentType type);
+    [[nodiscard]] static QFuture<QList<Component*>*> fetchComponents(ComponentType type);
 
     QList<Component*> mFetchedComponents;
     Component* mTargetComponent;

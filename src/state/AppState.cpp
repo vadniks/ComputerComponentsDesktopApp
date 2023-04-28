@@ -13,10 +13,6 @@ AppState::AppState() {
         mSelectedComponents.push_back(component);
 }
 
-QWidget* AppState::currentWidget() { return mCurrentWidget; }
-
-void AppState::setCurrentWidget(QWidget* widget) { mCurrentWidget = widget; }
-
 const QList<Component*>& AppState::selectedComponents() const { return mSelectedComponents; }
 
 void AppState::replaceSelected(const Component* old, Component* nw) {

@@ -21,7 +21,7 @@ const QList<Component*>& SelectState::fetchedComponents() const { return mFetche
 const Component* SelectState::targetComponent() { return mTargetComponent; }
 
 QFuture<QList<Component*>*> SelectState::fetchComponents(ComponentType type) {
-    return QtConcurrent::run([type, this]() -> QList<Component*>* { return Network::instance()->components(type); });
+    return QtConcurrent::run([type]() -> QList<Component*>* { return Network::instance()->components(type); });
 }
 
 SelectState::~SelectState() {

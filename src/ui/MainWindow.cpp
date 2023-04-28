@@ -10,17 +10,16 @@
     connect(widget, &x ## Widget::exitRequested, this, &MainWindow::exitRequested); \
     replaceWidgetWith(widget);
 
-MainWindow::MainWindow() {
-    mAppState.setCurrentWidget(new HomeWidget(this, mAppState));
+MainWindow::MainWindow() : mCurrentWidget(new HomeWidget(this, mAppState)) {
     connectHomeWidget();
-    setCentralWidget(mAppState.currentWidget());
+    setCentralWidget(mCurrentWidget);
 
     setMinimumSize(Consts::APP_WIDTH, Consts::APP_HEIGHT);
     show();
 }
 
 void MainWindow::connectHomeWidget() {
-    auto widget = dynamic_cast<HomeWidget*>(mAppState.currentWidget());
+    auto widget = dynamic_cast<HomeWidget*>(mCurrentWidget);
     connect(widget, &HomeWidget::cartComponentSelected, this, &MainWindow::cartComponentTypeSelected);
     connect(widget, &HomeWidget::loginRequested, this, &MainWindow::loginRequested);
     connect(widget, &HomeWidget::infoRequested, this, &MainWindow::infoRequested);
@@ -28,9 +27,9 @@ void MainWindow::connectHomeWidget() {
 
 void MainWindow::replaceWidgetWith(QWidget* widget) {
     setCentralWidget(widget);
-    mAppState.currentWidget()->disconnect();
-    delete mAppState.currentWidget();
-    mAppState.setCurrentWidget(widget);
+    mCurrentWidget->disconnect();
+    delete mCurrentWidget;
+    mCurrentWidget = widget;
 }
 
 void MainWindow::cartComponentTypeSelected(Component* component)
@@ -50,4 +49,4 @@ void MainWindow::exitRequested(void* parameter) {
 
 void MainWindow::loginRequested() { REPLACE_WIDGET(Login, this) }
 void MainWindow::infoRequested() { REPLACE_WIDGET(About, this) }
-MainWindow::~MainWindow() { delete mAppState.currentWidget(); }
+MainWindow::~MainWindow() { delete mCurrentWidget; }

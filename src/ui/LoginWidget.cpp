@@ -70,5 +70,6 @@ void LoginWidget::proceedClicked() {
 }
 
 void LoginWidget::clearClicked() {
-
+    mName.setText(Consts::EMPTY);
+    mPassword.setText(Consts::EMPTY);
 }

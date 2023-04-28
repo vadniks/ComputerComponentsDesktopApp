@@ -11,6 +11,7 @@ public:
     ~MainWindow() override;
 private:
     AppState mAppState;
+    QWidget* mCurrentWidget;
 
     void connectHomeWidget();
     void replaceWidgetWith(QWidget* widget);
