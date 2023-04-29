@@ -161,11 +161,20 @@ QList<Component*>* Network::selectedComponents() {
 bool Network::select(unsigned int id) {
     bool result = false;
 
-//    synchronize(
-//
-//    );
+    synchronize(
+        [id](QNetworkAccessManager& manager) {
+            return manager.post(
+                QNetworkRequest(QUrl(QString(u8"0.0.0.0:8080/select/%1").arg(id))),
+                QByteArray()
+            );
+        },
+        [&result](QNetworkReply* reply) {
+            result = reply->error() == QNetworkReply::NoError and
+                reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200;
+        }
+    );
 
-    return false;
+    return result;
 }
 
 void Network::synchronize(
