@@ -47,6 +47,7 @@ void BaseComponentListWidget::clearListItems() {
     for (auto item : mListItems)
         delete item.first,
         delete item.second;
+    mListItems.clear();
 }
 
 void BaseComponentListWidget::listItemClicked(QListWidgetItem* item) {

@@ -85,8 +85,11 @@ void HomeWidget::authorizationConfirmed() { changeButton(Consts::LOGOUT_ICON, Bu
 void HomeWidget::loggedOut() { changeButton(Consts::LOGIN_ICON, Button::LOGIN); }
 
 void HomeWidget::selectedComponentsFetched(QList<Component* _Nullable>* selected) {
-    for (auto component : *selected)
-        qDebug() << (component ? component->toString() : nullptr), // TODO: test only
-        delete component;
+    for (unsigned i = 0; i < Component::COMPONENTS; i++) {
+        auto component = selected->operator[](i);
+        if (!component) continue;
+        mState.replaceSelected(mState.selectedComponents()[i], component);
+    }
     delete selected;
+    mComponentList.reFillList();
 }
