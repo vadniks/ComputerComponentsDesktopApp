@@ -22,6 +22,14 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     mBody.addWidget(&mComponentList);
 
     scheduleButtonChange(&AppState::authorized, &HomeWidget::authorizationConfirmed);
+
+    mState.fetchSelectedComponents().then([](QList<Component*>* selected){
+        if (!selected) return; // TODO: test only
+        for (auto component : *selected)
+            qDebug() << (component ? component->toString() : nullptr),
+            delete component;
+        delete selected;
+    });
 }
 
 QPushButton* HomeWidget::makeIconButton(const QString& icon, Button button) {

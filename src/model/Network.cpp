@@ -15,6 +15,9 @@ Network::Network() {
 
 Network* Network::instance() { return cInstance; }
 
+#define NON_EMPTY_LIST_OR_NULL \
+    result and !result->empty() ? result : [result]() -> decltype(result) { delete result; return nullptr; }();
+
 QList<Component*>* Network::components(ComponentType type) {
     QList<Component*>* result = nullptr;
 
@@ -38,7 +41,7 @@ QList<Component*>* Network::components(ComponentType type) {
         }
     );
 
-    return result and !result->empty() ? result : [result]() -> decltype(result) { delete result; return nullptr; }();
+    return NON_EMPTY_LIST_OR_NULL
 }
 
 Component* Network::component(unsigned id) {
@@ -130,9 +133,29 @@ bool Network::deauthorize() {
 }
 
 QList<Component*>* Network::selectedComponents() {
+    QList<Component*>* result = nullptr;
 
+    synchronize(
+        [](QNetworkAccessManager& manager) {
+            return manager.get(QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/selected")));
+        },
+        [&result, this](QNetworkReply* reply) {
+            if (reply->error() != QNetworkReply::NoError) return;
+            if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) return;
 
-    return nullptr;
+            auto selected = QString(reply->readAll()).split(',');
+            if (selected.size() != Component::COMPONENTS) return;
+
+            result = new QList<Component*>();
+            for (unsigned i = 0; i < Component::COMPONENTS; i++) {
+                bool isNotNull = true;
+                auto id = selected[i].toInt(&isNotNull);
+                result->push_back(isNotNull ? component(id) : nullptr);
+            }
+        }
+    );
+
+    return NON_EMPTY_LIST_OR_NULL
 }
 
 void Network::synchronize(

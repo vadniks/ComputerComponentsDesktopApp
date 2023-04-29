@@ -15,8 +15,9 @@ public:
     ~AppState();
     [[nodiscard]] const QList<Component*>& selectedComponents() const;
     void replaceSelected(const Component* old, Component* nw);
-    QFuture<bool> authorized();
-    QFuture<bool> logout();
+    [[nodiscard]] QFuture<bool> authorized();
+    [[nodiscard]] QFuture<bool> logout();
+    [[nodiscard]] QFuture<QList<Component* _Nullable>* _Nullable> fetchSelectedComponents();
 private:
     QList<Component*> mSelectedComponents;
     [[maybe_unused]] Network mNetwork;

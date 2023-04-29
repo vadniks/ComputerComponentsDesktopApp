@@ -20,7 +20,7 @@ public:
     [[nodiscard]] bool authorize(const QString& name, const QString& password);
     [[nodiscard]] bool authorized();
     [[nodiscard]] bool deauthorize();
-    [[nodiscard]] QList<Component*>* _Nullable selectedComponents();
+    [[nodiscard]] QList<Component* _Nullable>* _Nullable selectedComponents();
 private:
     void synchronize(
         const std::function<QNetworkReply* (QNetworkAccessManager&)>& asyncAction,

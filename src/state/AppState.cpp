@@ -31,6 +31,10 @@ QFuture<bool> AppState::logout() {
     return QtConcurrent::run([this]() -> bool { return mNetwork.deauthorize(); });
 }
 
+QFuture<QList<Component* _Nullable>* _Nullable> AppState::fetchSelectedComponents() {
+    return QtConcurrent::run([this]() -> QList<Component*>* { return mNetwork.selectedComponents(); });
+}
+
 AppState::~AppState() {
     for (auto component : mSelectedComponents) delete component;
 }
