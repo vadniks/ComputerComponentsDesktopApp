@@ -30,6 +30,7 @@ void SelectWidget::requestedDetailsForComponent(Component* component) {
 }
 
 void SelectWidget::componentSelected(Component* component) {
+    mState.componentSelected(*(component->id));
     emit exitRequested(
         new QPair<const Component*, Component*>(mState.targetComponent(), new Component(
             component->title,

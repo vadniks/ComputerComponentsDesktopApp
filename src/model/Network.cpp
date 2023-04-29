@@ -164,7 +164,7 @@ bool Network::select(unsigned int id) {
     synchronize(
         [id](QNetworkAccessManager& manager) {
             return manager.post(
-                QNetworkRequest(QUrl(QString(u8"0.0.0.0:8080/select/%1").arg(id))),
+                QNetworkRequest(QUrl(QString(u8"http://0.0.0.0:8080/select/%1").arg(id))),
                 QByteArray()
             );
         },

@@ -12,6 +12,7 @@ public:
     ~SelectState() override;
     [[nodiscard]] const QList<Component*>& fetchedComponents() const;
     [[nodiscard]] const Component* targetComponent();
+    static void componentSelected(unsigned id);
 private:
     [[nodiscard]] static QFuture<QList<Component*>*> fetchComponents(ComponentType type);
 
