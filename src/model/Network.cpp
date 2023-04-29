@@ -158,6 +158,16 @@ QList<Component*>* Network::selectedComponents() {
     return NON_EMPTY_LIST_OR_NULL
 }
 
+bool Network::select(unsigned int id) {
+    bool result = false;
+
+//    synchronize(
+//
+//    );
+
+    return false;
+}
+
 void Network::synchronize(
     const std::function<QNetworkReply* (QNetworkAccessManager&)>& asyncAction,
     const std::function<void (QNetworkReply*)>& resultHandler
@@ -171,7 +181,7 @@ void Network::synchronize(
     QObject::connect(&manager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
 
     QNetworkReply* futureResult = asyncAction(manager);
-    loop.exec(); // TODO: sigsegv when authorize() is called
+    loop.exec();
 
     QObject::disconnect(&manager, &QNetworkAccessManager::finished, &loop, &QEventLoop::quit);
     resultHandler(futureResult);

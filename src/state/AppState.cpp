@@ -2,8 +2,8 @@
 #include <QtConcurrent/QtConcurrent>
 #include "AppState.hpp"
 
-AppState::AppState(MessageDispatcher::MessageDispatcherImpl&& messageDispatcherImpl)
-    : mMessageDispatcher(std::move(messageDispatcherImpl))
+AppState::AppState(MessageDispatcher::MessageDispatcherImpl&& messageDispatcherImpl) :
+    mMessageDispatcher(std::move(messageDispatcherImpl))
 {
     Component* component;
     for (unsigned i = 0; i < Component::COMPONENTS; i++)
@@ -35,6 +35,4 @@ QFuture<QList<Component* _Nullable>* _Nullable> AppState::fetchSelectedComponent
     return QtConcurrent::run([this]() -> QList<Component*>* { return mNetwork.selectedComponents(); });
 }
 
-AppState::~AppState() {
-    for (auto component : mSelectedComponents) delete component;
-}
+AppState::~AppState() { for (auto component : mSelectedComponents) delete component; }

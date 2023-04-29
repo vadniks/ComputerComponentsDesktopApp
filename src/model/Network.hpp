@@ -21,6 +21,7 @@ public:
     [[nodiscard]] bool authorized();
     [[nodiscard]] bool deauthorize();
     [[nodiscard]] QList<Component* _Nullable>* _Nullable selectedComponents();
+    [[nodiscard]] bool select(unsigned id);
 private:
     void synchronize(
         const std::function<QNetworkReply* (QNetworkAccessManager&)>& asyncAction,
