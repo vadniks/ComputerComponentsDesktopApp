@@ -22,14 +22,7 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     mBody.addWidget(&mComponentList);
 
     scheduleButtonChange(&AppState::authorized, &HomeWidget::authorizationConfirmed);
-
-    mState.fetchSelectedComponents().then([](QList<Component*>* selected){
-        if (!selected) return; // TODO: test only
-        for (auto component : *selected)
-            qDebug() << (component ? component->toString() : nullptr),
-            delete component;
-        delete selected;
-    });
+    fetchSelectedComponents();
 }
 
 QPushButton* HomeWidget::makeIconButton(const QString& icon, Button button) {
@@ -64,6 +57,19 @@ void HomeWidget::changeButton(const QString& icon, Button button) {
     mComponentList.appBar().buttonList()[1] = newButton;
 }
 
+void HomeWidget::fetchSelectedComponents() {
+    auto notifier = new Notifier();
+
+    auto slot = reinterpret_cast<void (HomeWidget::*)(void*)>(&HomeWidget::selectedComponentsFetched);
+    connect(notifier, &Notifier::notify, this, slot);
+
+    mState.fetchSelectedComponents().then([notifier, this, slot](QList<Component* _Nullable>* _Nullable selected){
+        if (selected) emit notifier->notify(selected);
+        disconnect(notifier, &Notifier::notify, this, slot);
+        delete notifier;
+    });
+}
+
 #define CASE(x, y) \
     case Button::x: \
         emit y ## Requested(); \
@@ -77,3 +83,10 @@ void HomeWidget::iconButtonClicked(Button button) { switch (button) {
 
 void HomeWidget::authorizationConfirmed() { changeButton(Consts::LOGOUT_ICON, Button::LOGOUT); }
 void HomeWidget::loggedOut() { changeButton(Consts::LOGIN_ICON, Button::LOGIN); }
+
+void HomeWidget::selectedComponentsFetched(QList<Component* _Nullable>* selected) {
+    for (auto component : *selected)
+        qDebug() << (component ? component->toString() : nullptr), // TODO: test only
+        delete component;
+    delete selected;
+}

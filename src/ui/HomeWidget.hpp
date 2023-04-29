@@ -17,10 +17,12 @@ private:
     void logout();
     void scheduleButtonChange(QFuture<bool> (AppState::*action)(), void (HomeWidget::*slot)());
     void changeButton(const QString& icon, Button button);
+    void fetchSelectedComponents();
 private slots:
     void iconButtonClicked(HomeWidget::Button button);
     void authorizationConfirmed();
     void loggedOut();
+    void selectedComponentsFetched(QList<Component* _Nullable>* selected);
 signals:
     void cartComponentSelected(Component* component);
     void loginRequested();
