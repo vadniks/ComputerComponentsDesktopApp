@@ -63,7 +63,7 @@ LoginWidget::LoginWidget(QWidget* parent) :
 void LoginWidget::resizeEvent(QResizeEvent* event) {
     if (event) QWidget::resizeEvent(event);
 
-    const auto size = static_cast<int>(static_cast<float>(Util::min(width(), height())) * 0.25f);
+    const auto size = static_cast<int>(static_cast<float>(Util::minOrMax<true>(width(), height())) * 0.25f);
     mImage.setPixmap(QIcon(Consts::PC_ICON).pixmap(size));
 }
 

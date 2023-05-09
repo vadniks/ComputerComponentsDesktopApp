@@ -7,9 +7,9 @@
 #define INT(n, i) inline static const int n = i;
 
 class Consts final {
-private:
-    inline Consts() { throw -1; } // NOLINT(hicpp-exception-baseclass)
 public:
+    Consts() = delete;
+
     U8_STRING(APP_NAME, Componenta)
     U8_STRING(TITLE, Title)
     U8_STRING(DESCRIPTION, Description)
