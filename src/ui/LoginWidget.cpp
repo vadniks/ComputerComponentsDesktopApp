@@ -34,6 +34,7 @@ LoginWidget::LoginWidget(QWidget* parent) :
 
     mPassword.setPlaceholderText(Consts::PASSWORD);
     mPassword.setStyleSheet(textColorCss);
+    mPassword.setEchoMode(QLineEdit::Password);
 
     connect(&mProceed, &QPushButton::clicked, this, &LoginWidget::proceedClicked);
     connect(&mClear, &QPushButton::clicked, this, &LoginWidget::clearClicked);
