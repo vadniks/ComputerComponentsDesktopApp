@@ -25,7 +25,6 @@ void MessageDisplayableWidget::setWrappedWidget(QWidget* wrapped) {
 }
 
 void MessageDisplayableWidget::showMessage(const QString& message, std::function<void ()>* callback) {
-    qDebug() << message;
     mMessage.setText(message);
 
     auto notifier = new Notifier();
