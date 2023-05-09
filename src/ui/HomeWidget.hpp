@@ -13,16 +13,18 @@ class HomeWidget final : public QWidget {
 public:
     HomeWidget(QWidget* parent, AppState& state);
 private:
-    QPushButton* makeIconButton(const QString& icon, Button button);
+    [[nodiscard]] QPushButton* makeIconButton(const QString& icon, Button button);
     void logout();
     void scheduleButtonChange(QFuture<bool> (AppState::*action)(), void (HomeWidget::*slot)());
     void changeButton(const QString& icon, Button button);
     void fetchSelectedComponents();
+    [[nodiscard]] QString makeTotalCost() const;
 private slots:
     void iconButtonClicked(HomeWidget::Button button);
     void authorizationConfirmed();
     void loggedOut();
     void selectedComponentsFetched(QList<Component* _Nullable>* selected);
+    void clearSelectedClicked();
 signals:
     void cartComponentSelected(Component* component);
     void loginRequested();
@@ -31,4 +33,8 @@ private:
     QVBoxLayout mBody;
     BaseComponentListWidget mComponentList;
     AppState& mState;
+    QHBoxLayout mBottomBar;
+    unsigned mCost;
+    QLabel mTotal;
+    QPushButton mClear;
 };

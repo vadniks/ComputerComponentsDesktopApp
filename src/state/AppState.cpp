@@ -7,12 +7,7 @@ AppState::AppState(MessageDispatcher::MessageDispatcherImpl&& messageDispatcherI
 {
     Component* component;
     for (unsigned i = 0; i < Component::COMPONENTS; i++)
-        component = new Component(
-            Consts::NOT_SELECTED,
-            static_cast<ComponentType>(i),
-            Consts::EMPTY,
-            i
-        ),
+        component = makeStubComponent(i),
         mSelectedComponents.push_back(component);
 }
 
@@ -33,6 +28,20 @@ QFuture<bool> AppState::logout() {
 
 QFuture<QList<Component* _Nullable>* _Nullable> AppState::fetchSelectedComponents() {
     return QtConcurrent::run([this]() -> QList<Component*>* { return mNetwork.selectedComponents(); });
+}
+
+void AppState::dropSelected() {
+    for (unsigned i = 0; i < mSelectedComponents.size(); i++)
+        replaceSelected(mSelectedComponents[i], makeStubComponent(i));
+}
+
+Component* AppState::makeStubComponent(unsigned index) {
+    return new Component(
+        Consts::NOT_SELECTED,
+        static_cast<ComponentType>(index),
+        Consts::EMPTY,
+        index
+    );
 }
 
 AppState::~AppState() { for (auto component : mSelectedComponents) delete component; }

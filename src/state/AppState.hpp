@@ -18,6 +18,8 @@ public:
     [[nodiscard]] QFuture<bool> authorized();
     [[nodiscard]] QFuture<bool> logout();
     [[nodiscard]] QFuture<QList<Component* _Nullable>* _Nullable> fetchSelectedComponents();
+    void dropSelected();
+    [[nodiscard]] static Component* makeStubComponent(unsigned index);
 private:
     QList<Component*> mSelectedComponents;
     [[maybe_unused]] Network mNetwork;

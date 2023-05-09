@@ -16,10 +16,21 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
         nullptr,
         state.selectedComponents()
     ),
-    mState(state)
+    mState(state),
+    mBottomBar(nullptr),
+    mCost(0),
+    mTotal(makeTotalCost()),
+    mClear(Consts::CLEAR)
 {
     connect(&mComponentList, &BaseComponentListWidget::componentSelected, this, &HomeWidget::cartComponentSelected);
     mBody.addWidget(&mComponentList);
+
+    connect(&mClear, &QPushButton::clicked, this, &HomeWidget::clearSelectedClicked);
+
+    mBottomBar.addWidget(&mTotal);
+    mBottomBar.addWidget(&mClear);
+    mBottomBar.setAlignment(Qt::AlignTrailing);
+    mBody.addLayout(&mBottomBar);
 
     scheduleButtonChange(&AppState::authorized, &HomeWidget::authorizationConfirmed);
     fetchSelectedComponents();
@@ -70,6 +81,8 @@ void HomeWidget::fetchSelectedComponents() {
     });
 }
 
+QString HomeWidget::makeTotalCost() const { return QString(Consts::TOTAL_COST) + QString(u8": %1").arg(mCost); }
+
 #define CASE(x, y) \
     case Button::x: \
         emit y ## Requested(); \
@@ -85,11 +98,26 @@ void HomeWidget::authorizationConfirmed() { changeButton(Consts::LOGOUT_ICON, Bu
 void HomeWidget::loggedOut() { changeButton(Consts::LOGIN_ICON, Button::LOGIN); }
 
 void HomeWidget::selectedComponentsFetched(QList<Component* _Nullable>* selected) {
+    mCost = 0;
+
     for (unsigned i = 0; i < Component::COMPONENTS; i++) {
         auto component = selected->operator[](i);
         if (!component) continue;
+
         mState.replaceSelected(mState.selectedComponents()[i], component);
+        mCost += component->cost;
     }
+
     delete selected;
     mComponentList.reFillList();
+
+    mTotal.setText(makeTotalCost());
+}
+
+void HomeWidget::clearSelectedClicked() {
+    mState.dropSelected();
+    mComponentList.reFillList();
+    mCost = 0;
+    mTotal.setText(makeTotalCost());
+    // TODO: post clear selected to server
 }
