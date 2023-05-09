@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include <QIcon>
 #include <type_traits>
+#include <cstdlib>
 
 class Util final {
 private:
@@ -13,7 +14,13 @@ public:
 
     template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
     [[nodiscard]] inline static T min(T a, T b) { return a < b ? a : b; }
+
+    template<bool M, typename T, typename... Ts, typename =
+        std::enable_if_t<std::conjunction_v<std::is_arithmetic<Ts>..., std::is_same<Ts, T>...>>>
+    [[nodiscard]] static T minOrMax(T value, Ts... values);
 };
+
+#include "Util.tpp"
 
 #define BACK_ICON_BUTTON \
     ([this]() -> QPushButton* { \

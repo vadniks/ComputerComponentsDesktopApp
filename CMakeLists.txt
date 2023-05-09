@@ -14,7 +14,7 @@ add_compile_options("-Wno-nullability-completeness")
 #add_compile_options("-O3")
 #add_link_options("-s")
 
-file(GLOB sources CONFIGURE_DEPENDS "src/*.cpp" "src/*.hpp" "src/*/*.cpp" "src/*/*.hpp" res/resources.qrc)
+file(GLOB sources CONFIGURE_DEPENDS "src/*.cpp" "src/*.hpp" "src/*.tpp" "src/*/*.cpp" "src/*/*.hpp" res/resources.qrc)
 add_executable(${PROJECT_NAME} ${sources})
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network Concurrent)
