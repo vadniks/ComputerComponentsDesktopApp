@@ -10,11 +10,11 @@ class MessageDisplayableWidget final : public QWidget {
 public:
     MessageDisplayableWidget(QWidget* parent, QWidget* wrapped);
     void setWrappedWidget(QWidget* wrapped);
-    void showMessage(const QString& message);
+    void showMessage(const QString& message, std::function<void ()>* callback);
 protected:
     void resizeEvent(QResizeEvent* event) override;
 private slots:
-    void messageEnded();
+    void messageEnded(void* callback);
 private:
     QVBoxLayout mBody;
     QWidget* mWrapped;

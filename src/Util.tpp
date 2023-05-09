@@ -1,4 +1,6 @@
 
+#pragma once
+
 #include <cstdlib>
 
 template<bool IsMin, typename T, typename... Ts, typename>

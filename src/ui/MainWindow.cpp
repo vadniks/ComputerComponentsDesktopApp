@@ -11,7 +11,10 @@
     replaceWidgetWith(widget);
 
 MainWindow::MainWindow() :
-    mAppState([this](const QString& message) { mWidgetWrapper.showMessage(message); }),
+    mAppState([this](
+        const QString& message,
+        std::function<void ()>* callback
+    ) { mWidgetWrapper.showMessage(message, callback); }),
     mWrappedWidget(new HomeWidget(this, mAppState)),
     mWidgetWrapper(this, mWrappedWidget)
 {

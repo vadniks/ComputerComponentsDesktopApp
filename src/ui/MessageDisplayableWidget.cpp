@@ -24,7 +24,8 @@ void MessageDisplayableWidget::setWrappedWidget(QWidget* wrapped) {
     mWrapped = wrapped;
 }
 
-void MessageDisplayableWidget::showMessage(const QString& message) {
+void MessageDisplayableWidget::showMessage(const QString& message, std::function<void ()>* callback) {
+    qDebug() << message;
     mMessage.setText(message);
 
     auto notifier = new Notifier();
@@ -33,9 +34,9 @@ void MessageDisplayableWidget::showMessage(const QString& message) {
 #   pragma clang diagnostic push
 #   pragma clang diagnostic ignored "-Wunused-result"
 
-    QtConcurrent::run([notifier, this](){
+    QtConcurrent::run([notifier, this, callback](){
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-        emit notifier->notify(nullptr);
+        emit notifier->notify(callback);
 
         disconnect(notifier, &Notifier::notify, this, &MessageDisplayableWidget::messageEnded);
         delete notifier;
@@ -57,4 +58,10 @@ void MessageDisplayableWidget::resizeEvent(QResizeEvent* event) {
     );
 }
 
-void MessageDisplayableWidget::messageEnded() { mMessage.setText(Consts::EMPTY); }
+void MessageDisplayableWidget::messageEnded(void* callback) {
+    mMessage.setText(Consts::EMPTY);
+
+    auto callback2 = static_cast<std::function<void ()>*>(callback);
+    callback2->operator()();
+    delete callback2;
+}
