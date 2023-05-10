@@ -20,7 +20,7 @@ ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, Component* compo
     mClose(Util::makeIconButton(Consts::REMOVE_ICON)),
     mImagePixmap(nullptr)
 {
-    auto temp = new Notifier(); // for switching threads
+    auto temp = new Notifier();
     connect(temp, &Notifier::notify, this, [this](void* object){ imagePixmapUpdated(static_cast<QPixmap*>(object)); });
     ImageDisplayableState::fetchImage(component).then([temp](QPixmap* pixmap) {
         emit temp->notify(pixmap);

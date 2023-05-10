@@ -44,7 +44,8 @@ void MainWindow::cartComponentTypeSelected(Component* component) {
             MessageDispatcher::instance()->dispatchMessage(Consts::UNAUTHORIZED);
             return;
         }
-        Util::synchronizeThreads(this, reinterpret_cast<void (MainWindow::*)(void*)>(&MainWindow::selectRequested), component);
+        Util::switchThreads(this, reinterpret_cast<void (MainWindow::*)(void*)>(&MainWindow::selectRequested),
+                            component);
     });
 }
 

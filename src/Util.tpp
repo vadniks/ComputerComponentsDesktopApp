@@ -16,7 +16,7 @@ T Util::minOrMax(T value, Ts... values) {
 }
 
 template<typename T, class C, typename S, typename>
-void Util::synchronizeThreads(T notifiedObject, S slot, void* _Nullable parameter) {
+void Util::switchThreads(T notifiedObject, S slot, void* _Nullable parameter) {
     Notifier notifier;
 
 #   define PARAMS &notifier, &Notifier::notify, notifiedObject, slot

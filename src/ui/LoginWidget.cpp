@@ -1,5 +1,4 @@
 
-#include <QDebug>
 #include "LoginWidget.hpp"
 #include "../Consts.hpp"
 #include "../Util.hpp"

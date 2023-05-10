@@ -92,17 +92,7 @@ void OrdersWidget::clearClicked() {
             Util::notifySuccessfulOrFailed(false);
             return;
         }
-
-//        Notifier notifier; // TODO: extract threads synchronization scheme to a macro
-//#       define PARAMS &notifier, &Notifier::notify, this, &OrdersWidget::historyCleared
-//        connect(PARAMS);
-//
-//        emit notifier.notify(nullptr);
-//
-//        disconnect(PARAMS);
-//#       undef PARAMS
-
-        Util::synchronizeThreads(this, &OrdersWidget::historyCleared, nullptr);
+        Util::switchThreads(this, &OrdersWidget::historyCleared, nullptr);
     });
 }
 
