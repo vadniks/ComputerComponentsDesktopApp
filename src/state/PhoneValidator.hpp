@@ -7,7 +7,8 @@
 class PhoneValidator final : public QValidator {
 public:
     State validate(QString& input, int&) const override {
-        QRegularExpression regExp(u8"^[0-9]{0,12}$");
-        return regExp.match(input).hasMatch() ? State::Acceptable : State::Invalid;
+        return QRegularExpression(u8"^[0-9]{0,12}$").match(input).hasMatch()
+            ? State::Acceptable
+            : State::Invalid;
     }
 };
