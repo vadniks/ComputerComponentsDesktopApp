@@ -16,8 +16,12 @@ public:
     [[nodiscard]] static T minOrMax(T value, Ts... values);
 
     static void notifySuccessfulOrFailed(bool successful);
-
     static QString makePlaceholderTextColorCss(const QPalette& palette);
+
+    template<void* _Nullable parameter, typename T, class C = std::remove_pointer_t<T>,
+        typename S = std::conditional_t<parameter != nullptr, void (C::*)(void*), void (C::*)()>,
+        typename = std::enable_if_t<std::is_pointer_v<T> and std::is_base_of_v<QObject, C>>>
+    static void synchronizeThreads(T notifiedObject, S slot);
 };
 
 #include "Util.tpp"
