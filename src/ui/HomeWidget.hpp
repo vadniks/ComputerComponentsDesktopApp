@@ -35,6 +35,7 @@ private:
     BaseComponentListWidget mComponentList;
     AppState& mState;
     QHBoxLayout mBottomBar;
+    QPushButton mHistory;
     unsigned mCost;
     QLabel mTotal;
     QPushButton mClear;

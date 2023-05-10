@@ -18,6 +18,7 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     ),
     mState(state),
     mBottomBar(nullptr),
+    mHistory(Consts::HISTORY),
     mCost(0),
     mTotal(makeTotalCost()),
     mClear(Consts::CLEAR)
@@ -27,9 +28,10 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
 
     connect(&mClear, &QPushButton::clicked, this, &HomeWidget::clearSelectedClicked);
 
+    mBottomBar.addWidget(&mHistory);
+    mBottomBar.addStretch();
     mBottomBar.addWidget(&mTotal);
     mBottomBar.addWidget(&mClear);
-    mBottomBar.setAlignment(Qt::AlignTrailing);
     mBody.addLayout(&mBottomBar);
 
     scheduleButtonChange(&AppState::authorized, &HomeWidget::authorizationConfirmed);
