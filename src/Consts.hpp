@@ -56,7 +56,7 @@ The quality of our custom built computers speak for themselves. They are reliabl
     U8_STRING(LOGOUT_ICON, :/logout.svg)
 
     INT(APP_WIDTH, 640)
-    INT(APP_HEIGHT, 640)
+    INT(APP_HEIGHT, 700)
     INT(ICON_SIZE, 30)
 };
 
