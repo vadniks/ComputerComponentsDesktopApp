@@ -10,6 +10,7 @@
 #include "AppBarWidget.hpp"
 #include "BaseComponentListWidget.hpp"
 #include "../state/PhoneValidator.hpp"
+#include "../state/OrdersState.hpp"
 
 class OrdersWidget final : public QWidget {
     Q_OBJECT
@@ -20,6 +21,7 @@ signals:
 protected:
     void resizeEvent(QResizeEvent* event) override;
 private:
+    OrdersState mState;
     QVBoxLayout mBody;
     AppBarWidget mAppBar;
     QTabWidget mTabBase;
