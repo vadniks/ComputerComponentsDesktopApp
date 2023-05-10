@@ -8,9 +8,13 @@ SelectWidget::SelectWidget(QWidget* parent, Component* target) :
     mBody(this),
     mComponentList(
         this,
-        {},
-        BACK_ICON_BUTTON,
-        new QString(Consts::COMPONENT_SELECTION),
+        new AppBarWidget(
+            this,
+            Consts::APP_NAME,
+            new QString(Consts::COMPONENT_SELECTION),
+            {},
+            BACK_ICON_BUTTON
+        ),
         mState.fetchedComponents()
     ),
     mDetails(nullptr)

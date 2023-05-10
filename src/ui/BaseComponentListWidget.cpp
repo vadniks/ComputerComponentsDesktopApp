@@ -4,18 +4,16 @@
 
 BaseComponentListWidget::BaseComponentListWidget(
     QWidget* parent,
-    QList<QPushButton*>&& buttons,
-    QPushButton* _Nullable leftButton,
-    const QString* _Nullable subtitle,
+    AppBarWidget* _Nullable appBar,
     const QList<Component*>& components
 ) :
     QWidget(parent),
     mBody(this),
-    mAppBar(this, Consts::APP_NAME, subtitle, std::move(buttons), leftButton),
+    mAppBar(appBar),
     mListWidget(this),
     mComponents(components)
 {
-    mBody.addWidget(&mAppBar);
+    if (mAppBar) mBody.addWidget(mAppBar);
     mBody.addWidget(&mListWidget);
 
     mListWidget.setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
@@ -41,7 +39,7 @@ void BaseComponentListWidget::reFillList() {
         mListWidget.setItemWidget(item, widget);
 }
 
-AppBarWidget& BaseComponentListWidget::appBar() { return mAppBar; }
+AppBarWidget* BaseComponentListWidget::appBar() { return mAppBar; }
 
 void BaseComponentListWidget::clearListItems() {
     for (auto item : mListItems)
@@ -57,4 +55,7 @@ void BaseComponentListWidget::listItemClicked(QListWidgetItem* item) {
     });
 }
 
-BaseComponentListWidget::~BaseComponentListWidget() { clearListItems(); }
+BaseComponentListWidget::~BaseComponentListWidget() {
+    clearListItems();
+    delete mAppBar;
+}

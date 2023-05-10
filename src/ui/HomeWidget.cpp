@@ -8,12 +8,16 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     mBody(this),
     mComponentList(
         this,
-        {
-            makeIconButton(Consts::INFO_ICON, Button::INFO),
-            makeIconButton(Consts::LOGIN_ICON, Button::LOGIN)
-        },
-        nullptr,
-        nullptr,
+        new AppBarWidget(
+            this,
+            Consts::APP_NAME,
+            nullptr,
+            {
+                makeIconButton(Consts::INFO_ICON, Button::INFO),
+                makeIconButton(Consts::LOGIN_ICON, Button::LOGIN)
+            },
+            nullptr
+        ),
         state.selectedComponents()
     ),
     mState(state),
@@ -67,14 +71,14 @@ void HomeWidget::scheduleButtonChange(QFuture<bool> (AppState::*action)(), void 
 
 void HomeWidget::changeButton(const QString& icon, Button button) {
     auto newButton = makeIconButton(icon, button),
-        prevButton = mComponentList.appBar().buttonList()[1];
+        prevButton = mComponentList.appBar()->buttonList()[1];
 
-    mComponentList.appBar().buttons().replaceWidget(prevButton, newButton);
+    mComponentList.appBar()->buttons().replaceWidget(prevButton, newButton);
 
     prevButton->disconnect();
     delete prevButton;
 
-    mComponentList.appBar().buttonList()[1] = newButton;
+    mComponentList.appBar()->buttonList()[1] = newButton;
 }
 
 void HomeWidget::fetchSelectedComponents() {

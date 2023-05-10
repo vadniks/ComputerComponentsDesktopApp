@@ -16,7 +16,7 @@ public:
     OrdersWidget();
 private:
     QVBoxLayout mBody;
-    AppBarWidget mAppBar;
+//    AppBarWidget mAppBar;
     QTabWidget mTabBase;
     QWidget mNewOrderTab;
     QVBoxLayout mNewOrderBody;
@@ -27,6 +27,6 @@ private:
     QLineEdit mAddress;
     QWidget mHistoryTab;
     QVBoxLayout mHistoryBody;
-    BaseComponentListWidget mOrders;
+//    BaseComponentListWidget mOrders;
     QPushButton mClearHistory;
 };

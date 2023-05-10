@@ -15,17 +15,15 @@ class BaseComponentListWidget final : public QWidget {
 public:
     BaseComponentListWidget(
         QWidget* parent,
-        QList<QPushButton*>&& buttons,
-        QPushButton* _Nullable leftButton,
-        const QString* _Nullable subtitle,
+        AppBarWidget* _Nullable appBar,
         const QList<Component*>& components
     );
     ~BaseComponentListWidget() override;
     void reFillList();
-    AppBarWidget& appBar();
+    AppBarWidget* _Nullable appBar();
 private:
     QVBoxLayout mBody;
-    AppBarWidget mAppBar;
+    AppBarWidget* _Nullable mAppBar;
     QListWidget mListWidget;
     QList<QPair<QListWidgetItem*, QWidget*>> mListItems;
     const QList<Component*>& mComponents;
