@@ -13,3 +13,9 @@ QPushButton* Util::makeIconButton(const QString& icon) {
 
 void Util::notifySuccessfulOrFailed(bool successful)
 { MessageDispatcher::instance()->dispatchMessage(successful ? Consts::SUCCESSFUL : Consts::FAILED); }
+
+QString Util::makePlaceholderTextColorCss(const QPalette& palette) {
+    int r = 0, g = 0, b = 0, a = 0;
+    palette.text().color().getRgb(&r, &g, &b, &a);
+    return QString(u8"color: rgba(%1, %2, %3, %4)").arg(r).arg(g).arg(b).arg(a);
+}

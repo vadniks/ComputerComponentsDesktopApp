@@ -16,10 +16,6 @@ OrdersWidget::OrdersWidget(QWidget* parent) :
     mNewOrderTab(this),
     mNewOrderBody(&mNewOrderTab),
     mSubmitOrder(Consts::SUBMIT_ORDER),
-    mFirstName(Consts::FIRST_NAME),
-    mLastName(Consts::LAST_NAME),
-    mPhone(Consts::PHONE_NUMBER),
-    mAddress(Consts::ADDRESS),
     mHistoryTab(this),
     mHistoryBody(&mHistoryTab),
     mOrders(this, nullptr, {}),
@@ -30,6 +26,22 @@ OrdersWidget::OrdersWidget(QWidget* parent) :
 
     mTabBase.addTab(&mNewOrderTab, Consts::ORDERS);
     mTabBase.addTab(&mHistoryTab, Consts::HISTORY);
+    mTabBase.tabBar()->setDocumentMode(true);
+
+    auto textColorCss = Util::makePlaceholderTextColorCss(palette());
+
+    mFirstName.setPlaceholderText(Consts::FIRST_NAME);
+    mFirstName.setStyleSheet(textColorCss);
+
+    mLastName.setPlaceholderText(Consts::LAST_NAME);
+    mLastName.setStyleSheet(textColorCss);
+
+    mPhone.setPlaceholderText(Consts::PHONE_NUMBER);
+    mPhone.setStyleSheet(textColorCss);
+    mPhone.setValidator(&mPhoneValidator);
+
+    mAddress.setPlaceholderText(Consts::ADDRESS);
+    mAddress.setStyleSheet(textColorCss);
 
     mNewOrderBody.addWidget(&mSubmitOrder);
     mNewOrderBody.addWidget(&mFirstName);

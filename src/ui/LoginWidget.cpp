@@ -25,9 +25,7 @@ LoginWidget::LoginWidget(QWidget* parent) :
         font-size: 16px;
     )");
 
-    int r = 0, g = 0, b = 0, a = 0;
-    palette().text().color().getRgb(&r, &g, &b, &a);
-    auto textColorCss = QString(u8"color: rgba(%1, %2, %3, %4)").arg(r).arg(g).arg(b).arg(a);
+    auto textColorCss = Util::makePlaceholderTextColorCss(palette());
 
     mName.setPlaceholderText(Consts::LOGIN);
     mName.setStyleSheet(textColorCss);

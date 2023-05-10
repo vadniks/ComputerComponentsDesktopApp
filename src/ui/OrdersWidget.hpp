@@ -9,6 +9,7 @@
 #include <QPushButton>
 #include "AppBarWidget.hpp"
 #include "BaseComponentListWidget.hpp"
+#include "../state/PhoneValidator.hpp"
 
 class OrdersWidget final : public QWidget {
     Q_OBJECT
@@ -26,6 +27,7 @@ private:
     QLineEdit mFirstName;
     QLineEdit mLastName;
     QLineEdit mPhone;
+    PhoneValidator mPhoneValidator;
     QLineEdit mAddress;
     QWidget mHistoryTab;
     QVBoxLayout mHistoryBody;

@@ -16,6 +16,8 @@ public:
     [[nodiscard]] static T minOrMax(T value, Ts... values);
 
     static void notifySuccessfulOrFailed(bool successful);
+
+    static QString makePlaceholderTextColorCss(const QPalette& palette);
 };
 
 #include "Util.tpp"
