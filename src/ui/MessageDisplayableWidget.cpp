@@ -5,6 +5,7 @@
 #include "MessageDisplayableWidget.hpp"
 #include "../Notifier.hpp"
 #include "../Consts.hpp"
+#include "../Util.hpp"
 
 MessageDisplayableWidget::MessageDisplayableWidget(QWidget* parent, QWidget* wrapped) :
     QWidget(parent), mBody(this), mWrapped(wrapped)
@@ -27,18 +28,12 @@ void MessageDisplayableWidget::setWrappedWidget(QWidget* wrapped) {
 void MessageDisplayableWidget::showMessage(const QString& message, std::function<void ()>* callback) {
     mMessage.setText(message);
 
-    auto notifier = new Notifier();
-    connect(notifier, &Notifier::notify, this, &MessageDisplayableWidget::messageEnded);
-
 #   pragma clang diagnostic push
 #   pragma clang diagnostic ignored "-Wunused-result"
 
-    QtConcurrent::run([notifier, this, callback](){
+    QtConcurrent::run([this, callback](){
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-        emit notifier->notify(callback);
-
-        disconnect(notifier, &Notifier::notify, this, &MessageDisplayableWidget::messageEnded);
-        delete notifier;
+        Util::switchThreads(this, &MessageDisplayableWidget::messageEnded, callback);
     });
 
 #   pragma clang diagnostic pop
