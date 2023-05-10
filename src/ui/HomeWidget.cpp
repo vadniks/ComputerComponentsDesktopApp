@@ -36,6 +36,13 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     fetchSelectedComponents();
 }
 
+void HomeWidget::onSelectedComponentsUpdated() {
+    mCost = 0;
+    for (auto component : mState.selectedComponents())
+        mCost += component->cost;
+    mTotal.setText(makeTotalCost());
+}
+
 QPushButton* HomeWidget::makeIconButton(const QString& icon, Button button) {
     auto pushButton = Util::makeIconButton(icon);
     connect(pushButton, &QPushButton::clicked, this, [this, button]() { iconButtonClicked(button); });
@@ -98,26 +105,25 @@ void HomeWidget::authorizationConfirmed() { changeButton(Consts::LOGOUT_ICON, Bu
 void HomeWidget::loggedOut() { changeButton(Consts::LOGIN_ICON, Button::LOGIN); }
 
 void HomeWidget::selectedComponentsFetched(QList<Component* _Nullable>* selected) {
-    mCost = 0;
-
     for (unsigned i = 0; i < Component::COMPONENTS; i++) {
         auto component = selected->operator[](i);
         if (!component) continue;
 
         mState.replaceSelected(mState.selectedComponents()[i], component);
-        mCost += component->cost;
     }
 
     delete selected;
     mComponentList.reFillList();
 
-    mTotal.setText(makeTotalCost());
+    onSelectedComponentsUpdated();
 }
 
 void HomeWidget::clearSelectedClicked() {
+    mState.clearSelected();
+
     mState.dropSelected();
     mComponentList.reFillList();
+
     mCost = 0;
     mTotal.setText(makeTotalCost());
-    // TODO: post clear selected to server
 }

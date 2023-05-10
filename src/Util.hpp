@@ -14,6 +14,8 @@ public:
     template<bool IsMin, typename T, typename... Ts, typename =
         std::enable_if_t<std::conjunction_v<std::is_arithmetic<Ts>..., std::is_same<Ts, T>...>>>
     [[nodiscard]] static T minOrMax(T value, Ts... values);
+
+    static void notifySuccessfulOrFailed(bool successful);
 };
 
 #include "Util.tpp"

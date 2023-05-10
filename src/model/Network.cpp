@@ -177,6 +177,23 @@ bool Network::select(unsigned int id) {
     return result;
 }
 
+bool Network::clearSelected() {
+    bool result = false;
+
+    synchronize(
+        [](QNetworkAccessManager& manager) { return manager.post( // TODO: extract base post request schema into a functional method or into a macro
+            QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/clearSelected")),
+            QByteArray()
+        ); },
+        [&result](QNetworkReply* reply) {
+            result = reply->error() == QNetworkReply::NoError and
+                reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200;
+        }
+    );
+
+    return result;
+}
+
 void Network::synchronize(
     const std::function<QNetworkReply* (QNetworkAccessManager&)>& asyncAction,
     const std::function<void (QNetworkReply*)>& resultHandler

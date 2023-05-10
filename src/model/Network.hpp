@@ -19,9 +19,10 @@ public:
     [[nodiscard]] QByteArray* _Nullable image(const QString& imageString);
     [[nodiscard]] bool authorize(const QString& name, const QString& password);
     [[nodiscard]] bool authorized();
-    [[nodiscard]] bool deauthorize();
+    bool deauthorize();
     [[nodiscard]] QList<Component* _Nullable>* _Nullable selectedComponents();
     [[nodiscard]] bool select(unsigned id);
+    bool clearSelected();
 private:
     void synchronize(
         const std::function<QNetworkReply* (QNetworkAccessManager&)>& asyncAction,

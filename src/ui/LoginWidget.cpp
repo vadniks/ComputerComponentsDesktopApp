@@ -70,7 +70,7 @@ void LoginWidget::resizeEvent(QResizeEvent* event) {
 
 void LoginWidget::proceedClicked() {
     LoginState::login(mName.text(), mPassword.text()).then([this](bool successful) {
-        MessageDispatcher::instance()->dispatchMessage(successful ? Consts::SUCCESSFUL : Consts::FAILED);
+        Util::notifySuccessfulOrFailed(successful);
         if (successful) emit exitRequested(nullptr);
     });
 }
