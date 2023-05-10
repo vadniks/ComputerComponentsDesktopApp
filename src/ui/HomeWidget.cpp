@@ -62,15 +62,8 @@ QPushButton* HomeWidget::makeIconButton(const QString& icon, Button button) {
 void HomeWidget::logout() { scheduleButtonChange(&AppState::logout, &HomeWidget::loggedOut); }
 
 void HomeWidget::scheduleButtonChange(QFuture<bool> (AppState::*action)(), void (HomeWidget::*slot)()) {
-    auto notifier = new Notifier();
-    connect(notifier, &Notifier::notify, this, slot);
-
-    (mState.*action)().then([this, notifier, slot](bool authorized){
-        if (authorized) emit notifier->notify(nullptr);
-
-        disconnect(notifier, &Notifier::notify, this, slot);
-        delete notifier;
-    });
+    (mState.*action)().then([this, slot](bool authorized)
+    { if (authorized) Util::switchThreads(this, slot, nullptr); });
 }
 
 void HomeWidget::changeButton(const QString& icon, Button button) {
