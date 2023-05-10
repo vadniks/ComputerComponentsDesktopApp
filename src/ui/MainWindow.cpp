@@ -4,6 +4,7 @@
 #include "SelectWidget.hpp"
 #include "LoginWidget.hpp"
 #include "AboutWidget.hpp"
+#include "../Notifier.hpp"
 
 #define REPLACE_WIDGET(x, y...) \
     auto widget = new x ## Widget(y); \
@@ -39,8 +40,26 @@ void MainWindow::replaceWidgetWith(QWidget* widget) {
     mWrappedWidget = widget;
 }
 
-void MainWindow::cartComponentTypeSelected(Component* component)
-{ REPLACE_WIDGET(Select, this, component) }
+void MainWindow::cartComponentTypeSelected(Component* component) {
+    mAppState.authorized().then([this, component](bool authorized){
+        if (!authorized) {
+            MessageDispatcher::instance()->dispatchMessage(Consts::UNAUTHORIZED);
+            return;
+        }
+
+        auto notifier = new Notifier();
+
+#       define PARAMS notifier, &Notifier::notify, this, reinterpret_cast<void (MainWindow::*)(void*)>(&MainWindow::selectRequested)
+        connect(PARAMS);
+
+        emit notifier->notify(component); // threads synchronization
+
+        disconnect(PARAMS);
+#       undef PARAMS
+
+        delete notifier;
+    });
+}
 
 void MainWindow::exitRequested(void* parameter) {
     if (parameter != nullptr) {
@@ -56,4 +75,5 @@ void MainWindow::exitRequested(void* parameter) {
 
 void MainWindow::loginRequested() { REPLACE_WIDGET(Login, this) }
 void MainWindow::infoRequested() { REPLACE_WIDGET(About, this) }
+void MainWindow::selectRequested(Component* component) { REPLACE_WIDGET(Select, this, component) }
 MainWindow::~MainWindow() { delete mWrappedWidget; }

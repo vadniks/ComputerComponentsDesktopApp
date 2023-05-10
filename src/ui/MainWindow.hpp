@@ -22,4 +22,5 @@ private slots:
     void exitRequested(void* parameter);
     void loginRequested();
     void infoRequested();
+    void selectRequested(Component* component);
 };
