@@ -18,7 +18,7 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     ),
     mState(state),
     mBottomBar(nullptr),
-    mHistory(Consts::HISTORY),
+    mHistory(Consts::ORDERS),
     mCost(0),
     mTotal(makeTotalCost()),
     mClear(Consts::CLEAR)
