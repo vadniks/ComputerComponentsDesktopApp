@@ -5,11 +5,7 @@
 #include "LoginWidget.hpp"
 #include "AboutWidget.hpp"
 #include "../Notifier.hpp"
-
-#define REPLACE_WIDGET(x, y...) \
-    auto widget = new x ## Widget(y); \
-    connect(widget, &x ## Widget::exitRequested, this, &MainWindow::exitRequested); \
-    replaceWidgetWith(widget);
+#include "OrdersWidget.hpp"
 
 MainWindow::MainWindow() :
     mAppState([this](
@@ -31,6 +27,7 @@ void MainWindow::connectHomeWidget() {
     connect(widget, &HomeWidget::cartComponentSelected, this, &MainWindow::cartComponentTypeSelected);
     connect(widget, &HomeWidget::loginRequested, this, &MainWindow::loginRequested);
     connect(widget, &HomeWidget::infoRequested, this, &MainWindow::infoRequested);
+    connect(widget, &HomeWidget::ordersRequested, this, &MainWindow::ordersRequested);
 }
 
 void MainWindow::replaceWidgetWith(QWidget* widget) {
@@ -46,10 +43,10 @@ void MainWindow::cartComponentTypeSelected(Component* component) {
             MessageDispatcher::instance()->dispatchMessage(Consts::UNAUTHORIZED);
             return;
         }
-
         auto notifier = new Notifier();
 
-#       define PARAMS notifier, &Notifier::notify, this, reinterpret_cast<void (MainWindow::*)(void*)>(&MainWindow::selectRequested)
+#       define PARAMS notifier, &Notifier::notify, this, \
+            reinterpret_cast<void (MainWindow::*)(void*)>(&MainWindow::selectRequested)
         connect(PARAMS);
 
         emit notifier->notify(component); // threads synchronization
@@ -73,7 +70,13 @@ void MainWindow::exitRequested(void* parameter) {
     connectHomeWidget();
 }
 
+#define REPLACE_WIDGET(x, y...) \
+    auto widget = new x ## Widget(y); \
+    connect(widget, &x ## Widget::exitRequested, this, &MainWindow::exitRequested); \
+    replaceWidgetWith(widget);
+
 void MainWindow::loginRequested() { REPLACE_WIDGET(Login, this) }
 void MainWindow::infoRequested() { REPLACE_WIDGET(About, this) }
 void MainWindow::selectRequested(Component* component) { REPLACE_WIDGET(Select, this, component) }
+void MainWindow::ordersRequested() { REPLACE_WIDGET(Orders, this) }
 MainWindow::~MainWindow() { delete mWrappedWidget; }

@@ -1,6 +1,6 @@
 
 #include "OrdersWidget.hpp"
 
-OrdersWidget::OrdersWidget() {
+OrdersWidget::OrdersWidget(QWidget* parent) : QWidget(parent) {
 
 }

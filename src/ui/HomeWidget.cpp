@@ -22,7 +22,7 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     ),
     mState(state),
     mBottomBar(nullptr),
-    mHistory(Consts::ORDERS),
+    mOrders(Consts::ORDERS),
     mCost(0),
     mTotal(makeTotalCost()),
     mClear(Consts::CLEAR)
@@ -31,8 +31,9 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     mBody.addWidget(&mComponentList);
 
     connect(&mClear, &QPushButton::clicked, this, &HomeWidget::clearSelectedClicked);
+    connect(&mOrders, &QPushButton::clicked, this, &HomeWidget::ordersRequested);
 
-    mBottomBar.addWidget(&mHistory);
+    mBottomBar.addWidget(&mOrders);
     mBottomBar.addStretch();
     mBottomBar.addWidget(&mTotal);
     mBottomBar.addWidget(&mClear);

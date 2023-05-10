@@ -13,7 +13,9 @@
 class OrdersWidget final : public QWidget {
     Q_OBJECT
 public:
-    OrdersWidget();
+    explicit OrdersWidget(QWidget* parent);
+signals:
+    void exitRequested(void* parameter);
 private:
     QVBoxLayout mBody;
 //    AppBarWidget mAppBar;

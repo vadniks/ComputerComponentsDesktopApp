@@ -30,12 +30,13 @@ signals:
     void cartComponentSelected(Component* component);
     void loginRequested();
     void infoRequested();
+    void ordersRequested();
 private:
     QVBoxLayout mBody;
     BaseComponentListWidget mComponentList;
     AppState& mState;
     QHBoxLayout mBottomBar;
-    QPushButton mHistory;
+    QPushButton mOrders;
     unsigned mCost;
     QLabel mTotal;
     QPushButton mClear;

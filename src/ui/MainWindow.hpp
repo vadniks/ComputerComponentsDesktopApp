@@ -23,4 +23,5 @@ private slots:
     void loginRequested();
     void infoRequested();
     void selectRequested(Component* component);
+    void ordersRequested();
 };
