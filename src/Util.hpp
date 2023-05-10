@@ -23,9 +23,6 @@ public:
         and std::is_base_of_v<QObject, C>
         and (std::is_same_v<S, void (C::*)(void*)> or std::is_same_v<S, void (C::*)()>)>>
     static void switchThreads(T notifiedObject, S slot, void* _Nullable parameter);
-
-    template<void* A>
-    static void a() {}
 };
 
 #include "Util.tpp"
