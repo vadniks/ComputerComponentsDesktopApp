@@ -1,7 +1,6 @@
 
 #include "HomeWidget.hpp"
 #include "../Util.hpp"
-#include "../Notifier.hpp"
 
 HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     QWidget(parent),
@@ -79,16 +78,12 @@ void HomeWidget::changeButton(const QString& icon, Button button) {
 }
 
 void HomeWidget::fetchSelectedComponents() {
-    auto notifier = new Notifier();
-
-    auto slot = reinterpret_cast<void (HomeWidget::*)(void*)>(&HomeWidget::selectedComponentsFetched);
-    connect(notifier, &Notifier::notify, this, slot);
-
-    mState.fetchSelectedComponents().then([notifier, this, slot](QList<Component* _Nullable>* _Nullable selected){
-        if (selected) emit notifier->notify(selected);
-        disconnect(notifier, &Notifier::notify, this, slot);
-        delete notifier;
-    });
+    mState.fetchSelectedComponents().then([this](QList<Component* _Nullable>* _Nullable selected)
+    { if (selected) Util::switchThreads(
+        this,
+        reinterpret_cast<void (HomeWidget::*)(void*)>(&HomeWidget::selectedComponentsFetched),
+        selected
+    ); });
 }
 
 QString HomeWidget::makeTotalCost() const { return QString(Consts::TOTAL_COST) + QString(u8": %1").arg(mCost); }
