@@ -33,6 +33,9 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     connect(&mClear, &QPushButton::clicked, this, &HomeWidget::clearSelectedClicked);
     connect(&mOrders, &QPushButton::clicked, this, &HomeWidget::ordersRequested);
 
+    const auto margins = mBody.contentsMargins();
+    mBottomBar.setContentsMargins(margins.left(), 0, margins.right(), 0);
+
     mBottomBar.addWidget(&mOrders);
     mBottomBar.addStretch();
     mBottomBar.addWidget(&mTotal);
