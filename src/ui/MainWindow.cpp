@@ -6,6 +6,7 @@
 #include "AboutWidget.hpp"
 #include "../Notifier.hpp"
 #include "OrdersWidget.hpp"
+#include "../Util.hpp"
 
 MainWindow::MainWindow() :
     mAppState([this](
@@ -43,18 +44,7 @@ void MainWindow::cartComponentTypeSelected(Component* component) {
             MessageDispatcher::instance()->dispatchMessage(Consts::UNAUTHORIZED);
             return;
         }
-        auto notifier = new Notifier();
-
-#       define PARAMS notifier, &Notifier::notify, this, \
-            reinterpret_cast<void (MainWindow::*)(void*)>(&MainWindow::selectRequested)
-        connect(PARAMS);
-
-        emit notifier->notify(component); // threads synchronization
-
-        disconnect(PARAMS);
-#       undef PARAMS
-
-        delete notifier;
+        Util::synchronizeThreads(this, reinterpret_cast<void (MainWindow::*)(void*)>(&MainWindow::selectRequested), component);
     });
 }
 

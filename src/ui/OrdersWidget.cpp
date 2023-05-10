@@ -102,7 +102,7 @@ void OrdersWidget::clearClicked() {
 //        disconnect(PARAMS);
 //#       undef PARAMS
 
-        Util::synchronizeThreads<nullptr>(this, &OrdersWidget::historyCleared);
+        Util::synchronizeThreads(this, &OrdersWidget::historyCleared, nullptr);
     });
 }
 
