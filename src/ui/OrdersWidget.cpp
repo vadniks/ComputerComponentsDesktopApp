@@ -28,6 +28,10 @@ OrdersWidget::OrdersWidget(QWidget* parent) :
     mTabBase.addTab(&mHistoryTab, Consts::HISTORY);
     mTabBase.tabBar()->setDocumentMode(true);
 
+    mNewOrderBody.setAlignment(Qt::AlignCenter);
+
+    mSubmitOrder.setStyleSheet(u8"font-size: 18px");
+
     auto textColorCss = Util::makePlaceholderTextColorCss(palette());
 
     mFirstName.setPlaceholderText(Consts::FIRST_NAME);
@@ -43,7 +47,7 @@ OrdersWidget::OrdersWidget(QWidget* parent) :
     mAddress.setPlaceholderText(Consts::ADDRESS);
     mAddress.setStyleSheet(textColorCss);
 
-    mNewOrderBody.addWidget(&mSubmitOrder);
+    mNewOrderBody.addWidget(&mSubmitOrder, 0, Qt::AlignHCenter);
     mNewOrderBody.addWidget(&mFirstName);
     mNewOrderBody.addWidget(&mLastName);
     mNewOrderBody.addWidget(&mPhone);
@@ -51,4 +55,16 @@ OrdersWidget::OrdersWidget(QWidget* parent) :
 
     mHistoryBody.addWidget(&mOrders);
     mHistoryBody.addWidget(&mClearHistory);
+
+    resizeEvent(nullptr);
+}
+
+void OrdersWidget::resizeEvent(QResizeEvent* event) {
+    if (event) QWidget::resizeEvent(event);
+    const auto width = this->width() / 2;
+
+    mFirstName.setMaximumWidth(width);
+    mLastName.setMaximumWidth(width);
+    mPhone.setMaximumWidth(width);
+    mAddress.setMaximumWidth(width);
 }

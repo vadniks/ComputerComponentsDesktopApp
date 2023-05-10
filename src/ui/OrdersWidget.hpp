@@ -17,6 +17,8 @@ public:
     explicit OrdersWidget(QWidget* parent);
 signals:
     void exitRequested(void* parameter);
+protected:
+    void resizeEvent(QResizeEvent* event) override;
 private:
     QVBoxLayout mBody;
     AppBarWidget mAppBar;
