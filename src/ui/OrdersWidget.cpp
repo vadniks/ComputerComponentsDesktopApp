@@ -31,5 +31,12 @@ OrdersWidget::OrdersWidget(QWidget* parent) :
     mTabBase.addTab(&mNewOrderTab, Consts::ORDERS);
     mTabBase.addTab(&mHistoryTab, Consts::HISTORY);
 
+    mNewOrderBody.addWidget(&mSubmitOrder);
+    mNewOrderBody.addWidget(&mFirstName);
+    mNewOrderBody.addWidget(&mLastName);
+    mNewOrderBody.addWidget(&mPhone);
+    mNewOrderBody.addWidget(&mAddress);
 
+    mHistoryBody.addWidget(&mOrders);
+    mHistoryBody.addWidget(&mClearHistory);
 }
