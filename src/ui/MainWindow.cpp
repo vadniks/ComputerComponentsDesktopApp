@@ -30,13 +30,9 @@ void MainWindow::connectHomeWidget() {
     connect(widget, &HomeWidget::cartComponentSelected, this, &MainWindow::cartComponentTypeSelected);
     connect(widget, &HomeWidget::loginRequested, this, &MainWindow::loginRequested);
     connect(widget, &HomeWidget::infoRequested, this, &MainWindow::infoRequested);
-
-    mAppState.setSelectedComponentsUpdateCallback(std::make_optional([widget](){ widget->onSelectedComponentsUpdated(); }));
-    widget->onSelectedComponentsUpdated();
 }
 
 void MainWindow::replaceWidgetWith(QWidget* widget) {
-    mAppState.setSelectedComponentsUpdateCallback(std::nullopt);
     mWidgetWrapper.setWrappedWidget(widget);
     mWrappedWidget->disconnect();
     delete mWrappedWidget;

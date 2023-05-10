@@ -3,8 +3,7 @@
 #include "AppState.hpp"
 
 AppState::AppState(MessageDispatcher::MessageDispatcherImpl&& messageDispatcherImpl) :
-    mMessageDispatcher(std::move(messageDispatcherImpl)),
-    mSelectedComponentsUpdateCallback(std::nullopt)
+    mMessageDispatcher(std::move(messageDispatcherImpl))
 {
     Component* component;
     for (unsigned i = 0; i < Component::COMPONENTS; i++)
@@ -17,9 +16,6 @@ const QList<Component*>& AppState::selectedComponents() const { return mSelected
 void AppState::replaceSelected(const Component* old, Component* nw) {
     mSelectedComponents[mSelectedComponents.indexOf(old)] = nw;
     delete old;
-
-    if (mSelectedComponentsUpdateCallback)
-        mSelectedComponentsUpdateCallback->operator()();
 }
 
 QFuture<bool> AppState::authorized() {
@@ -51,8 +47,5 @@ Component* AppState::makeStubComponent(unsigned index) {
 QFuture<bool> AppState::clearSelected() {
     return QtConcurrent::run([this]() -> bool { return mNetwork.clearSelected(); });
 }
-
-void AppState::setSelectedComponentsUpdateCallback(std::optional<std::function<void ()>>&& callback)
-{ mSelectedComponentsUpdateCallback = std::move(callback); }
 
 AppState::~AppState() { for (auto component : mSelectedComponents) delete component; }
