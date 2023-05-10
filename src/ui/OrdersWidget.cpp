@@ -16,6 +16,7 @@ OrdersWidget::OrdersWidget(QWidget* parent) :
     mNewOrderTab(this),
     mNewOrderBody(&mNewOrderTab),
     mSubmitOrder(Consts::SUBMIT_ORDER),
+    mSubmit(Consts::SUBMIT),
     mHistoryTab(this),
     mHistoryBody(&mHistoryTab),
     mOrders(this, nullptr, {}),
@@ -52,9 +53,11 @@ OrdersWidget::OrdersWidget(QWidget* parent) :
     mNewOrderBody.addWidget(&mLastName);
     mNewOrderBody.addWidget(&mPhone);
     mNewOrderBody.addWidget(&mAddress);
+    mNewOrderBody.addWidget(&mSubmit, 0 , Qt::AlignHCenter);
 
     mHistoryBody.addWidget(&mOrders);
-    mHistoryBody.addWidget(&mClearHistory);
+    mHistoryBody.addWidget(&mClearHistory, 0 , Qt::AlignHCenter);
+    mHistoryBody.setContentsMargins(0, 0, 0, 0);
 
     resizeEvent(nullptr);
 }

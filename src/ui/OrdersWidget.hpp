@@ -31,6 +31,7 @@ private:
     QLineEdit mPhone;
     PhoneValidator mPhoneValidator;
     QLineEdit mAddress;
+    QPushButton mSubmit;
     QWidget mHistoryTab;
     QVBoxLayout mHistoryBody;
     BaseComponentListWidget mOrders;
