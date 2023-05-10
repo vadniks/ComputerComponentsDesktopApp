@@ -20,6 +20,10 @@ signals:
     void exitRequested(void* parameter);
 protected:
     void resizeEvent(QResizeEvent* event) override;
+private slots:
+    void submitClicked();
+    void clearClicked();
+    void historyCleared();
 private:
     OrdersState mState;
     QVBoxLayout mBody;

@@ -1,6 +1,7 @@
 
 #include "OrdersWidget.hpp"
 #include "../Util.hpp"
+#include "../Notifier.hpp"
 
 OrdersWidget::OrdersWidget(QWidget* parent) :
     QWidget(parent),
@@ -60,6 +61,9 @@ OrdersWidget::OrdersWidget(QWidget* parent) :
     mHistoryBody.setContentsMargins(0, 0, 0, 0);
 
     resizeEvent(nullptr);
+
+    connect(&mSubmit, &QPushButton::clicked, this, &OrdersWidget::submitClicked);
+    connect(&mClearHistory, &QPushButton::clicked, this, &OrdersWidget::clearClicked);
 }
 
 void OrdersWidget::resizeEvent(QResizeEvent* event) {
@@ -70,4 +74,37 @@ void OrdersWidget::resizeEvent(QResizeEvent* event) {
     mLastName.setMaximumWidth(width);
     mPhone.setMaximumWidth(width);
     mAddress.setMaximumWidth(width);
+}
+
+void OrdersWidget::submitClicked() {
+    mState.submitOrder(
+        mFirstName.text(),
+        mLastName.text(),
+        mPhone.text(),
+        mAddress.text()
+    ).then([](bool successful)
+    { Util::notifySuccessfulOrFailed(successful); });
+}
+
+void OrdersWidget::clearClicked() {
+    mState.clearHistory().then([this](bool successful){
+        if (!successful) {
+            Util::notifySuccessfulOrFailed(false);
+            return;
+        }
+
+        Notifier notifier; // TODO: extract threads synchronization scheme to a macro
+#       define PARAMS &notifier, &Notifier::notify, this, &OrdersWidget::historyCleared
+        connect(PARAMS);
+
+        emit notifier.notify(nullptr);
+
+        disconnect(PARAMS);
+#       undef PARAMS
+    });
+}
+
+void OrdersWidget::historyCleared() {
+    mState.dropBoughtComponents();
+    mOrders.reFillList();
 }

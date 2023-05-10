@@ -18,6 +18,8 @@ public:
     );
 
     QFuture<bool> clearHistory();
+    [[nodiscard]] const QList<Component*>& boughtComponents() const;
+    void dropBoughtComponents();
 private:
     [[nodiscard]] QFuture<QList<Component*>* _Nullable> fetchHistory();
 

@@ -19,6 +19,12 @@ QFuture<bool> OrdersState::clearHistory() {
     return QtConcurrent::run([](){ return false; });
 }
 
+const QList<Component*>& OrdersState::boughtComponents() const { return mBoughtComponents; }
+
+void OrdersState::dropBoughtComponents() {
+
+}
+
 QFuture<QList<Component*>* _Nullable> OrdersState::fetchHistory() {
     return QtConcurrent::run([](){ return new QList<Component*>(); });
 }
