@@ -18,7 +18,7 @@ OrdersWidget::OrdersWidget(QWidget* parent) :
     mSubmit(Consts::SUBMIT),
     mHistoryTab(this),
     mHistoryBody(&mHistoryTab),
-    mOrders(this, nullptr, mState.boughtComponents(), cIsAlive),
+    mOrders(this, nullptr, mState.boughtComponents(), cIsAlive, false),
     mClearHistory(Consts::CLEAR)
 {
     mBody.addWidget(&mAppBar);

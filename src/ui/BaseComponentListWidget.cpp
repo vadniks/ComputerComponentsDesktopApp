@@ -6,7 +6,8 @@ BaseComponentListWidget::BaseComponentListWidget(
     QWidget* parent,
     AppBarWidget* _Nullable appBar,
     const QList<Component*>& components,
-    bool& isParentAlive
+    bool& isParentAlive,
+    bool clickable
 ) :
     QWidget(parent),
     mIsParentAlive(isParentAlive),
@@ -18,7 +19,10 @@ BaseComponentListWidget::BaseComponentListWidget(
     if (mAppBar) mBody.addWidget(mAppBar);
     mBody.addWidget(&mListWidget);
 
-    mListWidget.setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
+    mListWidget.setSelectionMode(clickable
+        ? QAbstractItemView::SelectionMode::SingleSelection
+        : QAbstractItemView::SelectionMode::NoSelection);
+
     connect(&mListWidget, &QListWidget::itemClicked, this, &BaseComponentListWidget::listItemClicked);
     reFillList();
 }

@@ -17,7 +17,8 @@ public:
         QWidget* parent,
         AppBarWidget* _Nullable appBar,
         const QList<Component*>& components,
-        bool& isParentAlive
+        bool& isParentAlive,
+        bool clickable = true
     );
     ~BaseComponentListWidget() override;
     void reFillList();
