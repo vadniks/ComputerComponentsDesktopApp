@@ -229,16 +229,13 @@ QList<Component*>* _Nullable Network::history() {
 
         [&result, this](QNetworkReply* reply) {
             result = new std::remove_pointer_t<decltype(result)>();
-
             QString body(reply->readAll());
-            qDebug() << body; // TODO: test only
 
             for (const auto& order : body.split(':'))
                 for (const auto& id : order.split(',')) {
                     if (id == QString(Consts::NULL_STRING)) continue;
 
                     if (auto component = this->component(id.toInt()))
-                        qDebug() << component->title,
                         result->push_back(component);
                 }
         }
