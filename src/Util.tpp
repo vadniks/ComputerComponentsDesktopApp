@@ -21,11 +21,11 @@ void Util::switchThreads(T notifiedObject, S slot, void* _Nullable parameter, bo
     Notifier notifier;
 
 #   define PARAMS &notifier, &Notifier::notify, notifiedObject, slot
-    if (isAlive) QObject::disconnect(PARAMS);
-    if (isAlive) QObject::connect(PARAMS);
+    QObject::disconnect(PARAMS);
+    QObject::connect(PARAMS);
 
-    if (isAlive) emit notifier.notify(parameter);
+    emit notifier.notify(parameter);
 
-    if (isAlive) QObject::disconnect(PARAMS);
+    QObject::disconnect(PARAMS);
 #   undef PARAMS
 }
