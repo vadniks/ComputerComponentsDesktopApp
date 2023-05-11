@@ -1,11 +1,10 @@
 
 #include "HomeWidget.hpp"
-#include "../Util.hpp"
 
 HomeWidget::HomeWidget(QWidget* parent, const IWindowShared* windowShared, AppState& state, bool afterLoggingIn) :
     QWidget(parent),
     AbsPrimaryWidget(windowShared),
-    mBody(this),
+    mBody(THIS_RETURNING_PROXY(cIsAlive = true)),
     mComponentList(
         this,
         new AppBarWidget(
@@ -19,7 +18,7 @@ HomeWidget::HomeWidget(QWidget* parent, const IWindowShared* windowShared, AppSt
             nullptr
         ),
         state.selectedComponents(),
-        new std::function([windowShared](){ return windowShared->currentWidget() == IWindowShared::HOME; })
+        cIsAlive
     ),
     mState(state),
     mBottomBar(nullptr),
@@ -64,7 +63,7 @@ void HomeWidget::logout() { scheduleButtonChange(&AppState::logout, &HomeWidget:
 
 void HomeWidget::scheduleButtonChange(QFuture<bool> (AppState::*action)(), void (HomeWidget::*slot)()) {
     (mState.*action)().then([this, slot](bool authorized)
-    { if (authorized) Util::switchThreads(this, slot, nullptr); });
+    { if (authorized) Util::switchThreads(this, slot, nullptr, cIsAlive); });
 }
 
 void HomeWidget::changeButton(const QString& icon, Button button) {
@@ -85,7 +84,8 @@ void HomeWidget::fetchSelectedComponents() {
         if (selected) Util::switchThreads(
             this,
             reinterpret_cast<void (HomeWidget::*)(void*)>(&HomeWidget::selectedComponentsFetched),
-            selected
+            selected,
+            cIsAlive
         );
         mFetching = false;
     });
@@ -133,3 +133,5 @@ void HomeWidget::clearSelectedClicked() {
 
 void HomeWidget::listItemClicked(Component* component)
 { if (!mFetching) emit cartComponentSelected(component); }
+
+HomeWidget::~HomeWidget() { cIsAlive = false; }

@@ -9,6 +9,7 @@
 #include <QPushButton>
 #include "AppBarWidget.hpp"
 #include "AbsPrimaryWidget.hpp"
+#include "../Util.hpp"
 
 class [[maybe_unused]] LoginWidget final : public QWidget, public AbsPrimaryWidget {
     Q_OBJECT
@@ -17,6 +18,7 @@ public:
 protected:
     void resizeEvent(QResizeEvent* event) override;
 private:
+    IS_ALIVE
     QVBoxLayout mBody;
     AppBarWidget mAppBar;
     QLabel mImage;

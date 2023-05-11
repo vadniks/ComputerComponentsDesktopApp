@@ -16,15 +16,16 @@ T Util::minOrMax(T value, Ts... values) {
 }
 
 template<typename T, class C, typename S, typename>
-void Util::switchThreads(T notifiedObject, S slot, void* _Nullable parameter) {
+void Util::switchThreads(T notifiedObject, S slot, void* _Nullable parameter, bool& isAlive) {
+    if (!isAlive) return;
     Notifier notifier;
 
 #   define PARAMS &notifier, &Notifier::notify, notifiedObject, slot
-    QObject::disconnect(PARAMS);
-    QObject::connect(PARAMS);
+    if (isAlive) QObject::disconnect(PARAMS);
+    if (isAlive) QObject::connect(PARAMS);
 
-    emit notifier.notify(parameter);
+    if (isAlive) emit notifier.notify(parameter);
 
-    QObject::disconnect(PARAMS);
+    if (isAlive) QObject::disconnect(PARAMS);
 #   undef PARAMS
 }

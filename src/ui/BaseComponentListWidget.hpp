@@ -17,19 +17,19 @@ public:
         QWidget* parent,
         AppBarWidget* _Nullable appBar,
         const QList<Component*>& components,
-        std::function<bool ()>* canDoAsync
+        bool& isParentAlive
     );
     ~BaseComponentListWidget() override;
     void reFillList();
     AppBarWidget* _Nullable appBar();
     [[nodiscard]] bool fetching() const;
 private:
+    bool& mIsParentAlive;
     QVBoxLayout mBody;
     AppBarWidget* _Nullable mAppBar;
     QListWidget mListWidget;
     QList<QPair<QListWidgetItem*, QWidget*>> mListItems;
     const QList<Component*>& mComponents;
-    std::function<bool ()>* mCanDoAsync;
 
     void clearListItems();
 private slots:

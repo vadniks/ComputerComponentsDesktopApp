@@ -1,11 +1,10 @@
 
 #include "OrdersWidget.hpp"
-#include "../Util.hpp"
 
 OrdersWidget::OrdersWidget(QWidget* parent, const IWindowShared* windowShared) :
     QWidget(parent),
     AbsPrimaryWidget(windowShared),
-    mBody(this),
+    mBody(THIS_RETURNING_PROXY(cIsAlive = true)),
     mAppBar(
         this,
         Consts::APP_NAME,
@@ -20,7 +19,7 @@ OrdersWidget::OrdersWidget(QWidget* parent, const IWindowShared* windowShared) :
     mSubmit(Consts::SUBMIT),
     mHistoryTab(this),
     mHistoryBody(&mHistoryTab),
-    mOrders(this, nullptr, {}, new std::function([windowShared](){ return windowShared->currentWidget() == IWindowShared::ORDERS; })),
+    mOrders(this, nullptr, {}, cIsAlive),
     mClearHistory(Consts::CLEAR)
 {
     mBody.addWidget(&mAppBar);
@@ -92,7 +91,7 @@ void OrdersWidget::clearClicked() {
             Util::notifySuccessfulOrFailed(false);
             return;
         }
-        Util::switchThreads(this, &OrdersWidget::historyCleared, nullptr);
+        Util::switchThreads(this, &OrdersWidget::historyCleared, nullptr, cIsAlive);
     });
 }
 
@@ -100,3 +99,5 @@ void OrdersWidget::historyCleared() {
     mState.dropBoughtComponents();
     mOrders.reFillList();
 }
+
+OrdersWidget::~OrdersWidget() { cIsAlive = false; }

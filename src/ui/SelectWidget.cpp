@@ -1,11 +1,10 @@
 
 #include "SelectWidget.hpp"
-#include "../Util.hpp"
 
 SelectWidget::SelectWidget(QWidget* parent, const IWindowShared* windowShared, Component* target) :
     QWidget(parent),
     AbsPrimaryWidget(windowShared),
-    mState(this, target),
+    mState(THIS_RETURNING_PROXY(cIsAlive = true), target),
     mBody(this),
     mComponentList(
         this,
@@ -17,7 +16,7 @@ SelectWidget::SelectWidget(QWidget* parent, const IWindowShared* windowShared, C
             BACK_ICON_BUTTON
         ),
         mState.fetchedComponents(),
-        new std::function([windowShared](){ return windowShared->currentWidget() == IWindowShared::SELECT; })
+        cIsAlive
     ),
     mDetails(nullptr)
 {
@@ -60,4 +59,7 @@ void SelectWidget::detailsRequestedExit() {
 
 void SelectWidget::componentsFetched() { mComponentList.reFillList(); }
 
-SelectWidget::~SelectWidget() { delete mDetails; }
+SelectWidget::~SelectWidget() {
+    cIsAlive = false;
+    delete mDetails;
+}

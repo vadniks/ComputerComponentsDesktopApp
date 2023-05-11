@@ -3,12 +3,10 @@
 #include <chrono>
 #include <thread>
 #include "MessageDisplayableWidget.hpp"
-#include "../Notifier.hpp"
 #include "../Consts.hpp"
-#include "../Util.hpp"
 
 MessageDisplayableWidget::MessageDisplayableWidget(QWidget* parent, QWidget* wrapped) :
-    QWidget(parent), mBody(this), mWrapped(wrapped)
+    QWidget(parent), mBody(THIS_RETURNING_PROXY(cIsAlive = true)), mWrapped(wrapped)
 {
     mMessage.setStyleSheet(u8R"(
         font-size: 18px;
@@ -33,7 +31,7 @@ void MessageDisplayableWidget::showMessage(const QString& message, std::function
 
     QtConcurrent::run([this, callback](){
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-        Util::switchThreads(this, &MessageDisplayableWidget::messageEnded, callback);
+        Util::switchThreads(this, &MessageDisplayableWidget::messageEnded, callback, cIsAlive);
     });
 
 #   pragma clang diagnostic pop
@@ -59,3 +57,5 @@ void MessageDisplayableWidget::messageEnded(void* callback) {
     callback2->operator()();
     delete callback2;
 }
+
+MessageDisplayableWidget::~MessageDisplayableWidget() { cIsAlive = false; }

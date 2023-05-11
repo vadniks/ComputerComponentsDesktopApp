@@ -1,18 +1,19 @@
 
 #include "BaseComponentListWidget.hpp"
+#include "../Util.hpp"
 
 BaseComponentListWidget::BaseComponentListWidget(
     QWidget* parent,
     AppBarWidget* _Nullable appBar,
     const QList<Component*>& components,
-    std::function<bool ()>* canDoAsync
+    bool& isParentAlive
 ) :
     QWidget(parent),
+    mIsParentAlive(isParentAlive),
     mBody(this),
     mAppBar(appBar),
     mListWidget(this),
-    mComponents(components),
-    mCanDoAsync(canDoAsync)
+    mComponents(components)
 {
     if (mAppBar) mBody.addWidget(mAppBar);
     mBody.addWidget(&mListWidget);
@@ -29,7 +30,7 @@ void BaseComponentListWidget::reFillList() {
     QWidget* widget;
 
     for (auto component : mComponents)
-        widget = new ComponentListItemWidget(this, component, mCanDoAsync),
+        widget = new ComponentListItemWidget(this, component, mIsParentAlive),
 
         item = new QListWidgetItem(),
         item->setSizeHint(widget->sizeHint()),
@@ -43,8 +44,8 @@ void BaseComponentListWidget::reFillList() {
 AppBarWidget* BaseComponentListWidget::appBar() { return mAppBar; }
 
 bool BaseComponentListWidget::fetching() const {
-    for (const auto& item : mListItems)
-        if (dynamic_cast<ComponentListItemWidget*>(item.second)->isFetching())
+    for (const auto& item : mListItems) // TODO: std::ranges::any_of()
+        if (dynamic_cast<const ComponentListItemWidget*>(item.second)->isFetching())
             return true;
     return false;
 }
@@ -64,5 +65,4 @@ void BaseComponentListWidget::listItemClicked(QListWidgetItem* item) {
 BaseComponentListWidget::~BaseComponentListWidget() {
     clearListItems();
     delete mAppBar;
-    delete mCanDoAsync;
 }

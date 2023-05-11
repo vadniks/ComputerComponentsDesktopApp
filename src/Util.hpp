@@ -5,8 +5,7 @@
 #include <QIcon>
 #include <type_traits>
 
-class Util final {
-public:
+class Util final { public:
     Util() = delete;
 
     [[nodiscard]] static QPushButton* makeIconButton(const QString& icon);
@@ -22,7 +21,7 @@ public:
         std::is_pointer_v<T>
         and std::is_base_of_v<QObject, C>
         and (std::is_same_v<S, void (C::*)(void*)> or std::is_same_v<S, void (C::*)()>)>>
-    static void switchThreads(T notifiedObject, S slot, void* _Nullable parameter);
+    static void switchThreads(T notifiedObject, S slot, void* _Nullable parameter, bool& isAlive);
 };
 
 #include "Util.tpp"
@@ -33,3 +32,6 @@ public:
         connect(button, &QPushButton::clicked, this, [this](){ emit exitRequested(nullptr); }); \
         return button; \
     })()
+
+#define IS_ALIVE inline static bool cIsAlive = false;
+#define THIS_RETURNING_PROXY(x) [this](){ x; return this; }()

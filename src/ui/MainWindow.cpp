@@ -13,7 +13,7 @@ MainWindow::MainWindow() :
         const QString& message,
         std::function<void ()>* callback
     ) { mWidgetWrapper.showMessage(message, callback); }),
-    mWrappedWidget(new HomeWidget(this, this, mAppState, false)),
+    mWrappedWidget(new HomeWidget(THIS_RETURNING_PROXY(cIsAlive = true), this, mAppState, false)),
     mWidgetWrapper(this, mWrappedWidget)
 {
     connectHomeWidget();
@@ -58,7 +58,8 @@ void MainWindow::cartComponentTypeSelected(Component* component)
 { AUTHORIZED(Util::switchThreads(
     this,
     reinterpret_cast<void (MainWindow::*)(void*)>(&MainWindow::selectRequested),
-    component
+    component,
+    cIsAlive
 );, this, component) }
 
 void MainWindow::exitRequested(void* parameter) {
@@ -81,6 +82,10 @@ void MainWindow::exitRequested(void* parameter) {
 void MainWindow::loginRequested() { REPLACE_WIDGET(Login, this, this) }
 void MainWindow::infoRequested() { REPLACE_WIDGET(About, this, this) }
 void MainWindow::selectRequested(Component* component) { REPLACE_WIDGET(Select, this, this, component) }
-void MainWindow::ordersRequested() { AUTHORIZED(Util::switchThreads(this, &MainWindow::ordersRequestedImpl, nullptr);, this) }
+void MainWindow::ordersRequested() { AUTHORIZED(Util::switchThreads(this, &MainWindow::ordersRequestedImpl, nullptr, cIsAlive);, this) }
 void MainWindow::ordersRequestedImpl() { REPLACE_WIDGET(Orders, this, this); }
-MainWindow::~MainWindow() { delete mWrappedWidget; }
+
+MainWindow::~MainWindow() {
+    cIsAlive = false;
+    delete mWrappedWidget;
+}

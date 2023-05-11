@@ -1,12 +1,11 @@
 
 #include "AboutWidget.hpp"
 #include "../Consts.hpp"
-#include "../Util.hpp"
 
 AboutWidget::AboutWidget(QWidget* parent, const IWindowShared* windowShared) :
     QWidget(parent),
     AbsPrimaryWidget(windowShared),
-    mBody(this),
+    mBody(THIS_RETURNING_PROXY(cIsAlive = true)),
     mAppBar(
         this,
         Consts::APP_NAME,
@@ -42,3 +41,5 @@ void AboutWidget::resizeEvent(QResizeEvent* event) {
     mHardware.setPixmap(QIcon(Consts::HARDWARE_ICON).pixmap(size));
     mQuality.setPixmap(QIcon(Consts::QUALITY_ICON).pixmap(static_cast<int>(static_cast<float>(size) * 1.5)));
 }
+
+AboutWidget::~AboutWidget() { cIsAlive = false; }

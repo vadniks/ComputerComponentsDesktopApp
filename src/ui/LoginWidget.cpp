@@ -1,14 +1,13 @@
 
 #include "LoginWidget.hpp"
 #include "../Consts.hpp"
-#include "../Util.hpp"
 #include "../state/MessageDispatcher.hpp"
 #include "../state/LoginState.hpp"
 
 LoginWidget::LoginWidget(QWidget* parent, const IWindowShared* windowShared) :
     QWidget(parent),
     AbsPrimaryWidget(windowShared),
-    mBody(this),
+    mBody(THIS_RETURNING_PROXY(cIsAlive = true)),
     mAppBar(
         this,
         Consts::APP_NAME,

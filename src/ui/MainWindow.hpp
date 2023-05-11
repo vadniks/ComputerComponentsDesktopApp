@@ -13,6 +13,7 @@ public:
     ~MainWindow() override;
     [[nodiscard]] Widget currentWidget() const override;
 private:
+    IS_ALIVE
     AppState mAppState;
     QWidget* mWrappedWidget;
     MessageDisplayableWidget mWidgetWrapper;

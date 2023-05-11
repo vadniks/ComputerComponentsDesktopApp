@@ -6,8 +6,7 @@
 #define U8_STRING_2(n, s) _U8_STRING_PREFIX(n) s;
 #define INT(n, i) inline static const int n = i;
 
-class Consts final {
-public:
+class Consts final { public:
     Consts() = delete;
 
     U8_STRING(APP_NAME, Componenta)
