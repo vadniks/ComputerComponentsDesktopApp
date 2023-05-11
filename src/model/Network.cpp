@@ -6,6 +6,7 @@
 #include <QHttpMultiPart>
 #include <QUrlQuery>
 #include "Network.hpp"
+#include "../Consts.hpp"
 
 Network::Network() {
     if (cInstance) throw -1; // NOLINT(hicpp-exception-baseclass)
@@ -225,8 +226,21 @@ QList<Component*>* _Nullable Network::history() {
     synchronize(
         [](QNetworkAccessManager& manager)
         { return manager.get(QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/history"))); },
-        [](QNetworkReply* reply) {
-            qDebug() << QString(reply->readAll()); // TODO: test only
+
+        [&result, this](QNetworkReply* reply) {
+            result = new std::remove_pointer_t<decltype(result)>();
+
+            QString body(reply->readAll());
+            qDebug() << body; // TODO: test only
+
+            for (const auto& order : body.split(':'))
+                for (const auto& id : order.split(',')) {
+                    if (id == QString(Consts::NULL_STRING)) continue;
+
+                    if (auto component = this->component(id.toInt()))
+                        qDebug() << component->title,
+                        result->push_back(component);
+                }
         }
     );
 
