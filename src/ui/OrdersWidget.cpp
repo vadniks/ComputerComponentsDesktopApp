@@ -1,10 +1,10 @@
 
 #include "OrdersWidget.hpp"
 #include "../Util.hpp"
-#include "../Notifier.hpp"
 
-OrdersWidget::OrdersWidget(QWidget* parent) :
+OrdersWidget::OrdersWidget(QWidget* parent, const IWindowShared* windowShared) :
     QWidget(parent),
+    AbsWidget(windowShared),
     mBody(this),
     mAppBar(
         this,

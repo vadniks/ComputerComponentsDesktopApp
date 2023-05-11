@@ -13,7 +13,7 @@ MainWindow::MainWindow() :
         const QString& message,
         std::function<void ()>* callback
     ) { mWidgetWrapper.showMessage(message, callback); }),
-    mWrappedWidget(new HomeWidget(this, mAppState, false)),
+    mWrappedWidget(new HomeWidget(this, this, mAppState, false)),
     mWidgetWrapper(this, mWrappedWidget)
 {
     connectHomeWidget();
@@ -21,6 +21,13 @@ MainWindow::MainWindow() :
 
     setMinimumSize(Consts::APP_WIDTH, Consts::APP_HEIGHT);
     show();
+}
+
+#define IF(x, y) if (dynamic_cast<x ## Widget*>(mWrappedWidget)) return Widget::y;
+
+IWindowShared::Widget MainWindow::currentWidget() const {
+    IF(Home, HOME) else IF(Select, SELECT) else IF(About, ABOUT)
+    else IF(Login, LOGIN) else IF(Orders, ORDERS) else throw -1;  // NOLINT(hicpp-exception-baseclass)
 }
 
 void MainWindow::connectHomeWidget() {
@@ -61,7 +68,7 @@ void MainWindow::exitRequested(void* parameter) {
         delete result;
     }
 
-    auto widget = new HomeWidget(this, mAppState, dynamic_cast<LoginWidget*>(mWrappedWidget));
+    auto widget = new HomeWidget(this, this, mAppState, dynamic_cast<LoginWidget*>(mWrappedWidget));
     replaceWidgetWith(widget);
     connectHomeWidget();
 }
@@ -71,9 +78,9 @@ void MainWindow::exitRequested(void* parameter) {
     connect(widget, &x ## Widget::exitRequested, this, &MainWindow::exitRequested); \
     replaceWidgetWith(widget);
 
-void MainWindow::loginRequested() { REPLACE_WIDGET(Login, this) }
-void MainWindow::infoRequested() { REPLACE_WIDGET(About, this) }
-void MainWindow::selectRequested(Component* component) { REPLACE_WIDGET(Select, this, component) }
+void MainWindow::loginRequested() { REPLACE_WIDGET(Login, this, this) }
+void MainWindow::infoRequested() { REPLACE_WIDGET(About, this, this) }
+void MainWindow::selectRequested(Component* component) { REPLACE_WIDGET(Select, this, this, component) }
 void MainWindow::ordersRequested() { AUTHORIZED(Util::switchThreads(this, &MainWindow::ordersRequestedImpl, nullptr);, this) }
-void MainWindow::ordersRequestedImpl() { REPLACE_WIDGET(Orders, this); }
+void MainWindow::ordersRequestedImpl() { REPLACE_WIDGET(Orders, this, this); }
 MainWindow::~MainWindow() { delete mWrappedWidget; }

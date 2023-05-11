@@ -5,8 +5,9 @@
 #include "../state/MessageDispatcher.hpp"
 #include "../state/LoginState.hpp"
 
-LoginWidget::LoginWidget(QWidget* parent) :
+LoginWidget::LoginWidget(QWidget* parent, const IWindowShared* windowShared) :
     QWidget(parent),
+    AbsWidget(windowShared),
     mBody(this),
     mAppBar(
         this,

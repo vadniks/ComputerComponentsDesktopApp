@@ -3,8 +3,9 @@
 #include "../Consts.hpp"
 #include "../Util.hpp"
 
-[[maybe_unused]] AboutWidget::AboutWidget(QWidget* parent) :
+AboutWidget::AboutWidget(QWidget* parent, const IWindowShared* windowShared) :
     QWidget(parent),
+    AbsWidget(windowShared),
     mBody(this),
     mAppBar(
         this,

@@ -2,8 +2,9 @@
 #include "SelectWidget.hpp"
 #include "../Util.hpp"
 
-SelectWidget::SelectWidget(QWidget* parent, Component* target) :
+SelectWidget::SelectWidget(QWidget* parent, const IWindowShared* windowShared, Component* target) :
     QWidget(parent),
+    AbsWidget(windowShared),
     mState(this, target),
     mBody(this),
     mComponentList(

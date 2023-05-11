@@ -5,13 +5,14 @@
 #include <QVBoxLayout>
 #include "BaseComponentListWidget.hpp"
 #include "../state/AppState.hpp"
+#include "AbsWidget.hpp"
 
-class HomeWidget final : public QWidget {
+class HomeWidget final : public QWidget, public AbsWidget {
     Q_OBJECT
 
     enum Button : unsigned { INFO = 0, LOGIN = 1, LOGOUT = 2 };
 public:
-    HomeWidget(QWidget* parent, AppState& state, bool afterLoggingIn);
+    HomeWidget(QWidget* parent, const IWindowShared* windowShared, AppState& state, bool afterLoggingIn);
     void onSelectedComponentsUpdated();
 private:
     [[nodiscard]] QPushButton* makeIconButton(const QString& icon, Button button);

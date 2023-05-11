@@ -6,11 +6,12 @@
 #include "AppBarWidget.hpp"
 #include <QLabel>
 #include <QHBoxLayout>
+#include "AbsWidget.hpp"
 
-class [[maybe_unused]] AboutWidget final : public QWidget {
+class AboutWidget final : public QWidget, public AbsWidget {
     Q_OBJECT
 public:
-    [[maybe_unused]] explicit AboutWidget(QWidget* parent);
+    AboutWidget(QWidget* parent, const IWindowShared* windowShared);
 protected:
     void resizeEvent(QResizeEvent* event) override;
 private:
