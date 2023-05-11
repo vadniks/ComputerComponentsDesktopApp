@@ -32,6 +32,7 @@ public:
     );
 
     [[nodiscard]] QList<Component*>* _Nullable history();
+    bool clearHistory();
 private:
     void synchronize(
         const std::function<QNetworkReply* (QNetworkAccessManager&)>& asyncAction,

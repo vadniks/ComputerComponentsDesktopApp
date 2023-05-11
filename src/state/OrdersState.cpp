@@ -12,7 +12,7 @@ QFuture<bool> OrdersState::submitOrder(
     return Network::instance()->submitOrder(firstName, lastName, phoneNumber, address); });
 }
 
-QFuture<bool> OrdersState::clearHistory() { return QtConcurrent::run([](){ return false; }); }
+QFuture<bool> OrdersState::clearHistory() { return QtConcurrent::run([](){ return Network::instance()->clearHistory(); }); }
 const QList<Component*>& OrdersState::boughtComponents() const { return mBoughtComponents; }
 
 void OrdersState::dropBoughtComponents() {

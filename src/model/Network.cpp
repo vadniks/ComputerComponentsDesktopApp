@@ -244,6 +244,18 @@ QList<Component*>* _Nullable Network::history() {
     return NON_EMPTY_LIST_OR_NULL
 }
 
+bool Network::clearHistory() {
+    auto result = false;
+
+    synchronize(
+        [](QNetworkAccessManager& manager)
+        { return manager.deleteResource(QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/history"))); },
+        [&result](QNetworkReply* reply) { SET_RESULT_BY_REPLY_STATUS }
+    );
+
+    return result;
+}
+
 void Network::synchronize(
     const std::function<QNetworkReply* (QNetworkAccessManager&)>& asyncAction,
     const std::function<void (QNetworkReply*)>& resultHandler

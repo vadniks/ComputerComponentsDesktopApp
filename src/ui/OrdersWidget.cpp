@@ -100,11 +100,8 @@ void OrdersWidget::submitClicked() {
 
 void OrdersWidget::clearClicked() {
     OrdersState::clearHistory().then([this](bool successful){
-        if (!successful) {
-            Util::notifySuccessfulOrFailed(false);
-            return;
-        }
-        Util::switchThreads(this, &OrdersWidget::historyCleared, nullptr, cIsAlive);
+        Util::notifySuccessfulOrFailed(successful);
+        if (successful) Util::switchThreads(this, &OrdersWidget::historyCleared, nullptr, cIsAlive);
     });
 }
 
