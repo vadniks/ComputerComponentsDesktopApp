@@ -12,14 +12,12 @@ QFuture<bool> OrdersState::submitOrder(
     return Network::instance()->submitOrder(firstName, lastName, phoneNumber, address); });
 }
 
-QFuture<bool> OrdersState::clearHistory() {
-    return QtConcurrent::run([](){ return false; });
-}
-
+QFuture<bool> OrdersState::clearHistory() { return QtConcurrent::run([](){ return false; }); }
 const QList<Component*>& OrdersState::boughtComponents() const { return mBoughtComponents; }
 
 void OrdersState::dropBoughtComponents() {
-
+    for (auto component : mBoughtComponents) delete component;
+    mBoughtComponents.clear();
 }
 
 QFuture<void> OrdersState::fetchHistory() {
@@ -34,4 +32,4 @@ QFuture<void> OrdersState::fetchHistory() {
         });
 }
 
-OrdersState::~OrdersState() { for (auto component : mBoughtComponents) delete component; }
+OrdersState::~OrdersState() { dropBoughtComponents(); }

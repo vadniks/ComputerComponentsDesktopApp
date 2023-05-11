@@ -63,8 +63,7 @@ OrdersWidget::OrdersWidget(QWidget* parent) :
     connect(&mSubmit, &QPushButton::clicked, this, &OrdersWidget::submitClicked);
     connect(&mClearHistory, &QPushButton::clicked, this, &OrdersWidget::clearClicked);
 
-    mState.fetchHistory().then([this]()
-    { Util::switchThreads(this, &OrdersWidget::historyFetched, nullptr, cIsAlive); });
+    fetchOrders();
 }
 
 void OrdersWidget::resizeEvent(QResizeEvent* event) {
@@ -77,18 +76,30 @@ void OrdersWidget::resizeEvent(QResizeEvent* event) {
     mAddress.setMaximumWidth(width);
 }
 
+void OrdersWidget::fetchOrders() {
+    mState.fetchHistory().then([this]()
+    { Util::switchThreads(this, &OrdersWidget::historyFetched, nullptr, cIsAlive); });
+}
+
+void OrdersWidget::updateOrdersList() {
+    mState.dropBoughtComponents();
+    fetchOrders();
+}
+
 void OrdersWidget::submitClicked() {
-    mState.submitOrder(
+    OrdersState::submitOrder(
         mFirstName.text(),
         mLastName.text(),
         mPhone.text(),
         mAddress.text()
-    ).then([](bool successful)
-    { Util::notifySuccessfulOrFailed(successful); });
+    ).then([this](bool successful) {
+        Util::notifySuccessfulOrFailed(successful);
+        if (successful) updateOrdersList();
+    });
 }
 
 void OrdersWidget::clearClicked() {
-    mState.clearHistory().then([this](bool successful){
+    OrdersState::clearHistory().then([this](bool successful){
         if (!successful) {
             Util::notifySuccessfulOrFailed(false);
             return;

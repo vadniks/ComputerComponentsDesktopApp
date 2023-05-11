@@ -22,6 +22,9 @@ signals:
     void exitRequested(void* parameter);
 protected:
     void resizeEvent(QResizeEvent* event) override;
+private:
+    void fetchOrders();
+    void updateOrdersList();
 private slots:
     void submitClicked();
     void clearClicked();
