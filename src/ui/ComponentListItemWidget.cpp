@@ -21,7 +21,7 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* com
 
     if (component->image) ImageDisplayableState::fetchImage(component)
         .then([this](QPixmap* pixmap)
-        { Util::switchThreads(this, &ComponentListItemWidget::imageFetched, pixmap); });
+        { Util::switchThreads(this, &ComponentListItemWidget::imageFetched, pixmap); }); // TODO: check if image fetched before exiting this widget
 
     mTitle.setStyleSheet(u8R"(
         color: white;

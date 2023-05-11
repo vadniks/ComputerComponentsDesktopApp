@@ -11,7 +11,7 @@ class HomeWidget final : public QWidget {
 
     enum Button : unsigned { INFO = 0, LOGIN = 1, LOGOUT = 2 };
 public:
-    HomeWidget(QWidget* parent, AppState& state);
+    HomeWidget(QWidget* parent, AppState& state, bool afterLoggingIn);
     void onSelectedComponentsUpdated();
 private:
     [[nodiscard]] QPushButton* makeIconButton(const QString& icon, Button button);

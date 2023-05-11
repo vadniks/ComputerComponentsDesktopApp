@@ -13,7 +13,7 @@ MainWindow::MainWindow() :
         const QString& message,
         std::function<void ()>* callback
     ) { mWidgetWrapper.showMessage(message, callback); }),
-    mWrappedWidget(new HomeWidget(this, mAppState)),
+    mWrappedWidget(new HomeWidget(this, mAppState, false)),
     mWidgetWrapper(this, mWrappedWidget)
 {
     connectHomeWidget();
@@ -61,7 +61,7 @@ void MainWindow::exitRequested(void* parameter) {
         delete result;
     }
 
-    auto widget = new HomeWidget(this, mAppState);
+    auto widget = new HomeWidget(this, mAppState, dynamic_cast<LoginWidget*>(mWrappedWidget));
     replaceWidgetWith(widget);
     connectHomeWidget();
 }

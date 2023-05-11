@@ -2,7 +2,7 @@
 #include "HomeWidget.hpp"
 #include "../Util.hpp"
 
-HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
+HomeWidget::HomeWidget(QWidget* parent, AppState& state, bool afterLoggingIn) :
     QWidget(parent),
     mBody(this),
     mComponentList(
@@ -42,7 +42,7 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     mBody.addLayout(&mBottomBar);
 
     scheduleButtonChange(&AppState::authorized, &HomeWidget::authorizationConfirmed);
-    fetchSelectedComponents(); // TODO: request fetching from here only when instantiating after logging in (prevent double fetching after return from select widget)
+    if (afterLoggingIn) fetchSelectedComponents();
 }
 
 void HomeWidget::onSelectedComponentsUpdated() {
