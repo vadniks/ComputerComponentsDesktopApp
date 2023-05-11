@@ -199,15 +199,20 @@ bool Network::submitOrder(
     if (!parsed) return false;
 
     synchronize(
-        [&](QNetworkAccessManager& manager) { return manager.post(
-            QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/order")),
-            QByteArray(QJsonDocument(QJsonObject({
-                { u8"firstName", firstName },
-                { u8"lastName", lastName },
-                { u8"phone", phone },
-                { u8"address", address }
-            })).toJson())
-        ); },
+        [&](QNetworkAccessManager& manager) {
+            auto request = QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/order"));
+            request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, QString(u8"application/json"));
+
+            return manager.post(
+                request,
+                QByteArray(QJsonDocument(QJsonObject({
+                    { u8"firstName", firstName },
+                    { u8"lastName", lastName },
+                    { u8"phone", phone },
+                    { u8"address", address }
+                })).toJson())
+            );
+        },
         [&result](QNetworkReply* reply) { SET_RESULT_BY_REPLY_STATUS }
     );
 
