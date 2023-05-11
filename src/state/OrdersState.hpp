@@ -7,7 +7,7 @@
 
 class OrdersState final {
 public:
-    OrdersState();
+    OrdersState() = default;
     ~OrdersState();
 
     QFuture<bool> submitOrder(
@@ -20,8 +20,7 @@ public:
     QFuture<bool> clearHistory();
     [[nodiscard]] const QList<Component*>& boughtComponents() const;
     void dropBoughtComponents();
+    QFuture<void> fetchHistory();
 private:
-    [[nodiscard]] QFuture<QList<Component*>* _Nullable> fetchHistory();
-
     QList<Component*> mBoughtComponents;
 };

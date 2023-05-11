@@ -218,8 +218,11 @@ QList<Component*>* _Nullable Network::history() {
     QList<Component*>* result = nullptr;
 
     synchronize(
-        [](QNetworkAccessManager& manager) { return nullptr; },
-        [](QNetworkReply* reply) {  }
+        [](QNetworkAccessManager& manager)
+        { return manager.get(QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/history"))); },
+        [](QNetworkReply* reply) {
+            qDebug() << QString(reply->readAll()); // TODO: test only
+        }
     );
 
     return NON_EMPTY_LIST_OR_NULL

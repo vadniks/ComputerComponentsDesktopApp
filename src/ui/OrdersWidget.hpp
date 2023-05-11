@@ -26,6 +26,7 @@ private slots:
     void submitClicked();
     void clearClicked();
     void historyCleared();
+    void historyFetched();
 private:
     IS_ALIVE
     OrdersState mState;

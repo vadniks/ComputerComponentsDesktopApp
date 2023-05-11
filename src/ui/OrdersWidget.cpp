@@ -18,7 +18,7 @@ OrdersWidget::OrdersWidget(QWidget* parent) :
     mSubmit(Consts::SUBMIT),
     mHistoryTab(this),
     mHistoryBody(&mHistoryTab),
-    mOrders(this, nullptr, {}, cIsAlive),
+    mOrders(this, nullptr, mState.boughtComponents(), cIsAlive),
     mClearHistory(Consts::CLEAR)
 {
     mBody.addWidget(&mAppBar);
@@ -62,6 +62,9 @@ OrdersWidget::OrdersWidget(QWidget* parent) :
 
     connect(&mSubmit, &QPushButton::clicked, this, &OrdersWidget::submitClicked);
     connect(&mClearHistory, &QPushButton::clicked, this, &OrdersWidget::clearClicked);
+
+    mState.fetchHistory().then([this]()
+    { Util::switchThreads(this, &OrdersWidget::historyFetched, nullptr, cIsAlive); });
 }
 
 void OrdersWidget::resizeEvent(QResizeEvent* event) {
@@ -99,4 +102,5 @@ void OrdersWidget::historyCleared() {
     mOrders.reFillList();
 }
 
+void OrdersWidget::historyFetched() { mOrders.reFillList(); }
 OrdersWidget::~OrdersWidget() { cIsAlive = false; }
