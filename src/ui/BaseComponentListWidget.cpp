@@ -4,13 +4,15 @@
 BaseComponentListWidget::BaseComponentListWidget(
     QWidget* parent,
     AppBarWidget* _Nullable appBar,
-    const QList<Component*>& components
+    const QList<Component*>& components,
+    std::function<bool ()>* canDoAsync
 ) :
     QWidget(parent),
     mBody(this),
     mAppBar(appBar),
     mListWidget(this),
-    mComponents(components)
+    mComponents(components),
+    mCanDoAsync(canDoAsync)
 {
     if (mAppBar) mBody.addWidget(mAppBar);
     mBody.addWidget(&mListWidget);
@@ -27,7 +29,7 @@ void BaseComponentListWidget::reFillList() {
     QWidget* widget;
 
     for (auto component : mComponents)
-        widget = new ComponentListItemWidget(this, component),
+        widget = new ComponentListItemWidget(this, component, mCanDoAsync),
 
         item = new QListWidgetItem(),
         item->setSizeHint(widget->sizeHint()),
@@ -62,4 +64,5 @@ void BaseComponentListWidget::listItemClicked(QListWidgetItem* item) {
 BaseComponentListWidget::~BaseComponentListWidget() {
     clearListItems();
     delete mAppBar;
+    delete mCanDoAsync;
 }

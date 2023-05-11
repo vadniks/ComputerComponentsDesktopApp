@@ -4,7 +4,7 @@
 
 SelectWidget::SelectWidget(QWidget* parent, const IWindowShared* windowShared, Component* target) :
     QWidget(parent),
-    AbsWidget(windowShared),
+    AbsPrimaryWidget(windowShared),
     mState(this, target),
     mBody(this),
     mComponentList(
@@ -16,7 +16,8 @@ SelectWidget::SelectWidget(QWidget* parent, const IWindowShared* windowShared, C
             {},
             BACK_ICON_BUTTON
         ),
-        mState.fetchedComponents()
+        mState.fetchedComponents(),
+        new std::function([windowShared](){ return windowShared->currentWidget() == IWindowShared::SELECT; })
     ),
     mDetails(nullptr)
 {

@@ -6,9 +6,9 @@
 #include "BaseComponentListWidget.hpp"
 #include "../state/SelectState.hpp"
 #include "ComponentDetailsWidget.hpp"
-#include "AbsWidget.hpp"
+#include "AbsPrimaryWidget.hpp"
 
-class [[maybe_unused]] SelectWidget final : public QWidget, public AbsWidget {
+class [[maybe_unused]] SelectWidget final : public QWidget, public AbsPrimaryWidget {
     Q_OBJECT
 public:
     [[maybe_unused]] SelectWidget(QWidget* parent, const IWindowShared* windowShared, Component* target);

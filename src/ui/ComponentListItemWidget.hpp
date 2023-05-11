@@ -10,7 +10,7 @@
 class ComponentListItemWidget final : public QWidget {
     Q_OBJECT
 public:
-    ComponentListItemWidget(QWidget* parent, Component* component);
+    ComponentListItemWidget(QWidget* parent, Component* component, std::function<bool ()>* canDoAsync);
 protected:
     void resizeEvent(QResizeEvent* event) override;
 public:

@@ -5,7 +5,7 @@
 
 AboutWidget::AboutWidget(QWidget* parent, const IWindowShared* windowShared) :
     QWidget(parent),
-    AbsWidget(windowShared),
+    AbsPrimaryWidget(windowShared),
     mBody(this),
     mAppBar(
         this,

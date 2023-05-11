@@ -8,9 +8,9 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include "AppBarWidget.hpp"
-#include "AbsWidget.hpp"
+#include "AbsPrimaryWidget.hpp"
 
-class [[maybe_unused]] LoginWidget final : public QWidget, public AbsWidget {
+class [[maybe_unused]] LoginWidget final : public QWidget, public AbsPrimaryWidget {
     Q_OBJECT
 public:
     [[maybe_unused]] explicit LoginWidget(QWidget* parent, const IWindowShared* windowShared);

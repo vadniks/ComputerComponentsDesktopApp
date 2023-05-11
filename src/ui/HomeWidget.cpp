@@ -4,7 +4,7 @@
 
 HomeWidget::HomeWidget(QWidget* parent, const IWindowShared* windowShared, AppState& state, bool afterLoggingIn) :
     QWidget(parent),
-    AbsWidget(windowShared),
+    AbsPrimaryWidget(windowShared),
     mBody(this),
     mComponentList(
         this,
@@ -18,7 +18,8 @@ HomeWidget::HomeWidget(QWidget* parent, const IWindowShared* windowShared, AppSt
             },
             nullptr
         ),
-        state.selectedComponents()
+        state.selectedComponents(),
+        new std::function([windowShared](){ return windowShared->currentWidget() == IWindowShared::HOME; })
     ),
     mState(state),
     mBottomBar(nullptr),

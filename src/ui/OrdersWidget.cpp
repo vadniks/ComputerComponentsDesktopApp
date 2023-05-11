@@ -4,7 +4,7 @@
 
 OrdersWidget::OrdersWidget(QWidget* parent, const IWindowShared* windowShared) :
     QWidget(parent),
-    AbsWidget(windowShared),
+    AbsPrimaryWidget(windowShared),
     mBody(this),
     mAppBar(
         this,
@@ -20,7 +20,7 @@ OrdersWidget::OrdersWidget(QWidget* parent, const IWindowShared* windowShared) :
     mSubmit(Consts::SUBMIT),
     mHistoryTab(this),
     mHistoryBody(&mHistoryTab),
-    mOrders(this, nullptr, {}),
+    mOrders(this, nullptr, {}, new std::function([windowShared](){ return windowShared->currentWidget() == IWindowShared::ORDERS; })),
     mClearHistory(Consts::CLEAR)
 {
     mBody.addWidget(&mAppBar);

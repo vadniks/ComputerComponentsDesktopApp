@@ -16,7 +16,8 @@ public:
     BaseComponentListWidget(
         QWidget* parent,
         AppBarWidget* _Nullable appBar,
-        const QList<Component*>& components
+        const QList<Component*>& components,
+        std::function<bool ()>* canDoAsync
     );
     ~BaseComponentListWidget() override;
     void reFillList();
@@ -28,6 +29,7 @@ private:
     QListWidget mListWidget;
     QList<QPair<QListWidgetItem*, QWidget*>> mListItems;
     const QList<Component*>& mComponents;
+    std::function<bool ()>* mCanDoAsync;
 
     void clearListItems();
 private slots:

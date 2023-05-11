@@ -11,9 +11,9 @@
 #include "BaseComponentListWidget.hpp"
 #include "../state/PhoneValidator.hpp"
 #include "../state/OrdersState.hpp"
-#include "AbsWidget.hpp"
+#include "AbsPrimaryWidget.hpp"
 
-class OrdersWidget final : public QWidget, public AbsWidget {
+class OrdersWidget final : public QWidget, public AbsPrimaryWidget {
     Q_OBJECT
 public:
     OrdersWidget(QWidget* parent, const IWindowShared* windowShared);

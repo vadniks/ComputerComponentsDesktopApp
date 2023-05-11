@@ -6,9 +6,9 @@
 #include "AppBarWidget.hpp"
 #include <QLabel>
 #include <QHBoxLayout>
-#include "AbsWidget.hpp"
+#include "AbsPrimaryWidget.hpp"
 
-class AboutWidget final : public QWidget, public AbsWidget {
+class AboutWidget final : public QWidget, public AbsPrimaryWidget {
     Q_OBJECT
 public:
     AboutWidget(QWidget* parent, const IWindowShared* windowShared);

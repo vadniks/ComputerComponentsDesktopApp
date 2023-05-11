@@ -5,9 +5,9 @@
 #include <QVBoxLayout>
 #include "BaseComponentListWidget.hpp"
 #include "../state/AppState.hpp"
-#include "AbsWidget.hpp"
+#include "AbsPrimaryWidget.hpp"
 
-class HomeWidget final : public QWidget, public AbsWidget {
+class HomeWidget final : public QWidget, public AbsPrimaryWidget {
     Q_OBJECT
 
     enum Button : unsigned { INFO = 0, LOGIN = 1, LOGOUT = 2 };

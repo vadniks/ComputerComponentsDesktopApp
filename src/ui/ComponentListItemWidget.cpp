@@ -7,7 +7,7 @@
 static QPixmap makeTypedStubIconPixmap(ComponentType type)
 { return QIcon(Component::typeImage(type)).pixmap(Consts::ICON_SIZE, Consts::ICON_SIZE); }
 
-ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* component) :
+ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* component, std::function<bool ()>* canDoAsync) :
     QWidget(parent),
     mBody(this),
     mTitles(nullptr),
@@ -21,8 +21,8 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* com
 
     if (component->image) {
         mFetching = true;
-        ImageDisplayableState::fetchImage(component).then([this](QPixmap* pixmap)
-        { Util::switchThreads(this, &ComponentListItemWidget::imageFetched, pixmap); });
+        ImageDisplayableState::fetchImage(component).then([this, canDoAsync](QPixmap* pixmap)
+        { if (canDoAsync->operator()()) Util::switchThreads(this, &ComponentListItemWidget::imageFetched, pixmap); });
     }
 
     mTitle.setStyleSheet(u8R"(

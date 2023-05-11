@@ -3,9 +3,9 @@
 
 #include "IWindowShared.hpp"
 
-class AbsWidget {
+class AbsPrimaryWidget {
 public:
-    explicit AbsWidget(const IWindowShared* windowShared)
+    explicit AbsPrimaryWidget(const IWindowShared* windowShared)
         : mWindowShared(windowShared) {};
 protected:
     const IWindowShared* mWindowShared;
