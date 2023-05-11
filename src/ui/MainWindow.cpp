@@ -4,9 +4,7 @@
 #include "SelectWidget.hpp"
 #include "LoginWidget.hpp"
 #include "AboutWidget.hpp"
-#include "../Notifier.hpp"
 #include "OrdersWidget.hpp"
-#include "../Util.hpp"
 
 MainWindow::MainWindow() :
     mAppState([this](
