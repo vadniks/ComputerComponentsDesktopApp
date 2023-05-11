@@ -1,9 +1,8 @@
 
 #include "HomeWidget.hpp"
 
-HomeWidget::HomeWidget(QWidget* parent, const IWindowShared* windowShared, AppState& state, bool afterLoggingIn) :
+HomeWidget::HomeWidget(QWidget* parent, AppState& state, bool afterLoggingIn) :
     QWidget(parent),
-    AbsPrimaryWidget(windowShared),
     mBody(THIS_RETURNING_PROXY(cIsAlive = true)),
     mComponentList(
         this,

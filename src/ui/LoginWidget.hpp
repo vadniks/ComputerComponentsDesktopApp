@@ -8,13 +8,12 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include "AppBarWidget.hpp"
-#include "AbsPrimaryWidget.hpp"
 #include "../Util.hpp"
 
-class [[maybe_unused]] LoginWidget final : public QWidget, public AbsPrimaryWidget {
+class LoginWidget final : public QWidget {
     Q_OBJECT
 public:
-    [[maybe_unused]] explicit LoginWidget(QWidget* parent, const IWindowShared* windowShared);
+    explicit LoginWidget(QWidget* parent);
 protected:
     void resizeEvent(QResizeEvent* event) override;
 private:

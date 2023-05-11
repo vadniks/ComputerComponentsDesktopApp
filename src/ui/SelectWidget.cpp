@@ -1,9 +1,8 @@
 
 #include "SelectWidget.hpp"
 
-SelectWidget::SelectWidget(QWidget* parent, const IWindowShared* windowShared, Component* target) :
+SelectWidget::SelectWidget(QWidget* parent, Component* target) :
     QWidget(parent),
-    AbsPrimaryWidget(windowShared),
     mState(THIS_RETURNING_PROXY(cIsAlive = true), target),
     mBody(this),
     mComponentList(

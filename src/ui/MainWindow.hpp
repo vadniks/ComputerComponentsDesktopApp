@@ -4,14 +4,12 @@
 #include <QMainWindow>
 #include "../state/AppState.hpp"
 #include "MessageDisplayableWidget.hpp"
-#include "IWindowShared.hpp"
 
-class MainWindow final : public QMainWindow, public IWindowShared {
+class MainWindow final : public QMainWindow {
     Q_OBJECT
 public:
     MainWindow();
     ~MainWindow() override;
-    [[nodiscard]] Widget currentWidget() const override;
 private:
     IS_ALIVE
     AppState mAppState;

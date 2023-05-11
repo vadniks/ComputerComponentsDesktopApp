@@ -4,9 +4,8 @@
 #include "../state/MessageDispatcher.hpp"
 #include "../state/LoginState.hpp"
 
-LoginWidget::LoginWidget(QWidget* parent, const IWindowShared* windowShared) :
+LoginWidget::LoginWidget(QWidget* parent) :
     QWidget(parent),
-    AbsPrimaryWidget(windowShared),
     mBody(THIS_RETURNING_PROXY(cIsAlive = true)),
     mAppBar(
         this,

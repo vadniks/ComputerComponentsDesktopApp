@@ -2,9 +2,8 @@
 #include "AboutWidget.hpp"
 #include "../Consts.hpp"
 
-AboutWidget::AboutWidget(QWidget* parent, const IWindowShared* windowShared) :
+AboutWidget::AboutWidget(QWidget* parent) :
     QWidget(parent),
-    AbsPrimaryWidget(windowShared),
     mBody(THIS_RETURNING_PROXY(cIsAlive = true)),
     mAppBar(
         this,

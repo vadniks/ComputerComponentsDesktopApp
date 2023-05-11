@@ -1,9 +1,8 @@
 
 #include "OrdersWidget.hpp"
 
-OrdersWidget::OrdersWidget(QWidget* parent, const IWindowShared* windowShared) :
+OrdersWidget::OrdersWidget(QWidget* parent) :
     QWidget(parent),
-    AbsPrimaryWidget(windowShared),
     mBody(THIS_RETURNING_PROXY(cIsAlive = true)),
     mAppBar(
         this,

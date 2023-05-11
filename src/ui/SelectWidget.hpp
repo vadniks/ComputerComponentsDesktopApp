@@ -6,13 +6,12 @@
 #include "BaseComponentListWidget.hpp"
 #include "../state/SelectState.hpp"
 #include "ComponentDetailsWidget.hpp"
-#include "AbsPrimaryWidget.hpp"
 #include "../Util.hpp"
 
-class [[maybe_unused]] SelectWidget final : public QWidget, public AbsPrimaryWidget {
+class [[maybe_unused]] SelectWidget final : public QWidget {
     Q_OBJECT
 public:
-    [[maybe_unused]] SelectWidget(QWidget* parent, const IWindowShared* windowShared, Component* target);
+    [[maybe_unused]] SelectWidget(QWidget* parent, Component* target);
     ~SelectWidget() override;
 private:
     IS_ALIVE

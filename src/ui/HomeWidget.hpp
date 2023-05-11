@@ -5,15 +5,14 @@
 #include <QVBoxLayout>
 #include "BaseComponentListWidget.hpp"
 #include "../state/AppState.hpp"
-#include "AbsPrimaryWidget.hpp"
 #include "../Util.hpp"
 
-class HomeWidget final : public QWidget, public AbsPrimaryWidget {
+class HomeWidget final : public QWidget {
     Q_OBJECT
 
     enum Button : unsigned { INFO = 0, LOGIN = 1, LOGOUT = 2 };
 public:
-    HomeWidget(QWidget* parent, const IWindowShared* windowShared, AppState& state, bool afterLoggingIn);
+    HomeWidget(QWidget* parent, AppState& state, bool afterLoggingIn);
     ~HomeWidget() override;
     void onSelectedComponentsUpdated();
 private:

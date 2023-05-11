@@ -11,13 +11,12 @@
 #include "BaseComponentListWidget.hpp"
 #include "../state/PhoneValidator.hpp"
 #include "../state/OrdersState.hpp"
-#include "AbsPrimaryWidget.hpp"
 #include "../Util.hpp"
 
-class OrdersWidget final : public QWidget, public AbsPrimaryWidget {
+class OrdersWidget final : public QWidget {
     Q_OBJECT
 public:
-    OrdersWidget(QWidget* parent, const IWindowShared* windowShared);
+    explicit OrdersWidget(QWidget* parent);
     ~OrdersWidget() override;
 signals:
     void exitRequested(void* parameter);
