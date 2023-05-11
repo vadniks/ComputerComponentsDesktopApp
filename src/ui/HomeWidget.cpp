@@ -26,7 +26,7 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     mTotal(makeTotalCost()),
     mClear(Consts::CLEAR)
 {
-    connect(&mComponentList, &BaseComponentListWidget::componentSelected, this, &HomeWidget::cartComponentSelected);
+    connect(&mComponentList, &BaseComponentListWidget::componentSelected, this, &HomeWidget::listItemClicked);
     mBody.addWidget(&mComponentList);
 
     connect(&mClear, &QPushButton::clicked, this, &HomeWidget::clearSelectedClicked);
@@ -42,7 +42,7 @@ HomeWidget::HomeWidget(QWidget* parent, AppState& state) :
     mBody.addLayout(&mBottomBar);
 
     scheduleButtonChange(&AppState::authorized, &HomeWidget::authorizationConfirmed);
-    fetchSelectedComponents();
+    fetchSelectedComponents(); // TODO: request fetching from here only when instantiating after logging in (prevent double fetching after return from select widget)
 }
 
 void HomeWidget::onSelectedComponentsUpdated() {
@@ -128,3 +128,6 @@ void HomeWidget::clearSelectedClicked() {
     mCost = 0;
     mTotal.setText(makeTotalCost());
 }
+
+void HomeWidget::listItemClicked(Component* component)
+{ if (!mFetching) emit cartComponentSelected(component); }

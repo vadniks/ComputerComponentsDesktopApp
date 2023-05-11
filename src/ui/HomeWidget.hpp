@@ -12,7 +12,6 @@ class HomeWidget final : public QWidget {
     enum Button : unsigned { INFO = 0, LOGIN = 1, LOGOUT = 2 };
 public:
     HomeWidget(QWidget* parent, AppState& state);
-    ~HomeWidget() override { if (mFetching) throw -1; } // NOLINT(hicpp-exception-baseclass) // TODO: forbid widget destructing if fetching (to prevent assignment of concurrently fetched items to deallocated object)
     void onSelectedComponentsUpdated();
 private:
     [[nodiscard]] QPushButton* makeIconButton(const QString& icon, Button button);
@@ -27,6 +26,7 @@ private slots:
     void loggedOut();
     void selectedComponentsFetched(QList<Component* _Nullable>* selected);
     void clearSelectedClicked();
+    void listItemClicked(Component* component);
 signals:
     void cartComponentSelected(Component* component);
     void loginRequested();
