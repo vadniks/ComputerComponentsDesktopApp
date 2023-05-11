@@ -22,3 +22,4 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network Concurrent)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt::Core Qt::Gui Qt::Widgets Qt6::Network Qt6::Concurrent)
 
 # TODO: RPATH, pack()
+# ldd cmake-build-debug/ccda | awk '{print $3}'
