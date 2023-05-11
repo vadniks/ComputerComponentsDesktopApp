@@ -24,4 +24,5 @@ private slots:
     void infoRequested();
     void selectRequested(Component* component);
     void ordersRequested();
+    void ordersRequestedImpl();
 };

@@ -20,6 +20,7 @@ void Util::switchThreads(T notifiedObject, S slot, void* _Nullable parameter) {
     Notifier notifier;
 
 #   define PARAMS &notifier, &Notifier::notify, notifiedObject, slot
+    QObject::disconnect(PARAMS);
     QObject::connect(PARAMS);
 
     emit notifier.notify(parameter);

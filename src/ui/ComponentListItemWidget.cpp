@@ -2,6 +2,7 @@
 #include "ComponentListItemWidget.hpp"
 #include "../Consts.hpp"
 #include "../state/ImageDisplayableState.hpp"
+#include "../Util.hpp"
 
 static QPixmap makeTypedStubIconPixmap(ComponentType type)
 { return QIcon(Component::typeImage(type)).pixmap(Consts::ICON_SIZE, Consts::ICON_SIZE); }
@@ -19,10 +20,8 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* com
     mIcon.setPixmap(makeTypedStubIconPixmap(component->type));
 
     if (component->image) ImageDisplayableState::fetchImage(component)
-        .then([this](QPixmap* pixmap) {
-            mIcon.setPixmap(pixmap->scaled(Consts::ICON_SIZE, Consts::ICON_SIZE));
-            delete pixmap;
-        });
+        .then([this](QPixmap* pixmap)
+        { Util::switchThreads(this, &ComponentListItemWidget::imageFetched, pixmap); });
 
     mTitle.setStyleSheet(u8R"(
         color: white;
@@ -52,3 +51,9 @@ void ComponentListItemWidget::resizeEvent(QResizeEvent* event) {
 
 QSize ComponentListItemWidget::sizeHint() const
 { return mBody.sizeHint(); }
+
+void ComponentListItemWidget::imageFetched(void* pixmap) {
+    const auto pixmap2 = static_cast<QPixmap*>(pixmap);
+    mIcon.setPixmap(pixmap2->scaled(Consts::ICON_SIZE, Consts::ICON_SIZE));
+    delete pixmap2;
+}

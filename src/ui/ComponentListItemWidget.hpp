@@ -15,6 +15,8 @@ protected:
     void resizeEvent(QResizeEvent* event) override;
 public:
     [[nodiscard]] QSize sizeHint() const override;
+private slots:
+    void imageFetched(void* pixmap);
 private:
     QHBoxLayout mBody;
     QVBoxLayout mTitles;

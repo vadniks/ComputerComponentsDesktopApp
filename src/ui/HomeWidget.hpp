@@ -12,6 +12,7 @@ class HomeWidget final : public QWidget {
     enum Button : unsigned { INFO = 0, LOGIN = 1, LOGOUT = 2 };
 public:
     HomeWidget(QWidget* parent, AppState& state);
+    ~HomeWidget() override { if (mFetching) throw -1; } // NOLINT(hicpp-exception-baseclass) // TODO: forbid widget destructing if fetching (to prevent assignment of concurrently fetched items to deallocated object)
     void onSelectedComponentsUpdated();
 private:
     [[nodiscard]] QPushButton* makeIconButton(const QString& icon, Button button);
@@ -40,4 +41,5 @@ private:
     unsigned mCost;
     QLabel mTotal;
     QPushButton mClear;
+    bool mFetching = false;
 };

@@ -38,16 +38,21 @@ void MainWindow::replaceWidgetWith(QWidget* widget) {
     mWrappedWidget = widget;
 }
 
-void MainWindow::cartComponentTypeSelected(Component* component) {
-    mAppState.authorized().then([this, component](bool authorized){
-        if (!authorized) {
-            MessageDispatcher::instance()->dispatchMessage(Consts::UNAUTHORIZED);
-            return;
-        }
-        Util::switchThreads(this, reinterpret_cast<void (MainWindow::*)(void*)>(&MainWindow::selectRequested),
-                            component);
+#define AUTHORIZED(x, y...) \
+    mAppState.authorized().then([y](bool authorized){ \
+        if (!authorized) { \
+            MessageDispatcher::instance()->dispatchMessage(Consts::UNAUTHORIZED); \
+            return; \
+        } \
+        x \
     });
-}
+
+void MainWindow::cartComponentTypeSelected(Component* component)
+{ AUTHORIZED(Util::switchThreads(
+    this,
+    reinterpret_cast<void (MainWindow::*)(void*)>(&MainWindow::selectRequested),
+    component
+);, this, component) }
 
 void MainWindow::exitRequested(void* parameter) {
     if (parameter != nullptr) {
@@ -69,5 +74,6 @@ void MainWindow::exitRequested(void* parameter) {
 void MainWindow::loginRequested() { REPLACE_WIDGET(Login, this) }
 void MainWindow::infoRequested() { REPLACE_WIDGET(About, this) }
 void MainWindow::selectRequested(Component* component) { REPLACE_WIDGET(Select, this, component) }
-void MainWindow::ordersRequested() { REPLACE_WIDGET(Orders, this) }
+void MainWindow::ordersRequested() { AUTHORIZED(Util::switchThreads(this, &MainWindow::ordersRequestedImpl, nullptr);, this) }
+void MainWindow::ordersRequestedImpl() { REPLACE_WIDGET(Orders, this); }
 MainWindow::~MainWindow() { delete mWrappedWidget; }

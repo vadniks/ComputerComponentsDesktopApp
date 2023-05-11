@@ -1,5 +1,4 @@
 
-#include <QTimer>
 #include "BaseComponentListWidget.hpp"
 
 BaseComponentListWidget::BaseComponentListWidget(
@@ -49,10 +48,8 @@ void BaseComponentListWidget::clearListItems() {
 }
 
 void BaseComponentListWidget::listItemClicked(QListWidgetItem* item) {
-    QTimer::singleShot(100, this, [this, item](){
-        mListWidget.clearSelection();
-        emit componentSelected(mComponents[mListWidget.indexFromItem(item).row()]);
-    });
+    mListWidget.clearSelection();
+    emit componentSelected(mComponents[mListWidget.indexFromItem(item).row()]);
 }
 
 BaseComponentListWidget::~BaseComponentListWidget() {

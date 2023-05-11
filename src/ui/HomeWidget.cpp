@@ -78,12 +78,15 @@ void HomeWidget::changeButton(const QString& icon, Button button) {
 }
 
 void HomeWidget::fetchSelectedComponents() {
-    mState.fetchSelectedComponents().then([this](QList<Component* _Nullable>* _Nullable selected)
-    { if (selected) Util::switchThreads(
-        this,
-        reinterpret_cast<void (HomeWidget::*)(void*)>(&HomeWidget::selectedComponentsFetched),
-        selected
-    ); });
+    mFetching = true;
+    mState.fetchSelectedComponents().then([this](QList<Component* _Nullable>* _Nullable selected) {
+        if (selected) Util::switchThreads(
+            this,
+            reinterpret_cast<void (HomeWidget::*)(void*)>(&HomeWidget::selectedComponentsFetched),
+            selected
+        );
+        mFetching = false;
+    });
 }
 
 QString HomeWidget::makeTotalCost() const { return QString(Consts::TOTAL_COST) + QString(u8": %1").arg(mCost); }
