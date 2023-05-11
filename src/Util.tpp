@@ -12,7 +12,7 @@ T Util::minOrMax(T value, Ts... values) {
     qsort(array, size, sizeof(T), [](const void* a, const void* b) -> int
     { return *(static_cast<const T*>(a)) - *(static_cast<const T*>(b)); });
 
-    return IsMin ? array[0] : array[size - 1];
+    return array[IsMin ? 0 : size - 1];
 }
 
 template<typename T, class C, typename S, typename>
