@@ -23,6 +23,15 @@ public:
     [[nodiscard]] QList<Component* _Nullable>* _Nullable selectedComponents();
     [[nodiscard]] bool select(unsigned id);
     bool clearSelected();
+
+    bool submitOrder(
+        const QString& firstName,
+        const QString& lastName,
+        const QString& phoneNumber,
+        const QString& address
+    );
+
+    [[nodiscard]] QList<Component*>* _Nullable history();
 private:
     void synchronize(
         const std::function<QNetworkReply* (QNetworkAccessManager&)>& asyncAction,

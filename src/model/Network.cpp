@@ -168,10 +168,7 @@ bool Network::select(unsigned int id) {
                 QByteArray()
             );
         },
-        [&result](QNetworkReply* reply) {
-            result = reply->error() == QNetworkReply::NoError and
-                reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200;
-        }
+        [&result](QNetworkReply* reply) { SET_RESULT_BY_REPLY_STATUS }
     );
 
     return result;
@@ -185,13 +182,47 @@ bool Network::clearSelected() {
             QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/clearSelected")),
             QByteArray()
         ); },
-        [&result](QNetworkReply* reply) {
-            result = reply->error() == QNetworkReply::NoError and
-                reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200;
-        }
+        [&result](QNetworkReply* reply) { SET_RESULT_BY_REPLY_STATUS }
     );
 
     return result;
+}
+
+bool Network::submitOrder(
+    const QString& firstName,
+    const QString& lastName,
+    const QString& phoneNumber,
+    const QString& address
+) {
+    auto result = false, parsed = false;
+    auto phone = phoneNumber.toInt(&parsed);
+    if (!parsed) return false;
+
+    synchronize(
+        [&](QNetworkAccessManager& manager) { return manager.post(
+            QNetworkRequest(QUrl(u8"http://0.0.0.0:8080/order")),
+            QByteArray(QJsonDocument(QJsonObject({
+                { u8"firstName", firstName },
+                { u8"lastName", lastName },
+                { u8"phone", phone },
+                { u8"address", address }
+            })).toJson())
+        ); },
+        [&result](QNetworkReply* reply) { SET_RESULT_BY_REPLY_STATUS }
+    );
+
+    return result;
+}
+
+QList<Component*>* _Nullable Network::history() {
+    QList<Component*>* result = nullptr;
+
+    synchronize(
+        [](QNetworkAccessManager& manager) { return nullptr; },
+        [](QNetworkReply* reply) {  }
+    );
+
+    return NON_EMPTY_LIST_OR_NULL
 }
 
 void Network::synchronize(
