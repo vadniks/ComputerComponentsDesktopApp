@@ -40,6 +40,13 @@ void BaseComponentListWidget::reFillList() {
 
 AppBarWidget* BaseComponentListWidget::appBar() { return mAppBar; }
 
+bool BaseComponentListWidget::fetching() const {
+    for (const auto& item : mListItems)
+        if (dynamic_cast<ComponentListItemWidget*>(item.second)->isFetching())
+            return true;
+    return false;
+}
+
 void BaseComponentListWidget::clearListItems() {
     for (auto item : mListItems)
         delete item.first,

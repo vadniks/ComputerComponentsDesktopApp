@@ -41,5 +41,5 @@ private:
     unsigned mCost;
     QLabel mTotal;
     QPushButton mClear;
-    bool mFetching = false;
+    volatile bool mFetching = false;
 };

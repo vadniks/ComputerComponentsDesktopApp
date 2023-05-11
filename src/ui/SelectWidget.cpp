@@ -34,6 +34,8 @@ void SelectWidget::requestedDetailsForComponent(Component* component) {
 }
 
 void SelectWidget::componentSelected(Component* component) {
+    if (mComponentList.fetching()) return;
+
     SelectState::componentSelected(*(component->id));
     emit exitRequested(
         new QPair<const Component*, Component*>(mState.targetComponent(), new Component(

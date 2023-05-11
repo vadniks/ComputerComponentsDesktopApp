@@ -21,6 +21,7 @@ public:
     ~BaseComponentListWidget() override;
     void reFillList();
     AppBarWidget* _Nullable appBar();
+    [[nodiscard]] bool fetching() const;
 private:
     QVBoxLayout mBody;
     AppBarWidget* _Nullable mAppBar;

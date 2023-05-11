@@ -19,9 +19,11 @@ ComponentListItemWidget::ComponentListItemWidget(QWidget* parent, Component* com
 
     mIcon.setPixmap(makeTypedStubIconPixmap(component->type));
 
-    if (component->image) ImageDisplayableState::fetchImage(component)
-        .then([this](QPixmap* pixmap)
-        { Util::switchThreads(this, &ComponentListItemWidget::imageFetched, pixmap); }); // TODO: check if image fetched before exiting this widget
+    if (component->image) {
+        mFetching = true;
+        ImageDisplayableState::fetchImage(component).then([this](QPixmap* pixmap)
+        { Util::switchThreads(this, &ComponentListItemWidget::imageFetched, pixmap); });
+    }
 
     mTitle.setStyleSheet(u8R"(
         color: white;
@@ -49,11 +51,14 @@ void ComponentListItemWidget::resizeEvent(QResizeEvent* event) {
     mTitle.setText(metrics.elidedText(mTitleString, Qt::ElideRight, mTitle.maximumWidth()));
 }
 
-QSize ComponentListItemWidget::sizeHint() const
-{ return mBody.sizeHint(); }
+QSize ComponentListItemWidget::sizeHint() const { return mBody.sizeHint(); }
+
+bool ComponentListItemWidget::isFetching() const { return mFetching; }
 
 void ComponentListItemWidget::imageFetched(void* pixmap) {
     const auto pixmap2 = static_cast<QPixmap*>(pixmap);
     mIcon.setPixmap(pixmap2->scaled(Consts::ICON_SIZE, Consts::ICON_SIZE));
+
     delete pixmap2;
+    mFetching = false;
 }

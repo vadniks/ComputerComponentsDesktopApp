@@ -15,6 +15,7 @@ protected:
     void resizeEvent(QResizeEvent* event) override;
 public:
     [[nodiscard]] QSize sizeHint() const override;
+    [[nodiscard]] bool isFetching() const;
 private slots:
     void imageFetched(void* pixmap);
 private:
@@ -25,4 +26,5 @@ private:
     QLabel mDescription;
     QLabel mCost;
     const QString mTitleString;
+    volatile bool mFetching = false;
 };

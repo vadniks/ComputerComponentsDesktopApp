@@ -20,6 +20,7 @@ ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, Component* compo
     mClose(Util::makeIconButton(Consts::REMOVE_ICON)),
     mImagePixmap(nullptr)
 {
+    mFetching = true;
     auto temp = new Notifier();
     connect(temp, &Notifier::notify, this, [this](void* object){ imagePixmapUpdated(static_cast<QPixmap*>(object)); });
     ImageDisplayableState::fetchImage(component).then([temp](QPixmap* pixmap) {
@@ -56,8 +57,8 @@ ComponentDetailsWidget::ComponentDetailsWidget(QWidget* parent, Component* compo
     mBody.addLayout(&mButtons);
     mBody.setContentsMargins(0, 0, 0, 0);
 
-    connect(mDone, &QPushButton::clicked, this, [this](){ doneClicked(mCurrentComponent); });
-    connect(mClose, &QPushButton::clicked, this, &ComponentDetailsWidget::closeClicked);
+    connect(mDone, &QPushButton::clicked, this, [this](){ doneClickedInternal(mCurrentComponent); });
+    connect(mClose, &QPushButton::clicked, this, &ComponentDetailsWidget::closeClickedInternal);
 
     this->resizeEvent(nullptr);
 }
@@ -88,7 +89,11 @@ void ComponentDetailsWidget::resizeEvent(QResizeEvent* event) {
 void ComponentDetailsWidget::imagePixmapUpdated(QPixmap* pixmap) {
     mImagePixmap = pixmap;
     resizeEvent(nullptr);
+    mFetching = false;
 }
+
+void ComponentDetailsWidget::doneClickedInternal(Component* target) { if (!mFetching) emit doneClicked(target); }
+void ComponentDetailsWidget::closeClickedInternal() { if (!mFetching) emit closeClicked(); }
 
 ComponentDetailsWidget::~ComponentDetailsWidget() {
     delete mDone;

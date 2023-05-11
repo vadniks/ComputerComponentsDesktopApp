@@ -31,8 +31,11 @@ private:
     QPushButton* mDone;
     QPushButton* mClose;
     QPixmap* mImagePixmap;
+    volatile bool mFetching = false;
 private slots:
     void imagePixmapUpdated(QPixmap* pixmap);
+    void doneClickedInternal(Component* target);
+    void closeClickedInternal();
 signals:
     void doneClicked(Component* target);
     void closeClicked();
